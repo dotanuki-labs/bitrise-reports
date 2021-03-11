@@ -44,8 +44,9 @@ class BitriseBuild:
 
 @dataclass(frozen=True)
 class BuildMinutes:
-    total: int
     queued: int
+    building: int
+    total: int
 
 
 @dataclass(frozen=True)
