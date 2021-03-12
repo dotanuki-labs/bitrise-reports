@@ -25,7 +25,7 @@ def test_convert_machines(machine_type_id, stack_id, id, size, stack):
 
 def test_convert_workflow():
     converter = RawDataConverter()
-    project = BitriseProject('android-machete', 'be2755fc92318adb')
+    project = BitriseProject('my-project', 'c92318adbbe2755f')
     workflow = 'pull-request'
 
     converted = converter.workflow_from(workflow, project)
@@ -46,13 +46,12 @@ def test_convert_minutes():
     queued = 0
     building = 11
     total = 11
-
     assert converted == BuildMinutes(queued, building, total)
 
 
 def convert_bitrise_build():
     converter = RawDataConverter()
-    android = BitriseProject('android-machete', 'be2755fc92318adb')
+    android = BitriseProject('my-project', 'c92318adbbe2755f')
 
     build = {
         'triggered_at':'2021-03-01T09:05:22Z',
@@ -60,7 +59,7 @@ def convert_bitrise_build():
         'finished_at':'2021-03-01T09:35:45Z',
         'machine_type_id':'elite-xl',
         'stack_identifier':'android-docker-linux',
-        'triggered_workflow':'internal-release'
+        'triggered_workflow':'espresso-tests'
     }
 
     converted = converter.convert_build(build, android)
@@ -68,7 +67,7 @@ def convert_bitrise_build():
     expected = BitriseBuild(
         project=android,
         machine=BuildMachine(MachineSize.medium, BuildStack.osx),
-        workflow=BitriseWorkflow('internal-release'),
+        workflow=BitriseWorkflow('espresso-tests'),
         minutes=BuildMinutes(1, 35, 36)
     )
 

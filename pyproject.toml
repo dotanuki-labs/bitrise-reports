@@ -17,7 +17,7 @@ classifiers = [
 python = "^3.8"
 flake8 = "3.8.4"
 requests = "^2.25.1"
-pytest-httpserver = "^0.3.8"
+responses = "^0.12.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "6.2.2"

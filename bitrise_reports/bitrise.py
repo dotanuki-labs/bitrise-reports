@@ -33,31 +33,32 @@ NO_MORE_PAGES = 'no-more-pages'
 #         return self.converter.builds_from(raw_data)
 
 
-# class BitriseApiFetcher(object):
+class BitriseApiFetcher(object):
 
-#     def __init__(self, api_token):
-#         self.auth = {'Authorization': api_token}
+    def __init__(self, api_token):
+        self.auth = {'Authorization': api_token}
 
-#     def paged(self, endpoint):
-#         results = []
-#         next = FIRST_PAGE
+    def get_paged(self, endpoint):
+        results = []
+        next = FIRST_PAGE
 
-#         params = {} if next == FIRST_PAGE else {'next': next}
+        while next != NO_MORE_PAGES:
+            params = None if next == FIRST_PAGE else {'next': next}
+            fetched, next_page = self.get(endpoint, params)
+            results.extend(fetched)
+            next = next_page
 
-#         while next != NO_MORE_PAGES:
-#             fetched, next_page = self.get(endpoint, params)
-#             results.extend(fetched)
-#             next = next_page
+        return results
 
-#         return results
-
-#     def get(self, endpoint, args=None):
-#         response = requests.get(self.endpoint, headers=self.auth, params=args)
-
-#         if response.status_code == requests.codes.ok:
-#             return response.json()
-#         else:
-#             raise BitriseIntegrationError(ErrorCause.Http)
+    def get(self, endpoint, args=None):
+        response = requests.get(endpoint, headers=self.auth, params=args)
+        if response.status_code == requests.codes.ok:
+            data = response.json()['data']
+            paging = response.json()['paging']
+            next = paging['next'] if 'next' in paging.keys() else NO_MORE_PAGES
+            return data, next
+        else:
+            raise BitriseIntegrationError(ErrorCause.Http)
 
 
 class RawDataConverter(object):
