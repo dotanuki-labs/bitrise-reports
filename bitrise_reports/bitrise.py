@@ -10,27 +10,26 @@ from math import ceil
 import logging
 import requests
 
-BITRISE_API = 'https://api.bitrise.io/v0.1'
+BITRISE_API_URL = 'https://api.bitrise.io/v0.1'
 FIRST_PAGE = 'first-page'
 NO_MORE_PAGES = 'no-more-pages'
 
 
-# class BuildsRetriever(object):
+class Bitrise(object):
 
-#     def __init__(self, api_token=None, api_url=BITRISE_API):
-#         self.api_url = api_url
-#         self.api = BitriseApiFetcher(api_token)
-#         self.converter = RawDataConverter()
+    def __init__(self, api_token):
+        self.api = BitriseApiFetcher(api_token)
+        self.converter = RawDataConverter()
 
-#     def available_apps(self):
-#         endpoint = f"{self.api_url}/apps"
-#         raw_data = self.api.get(endpoint, self.auth)
-#         return self.converter.projects_from(raw_data)
+    def available_projects(self):
+        endpoint = f"{BITRISE_API_URL}/apps"
+        raw_data = self.api.get(endpoint)
+        return self.converter.projects_from(raw_data)
 
-#     def builds_for_project(self, project):
-#         endpoint = f"{self.api_url}/apps/{project.slug}/builds"
-#         raw_data = self.api.get(endpoint, self.auth)
-#         return self.converter.builds_from(raw_data)
+    def builds_for_project(self, project):
+        endpoint = f"{BITRISE_API_URL}/apps/{project.slug}/builds"
+        raw_data = self.api.get(endpoint)
+        return self.converter.builds_from(raw_data, project)
 
 
 class BitriseApiFetcher(object):
@@ -38,20 +37,21 @@ class BitriseApiFetcher(object):
     def __init__(self, api_token):
         self.auth = {'Authorization': api_token}
 
-    def get_paged(self, endpoint):
+    def get(self, endpoint):
         results = []
         next = FIRST_PAGE
 
         while next != NO_MORE_PAGES:
             params = None if next == FIRST_PAGE else {'next': next}
-            fetched, next_page = self.get(endpoint, params)
+            fetched, next_page = self.__get_page(endpoint, params)
             results.extend(fetched)
             next = next_page
 
         return results
 
-    def get(self, endpoint, args=None):
+    def __get_page(self, endpoint, args=None):
         response = requests.get(endpoint, headers=self.auth, params=args)
+
         if response.status_code == requests.codes.ok:
             data = response.json()['data']
             paging = response.json()['paging']
@@ -65,7 +65,7 @@ class RawDataConverter(object):
 
     def projects_from(self, json):
         try:
-            return [BitriseProject(item['title'], item['slug']) for item in json['data']]
+            return [BitriseProject(item['title'], item['slug']) for item in json]
         except:
             logging.exception("An exception occurred")
             logging.error("Could not parse/convert information from projects")
@@ -73,19 +73,18 @@ class RawDataConverter(object):
 
     def builds_from(self, json, project):
         try:
-            finished_builds = list(filter(lambda raw: raw['finished_at'] is not None, json['data']))
-            next = json['paging']['next'] if 'next' in json['paging'].keys() else NO_MORE_PAGES
-            converted = [self.single_build(item, project) for item in finished_builds]
-            return converted, next
-        except:
+            finished_builds = list(filter(lambda raw: raw['finished_at'] is not None, json))
+            return [self.build_from(item, project) for item in finished_builds]
+        except Exception as e:
+            print(e)
             logging.exception("An exception occurred")
             logging.error("Could not parse/convert information from builds")
             raise BitriseIntegrationError(ErrorCause.ApiDataConversion)
 
     def build_from(self, json, project):
-        machine = self.machine(json['machine_type_id'], json['stack_identifier'])
-        workflow = self.bitrise_workflow(json['triggered_workflow'], project)
-        minutes = self.minutes(json['triggered_at'], json['started_on_worker_at'], json['finished_at'])
+        machine = self.machine_from(json['machine_type_id'], json['stack_identifier'])
+        workflow = self.workflow_from(json['triggered_workflow'], project)
+        minutes = self.minutes_from(json['triggered_at'], json['started_on_worker_at'], json['finished_at'])
         return BitriseBuild(project, machine, workflow, minutes)
 
     def machine_from(self, machine_type_id, stack_identifier):

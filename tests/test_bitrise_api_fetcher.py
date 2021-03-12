@@ -24,13 +24,13 @@ def test_fetch_one_page():
     fetcher = BitriseApiFetcher('fake-api-token')
     data = fixture('bitrise_200OK')
 
-    responses.add(responses.GET, FAKE_ENDPOINT,json=data, status=200)
+    responses.add(responses.GET, FAKE_ENDPOINT,json=data, status=200, match_querystring=True)
 
     # When
     android_versions = fetcher.get(FAKE_ENDPOINT)
 
     # Then
-    assert len(android_versions) == 2
+    assert len(android_versions) == 4
 
 
 @responses.activate
@@ -57,7 +57,7 @@ def test_fetch_several_pages():
     )
 
     # When
-    android_versions = fetcher.get_paged(FAKE_ENDPOINT)
+    android_versions = fetcher.get(FAKE_ENDPOINT)
 
     # Then
     assert len(android_versions) == 6
