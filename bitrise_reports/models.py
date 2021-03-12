@@ -18,19 +18,19 @@ class BuildStack(Enum):
 
 @dataclass(frozen=True)
 class BuildMachine:
-    id:str
+    id: str
     size: MachineSize
     stack: BuildStack
 
 
 @dataclass(frozen=True)
-class BitriseProject():
+class BitriseProject:
     id: str
     slug: str
 
 
 @dataclass(frozen=True)
-class BitriseWorkflow():
+class BitriseWorkflow:
     id: str
 
 
@@ -58,5 +58,5 @@ class BuildNumbers:
 
 @dataclass(frozen=True)
 class BitriseReport:
-    name:str
+    name: str
     details: Dict

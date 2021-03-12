@@ -8,7 +8,7 @@ import os
 import pytest
 import responses
 
-FAKE_ENDPOINT = 'https://fake.api.bitrise.com/android-versions'
+FAKE_ENDPOINT = "https://fake.api.bitrise.com/android-versions"
 FIXTURES_DIR = f"{os.getcwd()}/tests/fixtures"
 
 
@@ -21,10 +21,12 @@ def fixture(name):
 def test_fetch_one_page():
 
     # Given
-    fetcher = BitriseApiFetcher('fake-api-token')
-    data = fixture('bitrise_200OK')
+    fetcher = BitriseApiFetcher("fake-api-token")
+    data = fixture("bitrise_200OK")
 
-    responses.add(responses.GET, FAKE_ENDPOINT,json=data, status=200, match_querystring=True)
+    responses.add(
+        responses.GET, FAKE_ENDPOINT, json=data, status=200, match_querystring=True
+    )
 
     # When
     android_versions = fetcher.get(FAKE_ENDPOINT)
@@ -37,23 +39,23 @@ def test_fetch_one_page():
 def test_fetch_several_pages():
 
     # Given
-    fetcher = BitriseApiFetcher('fake-api-token')
+    fetcher = BitriseApiFetcher("fake-api-token")
     next = f"{FAKE_ENDPOINT}?next=29"
 
     responses.add(
         responses.GET,
         FAKE_ENDPOINT,
         match_querystring=True,
-        json=fixture('bitrise_200OK_page01'),
-        status=200
+        json=fixture("bitrise_200OK_page01"),
+        status=200,
     )
 
     responses.add(
         responses.GET,
         next,
         match_querystring=True,
-        json=fixture('bitrise_200OK_page02'),
-        status=200
+        json=fixture("bitrise_200OK_page02"),
+        status=200,
     )
 
     # When
@@ -69,8 +71,10 @@ def test_http_error():
     with pytest.raises(Exception) as error:
 
         # Given
-        responses.add(responses.GET, FAKE_ENDPOINT,json=fixture('bitrise_5xx'), status=503)
-        fetcher = BitriseApiFetcher('fake-api-token')
+        responses.add(
+            responses.GET, FAKE_ENDPOINT, json=fixture("bitrise_5xx"), status=503
+        )
+        fetcher = BitriseApiFetcher("fake-api-token")
 
         # When
         fetcher.get(FAKE_ENDPOINT)
