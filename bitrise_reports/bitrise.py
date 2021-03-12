@@ -64,17 +64,23 @@ class BitriseApiFetcher(object):
 class RawDataConverter(object):
 
     def projects_from(self, json):
-        try:
+
+        def conversion(json, project):
             return [BitriseProject(item['title'], item['slug']) for item in json]
-        except:
-            logging.exception("An exception occurred")
-            logging.error("Could not parse/convert information from projects")
-            raise BitriseIntegrationError(ErrorCause.ApiDataConversion)
+
+        return self.__safely_convert(conversion, json)
 
     def builds_from(self, json, project):
-        try:
+
+        def conversion(json, project):
             finished_builds = list(filter(lambda raw: raw['finished_at'] is not None, json))
             return [self.build_from(item, project) for item in finished_builds]
+
+        return self.__safely_convert(conversion, json, project)
+
+    def __safely_convert(self, callable, json, project=None):
+        try:
+            return callable(json, project)
         except Exception as e:
             print(e)
             logging.exception("An exception occurred")
