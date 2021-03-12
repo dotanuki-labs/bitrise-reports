@@ -6,7 +6,7 @@ from bitrise_reports import app
 def test_correct_answer():
 
     # Given
-    argv = ['-a', '42']
+    argv = ["-a", "42"]
 
     # When
     app.main(argv)
