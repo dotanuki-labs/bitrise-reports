@@ -14,9 +14,10 @@ setup: ## Install dependencies and configure Pyenv
 	poetry install
 	poetry config virtualenvs.in-project true
 
-inspect: ## Run static analysis
+inspect: ## Run code analysis
 	flake8 bitrise_reports tests
 	black --check bitrise_reports tests
+	bandit -r bitrise_reports
 
 test: ## Run unit and integration tests
 	poetry run pytest -vv --cov-report=xml --cov=bitrise_reports tests/
