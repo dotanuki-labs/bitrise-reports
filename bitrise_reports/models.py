@@ -57,6 +57,6 @@ class BuildNumbers:
 
 
 @dataclass(frozen=True)
-class BitriseReport:
+class BitriseBreakdown:
     name: str
     details: Dict
