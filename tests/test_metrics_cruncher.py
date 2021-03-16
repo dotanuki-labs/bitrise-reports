@@ -13,56 +13,56 @@ from bitrise_reports.metrics import MetricsCruncher
 
 import pytest
 
+ANDROID_PROJECT = BitriseProject("android-flagship", "adb55be2718fc923")
+IOS_PROJECT = BitriseProject("ios-flagship", "fe9dd48ffd73cd3d")
+
+LINUX_MEDIUM = BuildMachine("linux.elite", MachineSize.medium, BuildStack.linux)
+LINUX_LARGE = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
+OSX_MEDIUM = BuildMachine("macos.medium", MachineSize.medium, BuildStack.osx)
+
+PR_WORKFLOW = BitriseWorkflow("pull-request")
+PR_PARALLEL_WORKFLOW = BitriseWorkflow("pull-request-parallel")
+QA_RELEASE = BitriseWorkflow("qa-release")
+LIVE_RELEASE = BitriseWorkflow("live-release")
+TEST_FLIGHT_RELEASE = BitriseWorkflow("test-flight-release")
+FULL_BUILD = BitriseWorkflow("full-build")
+
 
 def test_onebuild_oneproject_permachine_breakdown(cruncher):
 
     # Given
-    project = BitriseProject("android-flagship", "adb55be2718fc923")
-    linuxMedium = BuildMachine("linux.elite", MachineSize.medium, BuildStack.linux)
-    workflow = BitriseWorkflow("pull-request")
-
-    builds = [BitriseBuild(project, linuxMedium, workflow, 20)]
+    builds = [BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, PR_WORKFLOW, 20)]
 
     # When
     breakdown = cruncher.breakdown_per_machine(builds)
 
     # Then
-    expected = {linuxMedium: BuildNumbers(count=1, minutes=20, credits=40)}
-
+    expected = {LINUX_MEDIUM: BuildNumbers(count=1, minutes=20, credits=40)}
     assert breakdown.details == expected
 
 
 def test_onebuild_oneproject_perworkfow_breakdown(cruncher):
 
     # Given
-    project = BitriseProject("android-flagship", "adb55be2718fc923")
-    linux = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
-    workflow = BitriseWorkflow("pull-request")
-
-    builds = [BitriseBuild(project, linux, workflow, 25)]
+    builds = [BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_WORKFLOW, 25)]
 
     # When
     breakdown = cruncher.breakdown_per_workflow(builds)
 
     # Then
-    expected = {workflow: BuildNumbers(count=1, minutes=25, credits=100)}
-
+    expected = {PR_WORKFLOW: BuildNumbers(count=1, minutes=25, credits=100)}
     assert breakdown.details == expected
 
 
 def test_onebuild_oneproject_perproject_breakdown(cruncher):
 
     # Given
-    project = BitriseProject("android-flagship", "adb55be2718fc923")
-    linux = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
-    workflow = BitriseWorkflow("pull-request")
-
-    builds = [BitriseBuild(project, linux, workflow, 30)]
+    builds = [BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_WORKFLOW, 30)]
 
     # When
     breakdown = cruncher.breakdown_per_project(builds)
 
-    expected = {project: BuildNumbers(count=1, minutes=30, credits=120)}
+    expected = {ANDROID_PROJECT: BuildNumbers(count=1, minutes=30, credits=120)}
 
     assert breakdown.details == expected
 
@@ -70,17 +70,11 @@ def test_onebuild_oneproject_perproject_breakdown(cruncher):
 def test_oneproject_multiplebuilds_permachine_breakdown(cruncher):
 
     # Given
-    project = BitriseProject("android-flagship", "adb55be2718fc923")
-    linuxMedium = BuildMachine("linux.medium", MachineSize.medium, BuildStack.linux)
-    linuxLarge = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
-
     builds = [
-        BitriseBuild(project, linuxMedium, BitriseWorkflow("pull-request"), 10),
-        BitriseBuild(
-            project, linuxMedium, BitriseWorkflow("pull-request-parallel"), 10
-        ),
-        BitriseBuild(project, linuxLarge, BitriseWorkflow("pull-request"), 10),
-        BitriseBuild(project, linuxLarge, BitriseWorkflow("pull-request-parallel"), 10),
+        BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, PR_WORKFLOW, 10),
+        BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, PR_PARALLEL_WORKFLOW, 10),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_WORKFLOW, 10),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_PARALLEL_WORKFLOW, 10),
     ]
 
     # When
@@ -88,8 +82,8 @@ def test_oneproject_multiplebuilds_permachine_breakdown(cruncher):
 
     # Then
     expected = {
-        linuxMedium: BuildNumbers(count=2, minutes=20, credits=40),
-        linuxLarge: BuildNumbers(count=2, minutes=20, credits=80),
+        LINUX_MEDIUM: BuildNumbers(count=2, minutes=20, credits=40),
+        LINUX_LARGE: BuildNumbers(count=2, minutes=20, credits=80),
     }
 
     assert breakdown.details == expected
@@ -98,42 +92,31 @@ def test_oneproject_multiplebuilds_permachine_breakdown(cruncher):
 def test_oneproject_multiplebuilds_perproject_breakdown(cruncher):
 
     # Given
-    project = BitriseProject("android-flagship", "adb55be2718fc923")
-    linux = BuildMachine("linux.medium", MachineSize.medium, BuildStack.linux)
-
     builds = [
-        BitriseBuild(project, linux, BitriseWorkflow("pull-request"), 30),
-        BitriseBuild(project, linux, BitriseWorkflow("pull-request-parallel"), 20),
-        BitriseBuild(project, linux, BitriseWorkflow("qa-release"), 40),
-        BitriseBuild(project, linux, BitriseWorkflow("internal-release"), 40),
+        BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, PR_WORKFLOW, 30),
+        BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, PR_PARALLEL_WORKFLOW, 20),
+        BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, QA_RELEASE, 40),
+        BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, LIVE_RELEASE, 40),
     ]
 
     # When
     breakdown = cruncher.breakdown_per_project(builds)
 
     # Then
-    expected = {project: BuildNumbers(count=4, minutes=130, credits=260)}
-
+    expected = {ANDROID_PROJECT: BuildNumbers(count=4, minutes=130, credits=260)}
     assert breakdown.details == expected
 
 
 def test_multiplebuilds_multipleprojects_permachine_breakdown(cruncher):
 
     # Given
-    android = BitriseProject("android-machete", "be2755fc92318adb")
-    ios = BitriseProject("number26ios", "dd4fd73cd3dfe98f")
-
-    linuxMedium = BuildMachine("linux.medium", MachineSize.medium, BuildStack.linux)
-    linuxLarge = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
-    osxMedium = BuildMachine("macos.medium", MachineSize.medium, BuildStack.osx)
-
     builds = [
-        BitriseBuild(android, linuxMedium, BitriseWorkflow("pull-request"), 25),
-        BitriseBuild(android, linuxLarge, BitriseWorkflow("pull-request-parallel"), 15),
-        BitriseBuild(android, linuxLarge, BitriseWorkflow("live-release"), 30),
-        BitriseBuild(ios, osxMedium, BitriseWorkflow("regression"), 90),
-        BitriseBuild(ios, osxMedium, BitriseWorkflow("pull-request"), 40),
-        BitriseBuild(ios, osxMedium, BitriseWorkflow("test-flight"), 50),
+        BitriseBuild(ANDROID_PROJECT, LINUX_MEDIUM, PR_WORKFLOW, 25),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_PARALLEL_WORKFLOW, 15),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, LIVE_RELEASE, 30),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, FULL_BUILD, 90),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, PR_WORKFLOW, 40),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, TEST_FLIGHT_RELEASE, 50),
     ]
 
     # When
@@ -141,9 +124,9 @@ def test_multiplebuilds_multipleprojects_permachine_breakdown(cruncher):
 
     # Then
     expected = {
-        linuxMedium: BuildNumbers(count=1, minutes=25, credits=50),
-        linuxLarge: BuildNumbers(count=2, minutes=45, credits=180),
-        osxMedium: BuildNumbers(count=3, minutes=180, credits=720),
+        LINUX_MEDIUM: BuildNumbers(count=1, minutes=25, credits=50),
+        LINUX_LARGE: BuildNumbers(count=2, minutes=45, credits=180),
+        OSX_MEDIUM: BuildNumbers(count=3, minutes=180, credits=720),
     }
 
     assert breakdown.details == expected
@@ -152,22 +135,16 @@ def test_multiplebuilds_multipleprojects_permachine_breakdown(cruncher):
 def test_multiplebuilds_multipleprojects_perproject_breakdown(cruncher):
 
     # Given
-    android = BitriseProject("android-machete", "be2755fc92318adb")
-    ios = BitriseProject("number26ios", "dd4fd73cd3dfe98f")
-
-    linux = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
-    osx = BuildMachine("macos.medium", MachineSize.medium, BuildStack.osx)
-
     builds = [
-        BitriseBuild(android, linux, BitriseWorkflow("pull-request"), 25),
-        BitriseBuild(android, linux, BitriseWorkflow("pull-request"), 20),
-        BitriseBuild(android, linux, BitriseWorkflow("pull-request-parallel"), 15),
-        BitriseBuild(android, linux, BitriseWorkflow("qa-release"), 30),
-        BitriseBuild(android, linux, BitriseWorkflow("live-release"), 30),
-        BitriseBuild(ios, osx, BitriseWorkflow("regression"), 90),
-        BitriseBuild(ios, osx, BitriseWorkflow("pull-request"), 40),
-        BitriseBuild(ios, osx, BitriseWorkflow("pull-request"), 30),
-        BitriseBuild(ios, osx, BitriseWorkflow("test-flight"), 50),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_WORKFLOW, 25),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_WORKFLOW, 20),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_PARALLEL_WORKFLOW, 15),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, QA_RELEASE, 30),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, LIVE_RELEASE, 30),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, FULL_BUILD, 90),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, PR_WORKFLOW, 40),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, PR_WORKFLOW, 30),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, TEST_FLIGHT_RELEASE, 50),
     ]
 
     # When
@@ -175,8 +152,8 @@ def test_multiplebuilds_multipleprojects_perproject_breakdown(cruncher):
 
     # Then
     expected = {
-        android: BuildNumbers(count=5, minutes=120, credits=480),
-        ios: BuildNumbers(count=4, minutes=210, credits=840),
+        ANDROID_PROJECT: BuildNumbers(count=5, minutes=120, credits=480),
+        IOS_PROJECT: BuildNumbers(count=4, minutes=210, credits=840),
     }
 
     assert breakdown.details == expected
@@ -185,35 +162,25 @@ def test_multiplebuilds_multipleprojects_perproject_breakdown(cruncher):
 def test_multiplebuilds_multipleprojects_workflow_breakdown(cruncher):
 
     # Given
-    android = BitriseProject("android-machete", "be2755fc92318adb")
-    ios = BitriseProject("number26ios", "dd4fd73cd3dfe98f")
-
-    linux = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
-    osx = BuildMachine("macos.medium", MachineSize.medium, BuildStack.osx)
-
     builds = [
-        BitriseBuild(android, linux, BitriseWorkflow("pull-request"), 25),
-        BitriseBuild(android, linux, BitriseWorkflow("pull-request"), 20),
-        BitriseBuild(android, linux, BitriseWorkflow("pull-request-parallel"), 14),
-        BitriseBuild(android, linux, BitriseWorkflow("pull-request-parallel"), 36),
-        BitriseBuild(android, linux, BitriseWorkflow("live-release"), 30),
-        BitriseBuild(ios, osx, BitriseWorkflow("regression"), 60),
-        BitriseBuild(ios, osx, BitriseWorkflow("pull-request"), 40),
-        BitriseBuild(ios, osx, BitriseWorkflow("pull-request"), 30),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_WORKFLOW, 25),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_WORKFLOW, 20),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_PARALLEL_WORKFLOW, 14),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, PR_PARALLEL_WORKFLOW, 36),
+        BitriseBuild(ANDROID_PROJECT, LINUX_LARGE, LIVE_RELEASE, 30),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, FULL_BUILD, 60),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, PR_WORKFLOW, 40),
+        BitriseBuild(IOS_PROJECT, OSX_MEDIUM, PR_WORKFLOW, 30),
     ]
     # When
     breakdown = cruncher.breakdown_per_workflow(builds)
 
     # Then
     expected = {
-        BitriseWorkflow("pull-request"): BuildNumbers(
-            count=4, minutes=115, credits=460
-        ),
-        BitriseWorkflow("pull-request-parallel"): BuildNumbers(
-            count=2, minutes=50, credits=200
-        ),
-        BitriseWorkflow("live-release"): BuildNumbers(count=1, minutes=30, credits=120),
-        BitriseWorkflow("regression"): BuildNumbers(count=1, minutes=60, credits=240),
+        PR_WORKFLOW: BuildNumbers(count=4, minutes=115, credits=460),
+        PR_PARALLEL_WORKFLOW: BuildNumbers(count=2, minutes=50, credits=200),
+        LIVE_RELEASE: BuildNumbers(count=1, minutes=30, credits=120),
+        FULL_BUILD: BuildNumbers(count=1, minutes=60, credits=240),
     }
 
     assert breakdown.details == expected
