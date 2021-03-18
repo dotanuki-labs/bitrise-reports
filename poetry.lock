@@ -317,7 +317,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 
 [[package]]
 name = "responses"
-version = "0.13.0"
+version = "0.13.1"
 description = "A utility library for mocking out the `requests` Python library."
 category = "main"
 optional = false
@@ -398,7 +398,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "ec087f593f175abdebcfae44f0cffc14d50eded49203aeaed878595afb95a125"
+content-hash = "9052f90c244fd89f13ee681e87b9e9cba25edcd0f61ebf5f4bddb7ec1e049065"
 
 [metadata.files]
 appdirs = [
@@ -637,8 +637,8 @@ requests = [
     {file = "requests-2.25.1.tar.gz", hash = "sha256:27973dd4a904a4f13b263a19c866c13b92a39ed1c964655f025f3f8d3d75b804"},
 ]
 responses = [
-    {file = "responses-0.13.0-py2.py3-none-any.whl", hash = "sha256:a4a90c8244006c01f4246aecf532fbb5429c4031df4adcc7638061f0f3ce4ceb"},
-    {file = "responses-0.13.0.tar.gz", hash = "sha256:27d8822d65dc8875a039301831de8ac17db2473ae2a8fabd4e6599b25ce2f353"},
+    {file = "responses-0.13.1-py2.py3-none-any.whl", hash = "sha256:3b1ea9cf026edaaf25e853abc4d3b2687d25467e9d8d41e77ee525cad0673f3e"},
+    {file = "responses-0.13.1.tar.gz", hash = "sha256:cf62ab0f4119b81d485521b2c950d8aa55a885c90126488450b7acb8ee3f77ac"},
 ]
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
