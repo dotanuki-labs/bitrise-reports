@@ -18,7 +18,7 @@ def test_extract_criteria():
     criteria = cli.parse_criteria(app, starting, ending)
 
     # Then
-    expected = EvaluationCriteria(app, 1614553200, 1617141600)
+    expected = EvaluationCriteria(app, 1614553200, 1617231599)
     assert criteria == expected
 
 

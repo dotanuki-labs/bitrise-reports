@@ -3,14 +3,16 @@
 from .errors import CLIArgumentsError
 from .models import EvaluationCriteria
 
-from datetime import datetime
+from dateutil.parser import parse
 import time
 import logging
 
 
 def parse_criteria(app, starting, ending):
     return EvaluationCriteria(
-        _validate_app(app), _unixtime(starting), _unixtime(ending)
+        _validate_app(app),
+        _unixtime(f"{starting}T00:00:00+00:00"),
+        _unixtime(f"{ending}T23:59:59+00:00")
     )
 
 
@@ -25,9 +27,9 @@ def _validate_app(app_name):
 
 def _unixtime(datetime_str):
     try:
-        parsed = datetime.strptime(datetime_str, "%Y-%m-%d")
+        parsed = parse(datetime_str)
         return int(time.mktime(parsed.timetuple()))
     except:
-        cause = "Missing bitrise app name"
+        cause = "Cannot convert date time"
         logging.exception(cause)
         raise CLIArgumentsError(cause)
