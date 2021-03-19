@@ -1,15 +1,18 @@
 # test_app.py
 
-from bitrise_reports import app
+from bitrise_reports.app import launch
+from click.testing import CliRunner
 
 
-def test_correct_answer():
+def test_app_launched():
 
     # Given
-    argv = ["-a", "42"]
+    runner = CliRunner()
+    args = ["--app=android-flagship", "--starting=2021-03-01", "--ending=2021-03-31"]
 
     # When
-    app.main(argv)
+    result = runner.invoke(launch, args)
+    print(result.output)
 
     # Then
-    assert True
+    assert result.exit_code == 0
