@@ -7,14 +7,18 @@ import click
 import logging
 import sys
 
+APP_HELP = "The title of your app in Bitrise"
+START_HELP = "Starting date to drive the analysis (YYYY-MM-DD)"
+ENDING_HELP = "Ending date to drive the analysis (YYYY-MM-DD)"
+
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
 
 @click.command()
-@click.option("--app", required=True, help="The title of your app in Bitrise")
-@click.option("--starting", required=True, help="Starting date to drive the analysis (YYYY-MM-DD)")
-@click.option("--ending", required=True, help="Ending date to drive the analysis (YYYY-MM-DD)")
+@click.option("--app", required=True, help=APP_HELP)
+@click.option("--starting", required=True, help=START_HELP)
+@click.option("--ending", required=True, help=ENDING_HELP)
 def launch(app, starting, ending):
     try:
         criteria = cli.parse_criteria(app, starting, ending)

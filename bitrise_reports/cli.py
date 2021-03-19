@@ -1,7 +1,7 @@
 # cli_parser.py
 
-from . errors import CLIArgumentsError
-from . models import EvaluationCriteria
+from .errors import CLIArgumentsError
+from .models import EvaluationCriteria
 
 from datetime import datetime
 import time
@@ -10,9 +10,7 @@ import logging
 
 def parse_criteria(app, starting, ending):
     return EvaluationCriteria(
-        _validate_app(app),
-        _unixtime(starting),
-        _unixtime(ending)
+        _validate_app(app), _unixtime(starting), _unixtime(ending)
     )
 
 
@@ -27,7 +25,7 @@ def _validate_app(app_name):
 
 def _unixtime(datetime_str):
     try:
-        parsed = datetime.strptime(datetime_str, '%Y-%m-%d')
+        parsed = datetime.strptime(datetime_str, "%Y-%m-%d")
         return int(time.mktime(parsed.timetuple()))
     except:
         cause = "Missing bitrise app name"
