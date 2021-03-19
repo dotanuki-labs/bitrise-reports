@@ -60,3 +60,10 @@ class BuildNumbers:
 class BitriseBreakdown:
     name: str
     details: Dict
+
+
+@dataclass(frozen=True)
+class EvaluationCriteria:
+    bitrise_app: str
+    starting_at: int
+    ending_at: int

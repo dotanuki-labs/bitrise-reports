@@ -26,7 +26,7 @@ build: ## Package this project in wheels/zip formats
 	poetry build
 
 run: ## Run this project
-	poetry run bitrise-reports
+	poetry run bitrise-reports --app=$(app) --starting=$(starting) --ending=$(ending)
 
 deploy: ## Deploy the current build to Pypi
 	poetry config pypi-token.pypi $(token)

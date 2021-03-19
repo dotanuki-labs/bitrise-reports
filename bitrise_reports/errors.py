@@ -3,6 +3,11 @@
 from enum import Enum
 
 
+class CLIArgumentsError(RuntimeError):
+    def __init__(self, cause):
+        self.cause = cause
+
+
 class BitriseIntegrationError(RuntimeError):
     def __init__(self, cause):
         self.cause = cause
