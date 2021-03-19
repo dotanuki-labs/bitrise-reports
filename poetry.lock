@@ -398,7 +398,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9052f90c244fd89f13ee681e87b9e9cba25edcd0f61ebf5f4bddb7ec1e049065"
+content-hash = "893b760d14c406d524df3f6f09cfaf66820be78e3ff5d63bade4f987d9ebbb0f"
 
 [metadata.files]
 appdirs = [
