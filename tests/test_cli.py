@@ -35,3 +35,19 @@ def test_fail_when_missing_app():
 
         # Then
         assert error.cause is CLIArgumentsError
+
+
+def test_fail_with_broken_date_format():
+
+    with pytest.raises(Exception) as error:
+
+        # Given
+        app = "android-flagship"
+        starting = "20210301"
+        ending = "20210331"
+
+        # When
+        cli.parse_criteria(app, starting, ending)
+
+        # Then
+        assert error.cause is CLIArgumentsError
