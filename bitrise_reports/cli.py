@@ -9,10 +9,10 @@ import logging
 
 
 def parse_criteria(app, starting, ending):
+    iso_starting = f"{starting}T00:00:00+00:00"
+    iso_ending = f"{ending}T23:59:59+00:00"
     return EvaluationCriteria(
-        _validate_app(app),
-        _unixtime(f"{starting}T00:00:00+00:00"),
-        _unixtime(f"{ending}T23:59:59+00:00")
+        _validate_app(app), _unixtime(iso_starting), _unixtime(iso_ending)
     )
 
 
