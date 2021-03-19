@@ -1,6 +1,7 @@
 # models.py
 
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
 from typing import Dict
 
@@ -60,3 +61,10 @@ class BuildNumbers:
 class BitriseBreakdown:
     name: str
     details: Dict
+
+
+@dataclass(frozen=True)
+class EvaluationCriteria:
+    bitrise_app: str
+    starting_at: int
+    ending_at: int
