@@ -3,12 +3,9 @@
 from .errors import CLIArgumentsError
 from .models import EvaluationCriteria
 
-from dateutil import tz
 from dateutil.parser import parse
 import time
 import logging
-
-tzinfos = {"GMT": tz.gettz("UK/London")}
 
 
 def parse_criteria(app, starting, ending):
@@ -30,7 +27,7 @@ def _validate_app(app_name):
 
 def _unixtime(datetime_str):
     try:
-        parsed = parse(datetime_str, tzinfos=tzinfos)
+        parsed = parse(datetime_str)
         return int(time.mktime(parsed.timetuple()))
     except:
         cause = "Cannot convert date time"
