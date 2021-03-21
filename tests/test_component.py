@@ -1,6 +1,6 @@
 # test_app.py
 
-from bitrise_reports.app import launch
+from bitrise_reports.entrypoint import launch
 from click.testing import CliRunner
 
 
