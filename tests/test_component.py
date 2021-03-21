@@ -1,4 +1,4 @@
-# test_app.py
+# test_component.py
 
 from bitrise_reports.entrypoint import launch
 from click.testing import CliRunner

@@ -16,7 +16,7 @@ class FakeBitrise(object):
         return self.apps
 
 
-def test_app_slug_found():
+def test_project_found():
 
     # Given
     apps = [
@@ -34,7 +34,7 @@ def test_app_slug_found():
     assert app == apps[0]
 
 
-def test_app_slug_not_found():
+def test_project_not_found():
 
     # Given
     apps = [

@@ -1,5 +1,6 @@
 # app.py
 
+
 class Application(object):
     def __init__(self, finder, analyser, reporter, criteria):
         self.project_finder = finder
