@@ -8,6 +8,11 @@ class CLIArgumentsError(RuntimeError):
         self.cause = cause
 
 
+class BitriseMiddlewareError(RuntimeError):
+    def __init__(self, cause):
+        self.cause = cause
+
+
 class BitriseIntegrationError(RuntimeError):
     def __init__(self, cause):
         self.cause = cause
