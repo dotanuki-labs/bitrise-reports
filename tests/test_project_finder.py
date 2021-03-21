@@ -1,7 +1,7 @@
 # test_project_slug_finder.py
 
 
-from bitrise_reports.bitrise import ProjectSlugFinder
+from bitrise_reports.middleware import ProjectFinder
 from bitrise_reports.errors import BitriseMiddlewareError
 from bitrise_reports.models import BitriseProject
 
@@ -16,7 +16,7 @@ class FakeBitrise(object):
         return self.apps
 
 
-def test_app_slug_found():
+def test_project_found():
 
     # Given
     apps = [
@@ -25,16 +25,16 @@ def test_app_slug_found():
     ]
 
     bitrise = FakeBitrise(apps)
-    slug_finder = ProjectSlugFinder(bitrise)
+    finder = ProjectFinder(bitrise)
 
     # When
-    app = slug_finder.find("android-flagship")
+    app = finder.find("android-flagship")
 
     # Then
     assert app == apps[0]
 
 
-def test_app_slug_not_found():
+def test_project_not_found():
 
     # Given
     apps = [
@@ -43,12 +43,12 @@ def test_app_slug_not_found():
     ]
 
     bitrise = FakeBitrise(apps)
-    slug_finder = ProjectSlugFinder(bitrise)
+    finder = ProjectFinder(bitrise)
 
     with pytest.raises(Exception) as error:
 
         # When
-        slug_finder.find("android-flagship")
+        finder.find("android-flagship")
 
         # Then
         assert error is BitriseMiddlewareError

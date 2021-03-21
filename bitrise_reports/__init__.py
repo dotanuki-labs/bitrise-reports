@@ -1,5 +1,5 @@
-from . import app
+from . import entrypoint
 
 
 def main(argv=None):
-    app.launch()
+    entrypoint.launch()
