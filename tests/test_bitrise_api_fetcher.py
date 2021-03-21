@@ -66,6 +66,40 @@ def test_fetch_several_pages():
 
 
 @responses.activate
+def test_fetch_several_pages_on_timewindow():
+
+    # Given
+    fetcher = BitriseApiFetcher("fake-api-token")
+    starting = 1600000000
+    ending = 1600000100
+
+    base = f"{FAKE_ENDPOINT}?after={starting}&before={ending}"
+    next = f"{FAKE_ENDPOINT}?next=29&after={starting}&before={ending}"
+
+    responses.add(
+        responses.GET,
+        base,
+        match_querystring=True,
+        json=fixture("bitrise_200OK_page01"),
+        status=200,
+    )
+
+    responses.add(
+        responses.GET,
+        next,
+        match_querystring=True,
+        json=fixture("bitrise_200OK_page02"),
+        status=200,
+    )
+
+    # When
+    android_versions = fetcher.get(FAKE_ENDPOINT, starting, ending)
+
+    # Then
+    assert len(android_versions) == 6
+
+
+@responses.activate
 def test_http_error():
 
     with pytest.raises(Exception) as error:

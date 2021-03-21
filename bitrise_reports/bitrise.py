@@ -53,12 +53,23 @@ class BitriseApiFetcher(object):
     def __init__(self, api_token):
         self.auth = {"Authorization": api_token}
 
-    def get(self, endpoint):
+    def get(self, endpoint, starting=None, ending=None):
         results = []
         next = FIRST_PAGE
 
+        params = {}
+
+        if starting:
+            params["after"] = starting
+
+        if ending:
+            params["before"] = ending
+
         while next != NO_MORE_PAGES:
-            params = None if next == FIRST_PAGE else {"next": next}
+
+            if next != FIRST_PAGE:
+                params["next"] = next
+
             fetched, next_page = self.__get_page(endpoint, params)
             results.extend(fetched)
             next = next_page
