@@ -1,6 +1,6 @@
 # bitrise.py
 
-from .errors import ErrorCause, BitriseIntegrationError
+from .errors import ErrorCause, BitriseIntegrationError, BitriseMiddlewareError
 from .models import BitriseBuild, BitriseProject, BuildStack
 from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 
@@ -13,6 +13,24 @@ import requests
 BITRISE_API_URL = "https://api.bitrise.io/v0.1"
 FIRST_PAGE = "first-page"
 NO_MORE_PAGES = "no-more-pages"
+
+
+class ProjectSlugFinder(object):
+    def __init__(self, bitrise):
+        self.bitrise = bitrise
+
+    def find(self, app_name):
+        apps = self.bitrise.available_projects()
+        target = next(filter(lambda app: app.id == app_name, apps), None)
+
+        if not target:
+            logging.error("Cannot locate app with name {app_name}")
+            logging.error("Available apps for this user")
+            logging.error(apps)
+            message = f"{app_name} not available in the projects this user has access"
+            raise BitriseMiddlewareError(message)
+
+        return target
 
 
 class Bitrise(object):
