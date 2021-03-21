@@ -1,7 +1,7 @@
 # test_project_slug_finder.py
 
 
-from bitrise_reports.bitrise import ProjectSlugFinder
+from bitrise_reports.middleware import ProjectSlugFinder
 from bitrise_reports.errors import BitriseMiddlewareError
 from bitrise_reports.models import BitriseProject
 
