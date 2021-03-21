@@ -28,7 +28,7 @@ class BuildsAnalyser(object):
         self.bitrise = bitrise
         self.cruncher = cruncher
 
-    def analyse(self, project, starting, ending):
+    def analyse(self, project, starting=None, ending=None):
         builds = self.bitrise.builds_for_project(project, starting, ending)
 
         if not builds:
