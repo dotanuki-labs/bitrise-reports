@@ -1,6 +1,6 @@
 # bitrise.py
 
-from .errors import ErrorCause, BitriseIntegrationError, BitriseMiddlewareError
+from .errors import ErrorCause, BitriseIntegrationError
 from .models import BitriseBuild, BitriseProject, BuildStack
 from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 
@@ -25,9 +25,9 @@ class Bitrise(object):
         raw_data = self.api.get(endpoint)
         return self.converter.projects_from(raw_data)
 
-    def builds_for_project(self, project):
+    def builds_for_project(self, project, starting=None, ending=None):
         endpoint = f"{BITRISE_API_URL}/apps/{project.slug}/builds"
-        raw_data = self.api.get(endpoint)
+        raw_data = self.api.get(endpoint, starting, ending)
         return self.converter.builds_from(raw_data, project)
 
 
