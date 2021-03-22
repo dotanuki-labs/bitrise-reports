@@ -5,6 +5,7 @@ from bitrise_reports.metrics import MetricsCruncher
 from bitrise_reports.middleware import BuildsAnalyser
 from bitrise_reports.models import (
     BitriseBuild,
+    BuildMinutes,
     BitriseProject,
     BuildStack,
     MachineSize,
@@ -34,9 +35,9 @@ def test_builds_analysed_with_success():
     machine = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
     workflow = BitriseWorkflow("pull-request")
     builds = [
-        BitriseBuild(project, machine, workflow, 10),
-        BitriseBuild(project, machine, workflow, 9),
-        BitriseBuild(project, machine, workflow, 11),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 10)),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 9)),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 11)),
     ]
 
     bitrise = FakeBitrise([project], builds)

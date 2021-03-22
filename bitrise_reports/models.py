@@ -35,14 +35,6 @@ class BitriseWorkflow:
 
 
 @dataclass(frozen=True)
-class BitriseBuild:
-    project: BitriseProject
-    machine: BuildMachine
-    workflow: str
-    duration: int
-
-
-@dataclass(frozen=True)
 class BuildMinutes:
     queued: int
     building: int
@@ -50,10 +42,20 @@ class BuildMinutes:
 
 
 @dataclass(frozen=True)
-class BuildNumbers:
-    count: int
+class BitriseBuild:
+    project: BitriseProject
+    machine: BuildMachine
+    workflow: str
     minutes: BuildMinutes
-    credits: int = 0
+
+
+@dataclass(frozen=True)
+class CriteriaSpecificNumbers:
+    count: int
+    queued: int
+    building: int
+    total: int
+    credits: int = None
 
 
 @dataclass(frozen=True)
