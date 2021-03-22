@@ -1,5 +1,11 @@
 from .errors import ErrorCause, BitriseReportsError
-from .models import BitriseBreakdown, BuildNumbers, BuildStack, MachineSize
+from .models import (
+    BitriseBreakdown,
+    BuildMinutes,
+    BuildStack,
+    CrunchedNumbers,
+    MachineSize,
+)
 
 from itertools import groupby
 
@@ -33,13 +39,16 @@ class MetricsCruncher(object):
             total, minutes, credits = self.__analyse(grouped)
 
             if key not in summary.keys():
-                summary[key] = BuildNumbers(0, 0, 0)
+                numbers = CrunchedNumbers(0, 0, 0, 0, 0)
+                summary[key] = numbers
 
             actual = summary[key]
 
-            updated = BuildNumbers(
+            updated = CrunchedNumbers(
                 count=actual.count + total,
-                minutes=actual.minutes + minutes,
+                queued=actual.count + minutes.queued,
+                building=actual.building + minutes.building,
+                total=actual.total + minutes.total,
                 credits=actual.credits + credits,
             )
 
@@ -50,15 +59,22 @@ class MetricsCruncher(object):
 
     def __analyse(self, builds):
         count = 0
-        minutes = 0
+        minutes = BuildMinutes(0, 0, 0)
         credits = 0
 
         for build in builds:
             count = count + 1
-            minutes = minutes + build.duration
+            minutes = self.__sum_minutes(minutes, build.minutes)
             credits = credits + self.__compute_credits(build)
 
         return [count, minutes, credits]
+
+    def __sum_minutes(self, target, another):
+        return BuildMinutes(
+            target.queued + another.queued,
+            target.building + another.building,
+            target.total + another.total,
+        )
 
     def __compute_credits(self, build):
         machine_type = MACHINE_TYPE_CREDITS_MULTIPLIER[build.machine.stack]
@@ -71,4 +87,4 @@ class MetricsCruncher(object):
             )
             raise BitriseReportsError(cause, message)
 
-        return machine_type * machine_size * build.duration
+        return machine_type * machine_size * build.minutes.total
