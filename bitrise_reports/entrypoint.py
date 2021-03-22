@@ -2,7 +2,7 @@
 
 
 from . import di
-from . errors import BitriseReportsError
+from .errors import BitriseReportsError
 
 import click
 import logging
