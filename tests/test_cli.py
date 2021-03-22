@@ -1,7 +1,7 @@
 # test_cli.py
 
 from bitrise_reports import cli
-from bitrise_reports.errors import CLIArgumentsError
+from bitrise_reports.errors import ErrorCause, BitriseReportsError
 
 import pytest
 
@@ -32,7 +32,8 @@ def test_fail_when_missing_app():
         cli.parse_criteria(app, starting, ending)
 
         # Then
-        assert error.cause is CLIArgumentsError
+        assert error is BitriseReportsError
+        assert error.cause == ErrorCause.EntrypointHandling
 
 
 def test_fail_with_broken_date_format():
@@ -48,4 +49,5 @@ def test_fail_with_broken_date_format():
         cli.parse_criteria(app, starting, ending)
 
         # Then
-        assert error.cause is CLIArgumentsError
+        assert error is BitriseReportsError
+        assert error.cause == ErrorCause.EntrypointHandling

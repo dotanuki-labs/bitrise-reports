@@ -1,4 +1,4 @@
-from .errors import BitriseMetricsExtractionError
+from .errors import ErrorCause, BitriseReportsError
 from .models import BitriseBreakdown, BuildNumbers, BuildStack, MachineSize
 
 from itertools import groupby
@@ -65,9 +65,10 @@ class MetricsCruncher(object):
         machine_size = MACHINE_SIZE_CREDITS_MULTIPLIER[build.machine.size]
 
         if machine_type is None or machine_size is None:
-            error_message = (
+            cause = ErrorCause.MetricsExtraction
+            message = (
                 f"Missing multiplier for {build.machine.size} | {build.machine.stack}"
             )
-            raise BitriseMetricsExtractionError(error_message)
+            raise BitriseReportsError(cause, message)
 
         return machine_type * machine_size * build.duration

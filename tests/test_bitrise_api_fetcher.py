@@ -1,7 +1,7 @@
 # test_bitrise_api_fetcher.py
 
 from bitrise_reports.bitrise import BitriseApiFetcher
-from bitrise_reports.errors import ErrorCause
+from bitrise_reports.errors import ErrorCause, BitriseReportsError
 
 import json
 import os
@@ -114,4 +114,5 @@ def test_http_error():
         fetcher.get(FAKE_ENDPOINT)
 
         # Then
-        assert error.cause == ErrorCause.Http
+        assert error is BitriseReportsError
+        assert error.cause == ErrorCause.NetworkingInfrastructure

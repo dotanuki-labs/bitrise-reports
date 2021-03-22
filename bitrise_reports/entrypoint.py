@@ -2,6 +2,7 @@
 
 
 from . import di
+from .errors import BitriseReportsError
 
 import click
 import logging
@@ -25,7 +26,10 @@ def launch(token, app, starting, ending):
         app = di.inject(token, app, starting, ending)
         app.execute()
         sys.exit(0)
-    except Exception as e:
+    except Exception as error:
         logging.exception("Could not complete analysis. Aborting.")
-        logging.error(e)
+        if error is BitriseReportsError:
+            logging.error(error.message)
+        else:
+            logging.error(error)
         sys.exit(1)

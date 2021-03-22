@@ -3,28 +3,15 @@
 from enum import Enum
 
 
-class CLIArgumentsError(RuntimeError):
-    def __init__(self, cause):
+class BitriseReportsError(RuntimeError):
+    def __init__(self, cause, message):
         self.cause = cause
-
-
-class BitriseMiddlewareError(RuntimeError):
-    def __init__(self, cause):
-        self.cause = cause
-
-
-class BitriseIntegrationError(RuntimeError):
-    def __init__(self, cause):
-        self.cause = cause
-
-
-class BitriseMetricsExtractionError(RuntimeError):
-    def __init__(self, cause):
-        self.cause = cause
+        self.message = message
 
 
 class ErrorCause(Enum):
-    Networking = 1
-    HttpRest = 2
-    ApiDataConversion = 3
-    CannotExtractMetrics = 4
+    NetworkingInfrastructure = 1
+    DataConversion = 2
+    MetricsExtraction = 3
+    MiddlewareOrchestration = 4
+    EntrypointHandling = 5

@@ -1,13 +1,12 @@
 # bitrise.py
 
-from .errors import ErrorCause, BitriseIntegrationError
+from .errors import ErrorCause, BitriseReportsError
 from .models import BitriseBuild, BitriseProject, BuildStack
 from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 
 from datetime import datetime
 from math import ceil
 
-import logging
 import requests
 
 BITRISE_API_URL = "https://api.bitrise.io/v0.1"
@@ -67,7 +66,12 @@ class BitriseApiFetcher(object):
             next = paging["next"] if "next" in paging.keys() else NO_MORE_PAGES
             return data, next
         else:
-            raise BitriseIntegrationError(ErrorCause.Http)
+            cause = ErrorCause.NetworkingInfrastructure
+            message = f"""
+            Error when retriving data from : {endpoint}
+            Status = {response.status_code}
+            """
+            raise BitriseReportsError(cause, message)
 
 
 class RawDataConverter(object):
@@ -91,9 +95,9 @@ class RawDataConverter(object):
             return callable(json, project)
         except Exception as e:
             print(e)
-            logging.exception("An exception occurred")
-            logging.error("Could not parse/convert information from builds")
-            raise BitriseIntegrationError(ErrorCause.ApiDataConversion)
+            cause = ErrorCause.DataConversion
+            message = "Could not parse/convert information from builds"
+            raise BitriseReportsError(cause, message)
 
     def build_from(self, json, project):
         machine = self.machine_from(json["machine_type_id"], json["stack_identifier"])
