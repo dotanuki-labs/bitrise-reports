@@ -2,7 +2,7 @@
 
 
 from bitrise_reports.middleware import ProjectFinder
-from bitrise_reports.errors import BitriseMiddlewareError
+from bitrise_reports.errors import ErrorCause, BitriseReportsError
 from bitrise_reports.models import BitriseProject
 
 import pytest
@@ -51,4 +51,5 @@ def test_project_not_found():
         finder.find("android-flagship")
 
         # Then
-        assert error is BitriseMiddlewareError
+        assert error is BitriseReportsError
+        assert error.cause == ErrorCause.MiddlewareOrchestration

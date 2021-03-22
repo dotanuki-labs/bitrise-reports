@@ -1,6 +1,6 @@
 # middleware.py
 
-from bitrise_reports.errors import BitriseMiddlewareError
+from .errors import ErrorCause, BitriseReportsError
 
 import logging
 
@@ -17,8 +17,9 @@ class ProjectFinder(object):
             logging.error("Cannot locate an app with name: {name}")
             logging.error("Available projects for this user")
             logging.error(projects)
-            cause = f"{name} not present among projects you have access"
-            raise BitriseMiddlewareError(cause)
+            cause = ErrorCause.MiddlewareOrchestration
+            message = f"{name} not present among projects you have access"
+            raise BitriseReportsError(cause, message)
 
         return target
 
@@ -34,7 +35,8 @@ class BuildsAnalyser(object):
         if not builds:
             logging.error(f"Cannot locate find builds for project : {project.id}")
             cause = f"{project.id} has no builds yet"
-            raise BitriseMiddlewareError(cause)
+            message = f"{project.id} has no builds yet"
+            raise BitriseReportsError(cause, message)
 
         breakdowns = [
             self.cruncher.breakdown_per_project(builds),

@@ -1,11 +1,10 @@
 # cli_parser.py
 
-from .errors import CLIArgumentsError
+from .errors import ErrorCause, BitriseReportsError
 from .models import EvaluationCriteria
 
 from dateutil.parser import parse
 import time
-import logging
 
 
 def parse_criteria(app, starting, ending):
@@ -20,9 +19,9 @@ def _validate_app(app_name):
     if app_name:
         return app_name
     else:
-        cause = "Missing bitrise app name"
-        logging.error(cause)
-        raise CLIArgumentsError(cause)
+        cause = ErrorCause.EntrypointHandling
+        message = "Missing bitrise app name"
+        raise BitriseReportsError(cause, message)
 
 
 def _unixtime(datetime_str):
@@ -30,6 +29,6 @@ def _unixtime(datetime_str):
         parsed = parse(datetime_str)
         return int(time.mktime(parsed.timetuple()))
     except:
-        cause = "Cannot convert date time"
-        logging.exception(cause)
-        raise CLIArgumentsError(cause)
+        cause = ErrorCause.EntrypointHandling
+        message = f"Cannot convert date time -> {datetime_str}"
+        raise BitriseReportsError(cause, message)

@@ -1,6 +1,6 @@
 # test_builds_analyser.py
 
-from bitrise_reports.errors import BitriseMiddlewareError
+from bitrise_reports.errors import ErrorCause, BitriseReportsError
 from bitrise_reports.metrics import MetricsCruncher
 from bitrise_reports.middleware import BuildsAnalyser
 from bitrise_reports.models import (
@@ -65,4 +65,6 @@ def test_builds_analysed_failed():
         analyser.analyse(project)
 
         # Then
-        assert error is BitriseMiddlewareError
+        # Then
+        assert error is BitriseReportsError
+        assert error.cause == ErrorCause.MiddlewareOrchestration

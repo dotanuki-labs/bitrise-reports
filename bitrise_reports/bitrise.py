@@ -1,6 +1,6 @@
 # bitrise.py
 
-from .errors import ErrorCause, BitriseIntegrationError
+from .errors import ErrorCause, BitriseReportsError
 from .models import BitriseBuild, BitriseProject, BuildStack
 from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 
@@ -67,7 +67,12 @@ class BitriseApiFetcher(object):
             next = paging["next"] if "next" in paging.keys() else NO_MORE_PAGES
             return data, next
         else:
-            raise BitriseIntegrationError(ErrorCause.Http)
+            cause = ErrorCause.NetworkingInfrastructure
+            message = f"""
+            Error when retriving data from : {endpoint}
+            Status = {response.status_code}
+            """
+            raise BitriseReportsError(cause, message)
 
 
 class RawDataConverter(object):
