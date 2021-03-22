@@ -7,7 +7,6 @@ from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 from datetime import datetime
 from math import ceil
 
-import logging
 import requests
 
 BITRISE_API_URL = "https://api.bitrise.io/v0.1"
@@ -96,9 +95,9 @@ class RawDataConverter(object):
             return callable(json, project)
         except Exception as e:
             print(e)
-            logging.exception("An exception occurred")
-            logging.error("Could not parse/convert information from builds")
-            raise BitriseIntegrationError(ErrorCause.ApiDataConversion)
+            cause = ErrorCause.DataConversion
+            message = "Could not parse/convert information from builds"
+            raise BitriseReportsError(cause, message)
 
     def build_from(self, json, project):
         machine = self.machine_from(json["machine_type_id"], json["stack_identifier"])
