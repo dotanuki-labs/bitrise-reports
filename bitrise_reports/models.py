@@ -50,7 +50,7 @@ class BitriseBuild:
 
 
 @dataclass(frozen=True)
-class CriteriaSpecificNumbers:
+class CrunchedNumbers:
     count: int
     queued: int
     building: int

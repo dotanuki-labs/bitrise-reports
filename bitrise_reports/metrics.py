@@ -3,7 +3,7 @@ from .models import (
     BitriseBreakdown,
     BuildMinutes,
     BuildStack,
-    CriteriaSpecificNumbers,
+    CrunchedNumbers,
     MachineSize,
 )
 
@@ -39,12 +39,12 @@ class MetricsCruncher(object):
             total, minutes, credits = self.__analyse(grouped)
 
             if key not in summary.keys():
-                numbers = CriteriaSpecificNumbers(0, 0, 0, 0, 0)
+                numbers = CrunchedNumbers(0, 0, 0, 0, 0)
                 summary[key] = numbers
 
             actual = summary[key]
 
-            updated = CriteriaSpecificNumbers(
+            updated = CrunchedNumbers(
                 count=actual.count + total,
                 queued=actual.count + minutes.queued,
                 building=actual.building + minutes.building,
