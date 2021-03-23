@@ -46,7 +46,7 @@ class MetricsCruncher(object):
 
             updated = CrunchedNumbers(
                 count=actual.count + total,
-                queued=actual.count + minutes.queued,
+                queued=actual.queued + minutes.queued,
                 building=actual.building + minutes.building,
                 total=actual.total + minutes.total,
                 credits=actual.credits + credits,
