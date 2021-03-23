@@ -1,21 +1,14 @@
 # test_bitrise_api_fetcher.py
 
+from .utils import fixture
 from bitrise_reports.bitrise import BitriseApiFetcher
 from bitrise_reports.errors import ErrorCause, BitriseReportsError
 from datetime import datetime
 
-import json
-import os
 import pytest
 import responses
 
 FAKE_ENDPOINT = "https://fake.api.bitrise.com/android-versions"
-FIXTURES_DIR = f"{os.getcwd()}/tests/fixtures"
-
-
-def fixture(name):
-    with open(f"{FIXTURES_DIR}/{name}.json") as payload:
-        return json.load(payload)
 
 
 @responses.activate
