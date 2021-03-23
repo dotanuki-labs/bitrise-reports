@@ -8,8 +8,31 @@ import json
 import os
 
 
+class MetricsReporter:
+    def __init__(self, dates, strategy, console=Console()):
+        self.dates = dates
+        self.contextual_delegate = ContextReporter(dates, console)
+        self.output_delegate = self.__find_delegate(strategy, dates, console)
+
+    def started(self, app):
+        self.contextual_delegate.started(app)
+
+    def feedback(self, project):
+        self.contextual_delegate.feedback(project)
+
+    def report(self, breakdowns):
+        self.output_delegate.report(breakdowns)
+
+    def __find_delegate(self, strategy, dates, console):
+        delegates = {
+            "stdout": StdoutReporter(dates, console),
+            "json": JsonReporter(dates, console),
+        }
+        return delegates[strategy]
+
+
 class ContextReporter:
-    def __init__(self, dates, console=Console()):
+    def __init__(self, dates, console):
         self.dates = dates
         self.console = console
 
@@ -74,10 +97,10 @@ class JsonReporter(ContextReporter):
     def report(self, breakdowns):
         data = [self.__process(item) for item in breakdowns]
         filename = "bitrise-metrics.json"
-        path = f"{os.getcwd()}/filename"
+        path = f"{os.getcwd()}/{filename}"
 
         with open(filename, "w") as writer:
-            json.dump(data, writer, indent=2)
+            json.dump(data, writer, indent=4)
             self.console.print(f"\nWrote results at [bold green]{path}[/bold green]")
 
     def __process(self, breakdowns):
