@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "abort_reason": null,
+      "branch": "ufs/tests",
+      "build_number": 99999,
+      "commit_hash": "2c138116613c2941f69e3226eeb298a4ee5d73e8",
+      "commit_message": "Added tests",
+      "commit_view_url": null,
+      "environment_prepare_finished_at": "2021-03-02T18:54:55Z",
+      "finished_at": "2021-03-02T18:57:04Z",
+      "is_on_hold": false,
+      "machine_type_id": "elite",
+      "original_build_params": {
+        "branch": "ufs/tests",
+        "workflow_id": "pull-request"
+      },
+      "pull_request_id": 0,
+      "pull_request_target_branch": null,
+      "pull_request_view_url": null,
+      "slug": "0e1fafb36766368d",
+      "stack_identifier": "linux-docker-android",
+      "started_on_worker_at": "2021-03-02T18:54:55Z",
+      "status": 2,
+      "status_text": "error",
+      "tag": null,
+      "triggered_at": "2021-03-02T18:54:55Z",
+      "triggered_by": "webhook",
+      "triggered_workflow": "pull-request"
+    },
+    {
+      "abort_reason": null,
+      "branch": "ufs/tests",
+      "build_number": 100000,
+      "commit_hash": "7e38e36ef723354fd6598c68b0ab57da7abd2b7e",
+      "commit_message": "Fixing wrong validation",
+      "commit_view_url": null,
+      "environment_prepare_finished_at": "2021-03-02T17:36:55Z",
+      "finished_at": "2021-03-02T17:38:53Z",
+      "is_on_hold": false,
+      "machine_type_id": "elite",
+      "original_build_params": {
+        "branch": "ufs/tests",
+        "workflow_id": "pull-request"
+      },
+      "pull_request_id": 0,
+      "pull_request_target_branch": null,
+      "pull_request_view_url": null,
+      "slug": "4fa1441c5406f543",
+      "stack_identifier": "linux-docker-android",
+      "started_on_worker_at": "2021-03-02T17:36:55Z",
+      "status": 2,
+      "status_text": "error",
+      "tag": null,
+      "triggered_at": "2021-03-02T17:36:55Z",
+      "triggered_by": "webhook",
+      "triggered_workflow": "pull-request"
+    }
+  ],
+  "paging": {
+    "page_item_limit": 50,
+    "total_item_count": 2
+  }
+}
