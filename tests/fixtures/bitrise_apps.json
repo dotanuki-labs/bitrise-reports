@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "avatar_url": null,
+      "is_disabled": false,
+      "is_public": false,
+      "owner": {
+        "account_type": "organization",
+        "name": "Disruptive Business Gmbh",
+        "slug": "4babd835c067be82"
+      },
+      "project_type": "other",
+      "provider": "github",
+      "repo_owner": "disruptive",
+      "repo_slug": "android-flagship",
+      "repo_url": "git@github.com:disruptive/android-flagship.git",
+      "slug": "a2b473cfa869c525",
+      "status": 1,
+      "title": "android-flagship"
+    },
+    {
+      "avatar_url": null,
+      "is_disabled": false,
+      "is_public": false,
+      "owner": {
+        "account_type": "organization",
+        "name": "Disruptive Business Gmbh",
+        "slug": "4babd835c067be82"
+      },
+      "project_type": "other",
+      "provider": "github",
+      "repo_owner": "disruptive",
+      "repo_slug": "ios-flagship",
+      "repo_url": "git@github.com:disruptive/ios-flagship.git",
+      "slug": "2e3c8224cf0952f7",
+      "status": 1,
+      "title": "ios-flagship"
+    }
+  ],
+  "paging": {
+    "page_item_limit": 50,
+    "total_item_count": 2
+  }
+}

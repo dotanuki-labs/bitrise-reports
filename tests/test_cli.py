@@ -6,7 +6,7 @@ from bitrise_reports.errors import ErrorCause, BitriseReportsError
 import pytest
 
 
-def test_extract_criteria():
+def test_validate_criteria():
 
     # Given
     app = "android-flagship"
@@ -14,7 +14,7 @@ def test_extract_criteria():
     ending = "2021-03-31"
 
     # When
-    criteria = cli.parse_criteria(app, starting, ending)
+    criteria = cli.validate(app, starting, ending)
 
     # Then
     assert criteria is not None
@@ -29,7 +29,7 @@ def test_fail_when_missing_app():
         ending = "2021-03-31"
 
         # When
-        cli.parse_criteria(app, starting, ending)
+        cli.validate(app, starting, ending)
 
         # Then
         assert error is BitriseReportsError
@@ -46,7 +46,7 @@ def test_fail_with_broken_date_format():
         ending = "20210331"
 
         # When
-        cli.parse_criteria(app, starting, ending)
+        cli.validate(app, starting, ending)
 
         # Then
         assert error is BitriseReportsError
