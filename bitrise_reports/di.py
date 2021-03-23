@@ -5,20 +5,13 @@ from .app import Application
 from .bitrise import Bitrise
 from .middleware import ProjectFinder, BuildsAnalyser
 from .metrics import MetricsCruncher
-from .reporting import StdoutReporter
-
-FAKE_MODE = True
+from .reporting import MetricsReporter
 
 
-def inject(token, app, starting, ending):
+def inject(token, app, starting, ending, output):
     bitrise = Bitrise(token)
     finder = ProjectFinder(bitrise)
     analyser = BuildsAnalyser(bitrise, MetricsCruncher())
     criteria = cli.validate(app, starting, ending)
-    reporter = StdoutReporter(criteria)
+    reporter = MetricsReporter(criteria, output)
     return Application(finder, analyser, reporter, criteria)
-
-
-class FakeApplication(object):
-    def execute(self):
-        print("Finshed fake app with success")
