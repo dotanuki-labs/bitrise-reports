@@ -6,7 +6,7 @@ from .models import EvaluationCriteria
 from dateutil.parser import parse
 
 
-def parse_criteria(app, starting, ending):
+def validate(app, starting, ending):
     iso_starting = f"{starting}T00:00:00"
     iso_ending = f"{ending}T23:59:59"
     return EvaluationCriteria(
