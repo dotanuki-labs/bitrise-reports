@@ -2,6 +2,7 @@
 
 from bitrise_reports.bitrise import BitriseApiFetcher
 from bitrise_reports.errors import ErrorCause, BitriseReportsError
+from datetime import datetime
 
 import json
 import os
@@ -70,11 +71,14 @@ def test_fetch_several_pages_on_timewindow():
 
     # Given
     fetcher = BitriseApiFetcher("fake-api-token")
-    starting = 1600000000
-    ending = 1600000100
 
-    base = f"{FAKE_ENDPOINT}?after={starting}&before={ending}"
-    next = f"{FAKE_ENDPOINT}?next=29&after={starting}&before={ending}"
+    starting_millis = 1614553200
+    ending_millis = 1617227999
+    starting_dt = datetime.fromtimestamp(starting_millis)
+    ending_dt = datetime.fromtimestamp(ending_millis)
+
+    base = f"{FAKE_ENDPOINT}?after={starting_millis}&before={ending_millis}"
+    next = f"{FAKE_ENDPOINT}?next=29&after={starting_millis}&before={ending_millis}"
 
     responses.add(
         responses.GET,
@@ -93,7 +97,7 @@ def test_fetch_several_pages_on_timewindow():
     )
 
     # When
-    android_versions = fetcher.get(FAKE_ENDPOINT, starting, ending)
+    android_versions = fetcher.get(FAKE_ENDPOINT, starting_dt, ending_dt)
 
     # Then
     assert len(android_versions) == 6
