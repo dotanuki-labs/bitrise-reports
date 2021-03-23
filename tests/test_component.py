@@ -1,19 +1,11 @@
 # test_component.py
 
+from .utils import fixture
 from bitrise_reports.entrypoint import launch
 from bitrise_reports.bitrise import BITRISE_API_URL
 from click.testing import CliRunner
 
-import json
-import os
 import responses
-
-FIXTURES_DIR = f"{os.getcwd()}/tests/fixtures"
-
-
-def fixture(name):
-    with open(f"{FIXTURES_DIR}/{name}.json") as payload:
-        return json.load(payload)
 
 
 @responses.activate
