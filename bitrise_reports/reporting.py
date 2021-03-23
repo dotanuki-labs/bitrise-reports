@@ -1,7 +1,11 @@
 # reporting.py
 
+from dataclasses import asdict
 from rich.console import Console
 from rich.table import Table
+
+import json
+import os
 
 
 class ContextReporter:
@@ -64,3 +68,23 @@ class StdoutReporter(ContextReporter):
             )
 
         printer.print(table)
+
+
+class JsonReporter(ContextReporter):
+    def report(self, breakdowns):
+        data = [self.__process(item) for item in breakdowns]
+        filename = "bitrise-metrics.json"
+        path = f"{os.getcwd()}/filename"
+
+        with open(filename, "w") as writer:
+            json.dump(data, writer, indent=2)
+            self.console.print(f"\nWrote results at [bold green]{path}[/bold green]")
+
+    def __process(self, breakdowns):
+        flattened = {"description": breakdowns.name}
+
+        for criteria, numbers in breakdowns.details.items():
+            for key, value in list(asdict(numbers).items()):
+                flattened[key] = value
+
+        return flattened
