@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict
+from datetime import datetime
 
 
 class MachineSize(Enum):
@@ -67,5 +68,5 @@ class BitriseBreakdown:
 @dataclass(frozen=True)
 class EvaluationCriteria:
     bitrise_app: str
-    starting_at: int
-    ending_at: int
+    starting_at: datetime
+    ending_at: datetime

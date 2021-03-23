@@ -4,7 +4,6 @@ from .errors import ErrorCause, BitriseReportsError
 from .models import EvaluationCriteria
 
 from dateutil.parser import parse
-import time
 
 
 def parse_criteria(app, starting, ending):
@@ -26,8 +25,7 @@ def _validate_app(app_name):
 
 def _unixtime(datetime_str):
     try:
-        parsed = parse(datetime_str)
-        return int(time.mktime(parsed.timetuple()))
+        return parse(datetime_str)
     except:
         cause = ErrorCause.EntrypointHandling
         message = f"Cannot convert date time -> {datetime_str}"

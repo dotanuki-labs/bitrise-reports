@@ -8,6 +8,7 @@ from datetime import datetime
 from math import ceil
 
 import requests
+import time
 
 BITRISE_API_URL = "https://api.bitrise.io/v0.1"
 FIRST_PAGE = "first-page"
@@ -41,10 +42,10 @@ class BitriseApiFetcher(object):
         params = {}
 
         if starting:
-            params["after"] = starting
+            params["after"] = self.__unixtime(starting)
 
         if ending:
-            params["before"] = ending
+            params["before"] = self.__unixtime(ending)
 
         while next != NO_MORE_PAGES:
 
@@ -72,6 +73,9 @@ class BitriseApiFetcher(object):
             Status = {response.status_code}
             """
             raise BitriseReportsError(cause, message)
+
+    def __unixtime(self, datetime):
+        return int(time.mktime(datetime.timetuple()))
 
 
 class RawDataConverter(object):
