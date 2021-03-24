@@ -23,6 +23,7 @@ bandit = "1.7.0"
 click = "7.1.2"
 python-dateutil = "2.8.1"
 rich = "9.13.0"
+openpyxl = "^3.0.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "6.2.2"
