@@ -1,6 +1,5 @@
 # reporting.py
 
-from dataclasses import asdict
 from rich.console import Console
 from rich.table import Table
 from openpyxl import Workbook
