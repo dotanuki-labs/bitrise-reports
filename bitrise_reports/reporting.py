@@ -3,6 +3,7 @@
 from dataclasses import asdict
 from rich.console import Console
 from rich.table import Table
+from openpyxl import Workbook
 
 import json
 import os
@@ -10,7 +11,6 @@ import os
 
 class MetricsReporter:
     def __init__(self, dates, strategy, console=Console()):
-        self.dates = dates
         self.contextual_delegate = ContextReporter(dates, console)
         self.output_delegate = self.__find_delegate(strategy, dates, console)
 
@@ -27,6 +27,7 @@ class MetricsReporter:
         delegates = {
             "stdout": StdoutReporter(dates, console),
             "json": JsonReporter(dates, console),
+            "excel": ExcelReporter(dates, console),
         }
         return delegates[strategy]
 
@@ -103,11 +104,58 @@ class JsonReporter(ContextReporter):
             json.dump(data, writer, indent=4)
             self.console.print(f"\nWrote results at [bold green]{path}[/bold green]")
 
-    def __process(self, breakdowns):
-        flattened = {"description": breakdowns.name}
+    def __process(self, breakdown):
+        flattened = {"description": breakdown.name}
 
-        for criteria, numbers in breakdowns.details.items():
+        for project, numbers in breakdown.details.items():
             for key, value in list(asdict(numbers).items()):
                 flattened[key] = value
 
         return flattened
+
+
+class ExcelReporter(ContextReporter):
+    def report(self, breakdowns):
+        excel_file = "bitrise-metrics.xlsx"
+        path = f"{os.getcwd()}/{excel_file}"
+
+        workbook = Workbook()
+        sheet = workbook.active
+
+        sheet.column_dimensions["A"].width = 25
+
+        for column in ["A", "B", "C", "D", "E", "F"]:
+            sheet.column_dimensions[column].auto_size = True
+            sheet.column_dimensions[column].bestFit = True
+
+        line = 1
+
+        for breakdown in breakdowns:
+            sheet[f"A{line}"] = breakdown.name
+            line = line + 1
+
+            sorted_by_total = sorted(
+                breakdown.details.items(), key=lambda kv: kv[1].count, reverse=True
+            )
+
+            sheet[f"A{line}"] = "Name"
+            sheet[f"B{line}"] = "Builds"
+            sheet[f"C{line}"] = "Queued time"
+            sheet[f"D{line}"] = "Building time"
+            sheet[f"E{line}"] = "Total time"
+            sheet[f"F{line}"] = "Credits estimation"
+
+            for entry, value in sorted_by_total:
+                line = line + 1
+
+                sheet[f"A{line}"] = entry.id
+                sheet[f"B{line}"] = value.count
+                sheet[f"C{line}"] = value.queued
+                sheet[f"D{line}"] = value.building
+                sheet[f"E{line}"] = value.total
+                sheet[f"F{line}"] = value.credits
+
+            line = line + 2
+
+        workbook.save(filename=excel_file)
+        self.console.print(f"\nWrote results at [bold green]{path}[/bold green]")

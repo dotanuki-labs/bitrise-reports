@@ -25,11 +25,11 @@ class MetricsCruncher(object):
 
     def breakdown_per_machine(self, builds):
         count, summary = self.__breakdown_builds(builds, lambda k: k.machine)
-        return BitriseBreakdown("Breakdown per machine", summary)
+        return BitriseBreakdown("Per machine", summary)
 
     def breakdown_per_workflow(self, builds):
         count, summary = self.__breakdown_builds(builds, lambda k: k.workflow)
-        return BitriseBreakdown("Breakdown per Workflow", summary)
+        return BitriseBreakdown("Per Workflow", summary)
 
     def __breakdown_builds(self, builds, criteria):
         count = 0
