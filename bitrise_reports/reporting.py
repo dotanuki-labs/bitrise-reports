@@ -10,9 +10,14 @@ import os
 
 
 class MetricsReporter:
-    def __init__(self, dates, strategy, console=Console()):
-        self.contextual_delegate = ContextReporter(dates, console)
-        self.output_delegate = self.__find_delegate(strategy, dates, console)
+    def __init__(self, dates, velocity, strategy, console=Console()):
+        self.contextual_delegate = ContextReporter(dates, velocity, console)
+        self.delegates = {
+            "stdout": StdoutReporter(dates, velocity, console),
+            "json": JsonReporter(dates, velocity, console),
+            "excel": ExcelReporter(dates, velocity, console),
+        }
+        self.output_delegate = self.__find_delegate(strategy)
 
     def started(self, app):
         self.contextual_delegate.started(app)
@@ -23,19 +28,15 @@ class MetricsReporter:
     def report(self, breakdowns):
         self.output_delegate.report(breakdowns)
 
-    def __find_delegate(self, strategy, dates, console):
-        delegates = {
-            "stdout": StdoutReporter(dates, console),
-            "json": JsonReporter(dates, console),
-            "excel": ExcelReporter(dates, console),
-        }
-        return delegates[strategy]
+    def __find_delegate(self, strategy):
+        return self.delegates[strategy]
 
 
 class ContextReporter:
-    def __init__(self, dates, console):
+    def __init__(self, dates, velocity, console):
         self.dates = dates
         self.console = console
+        self.velocity = velocity
 
     def started(self, app):
         self.__print("\nAnalysing", app, "cyan")
@@ -75,21 +76,27 @@ class StdoutReporter(ContextReporter):
         table.add_column("Queued time", justify="right")
         table.add_column("Building time", justify="right")
         table.add_column("Total time", justify="right")
-        table.add_column("Credits Estimation", justify="right")
+
+        if self.velocity:
+            table.add_column("Credits Estimation", justify="right")
 
         sorted_by_total = sorted(
             breakdown.details.items(), key=lambda kv: kv[1].count, reverse=True
         )
 
         for entry, value in sorted_by_total:
-            table.add_row(
+            rows = [
                 entry.id,
                 f"{value.count}",
                 f"{value.queued}",
                 f"{value.building}",
                 f"{value.total}",
-                f"{value.credits}",
-            )
+            ]
+
+            if self.velocity:
+                rows.append(f"{value.credits}")
+
+            table.add_row(*rows)
 
         printer.print(table)
 
@@ -143,7 +150,9 @@ class ExcelReporter(ContextReporter):
             sheet[f"C{line}"] = "Queued time"
             sheet[f"D{line}"] = "Building time"
             sheet[f"E{line}"] = "Total time"
-            sheet[f"F{line}"] = "Credits estimation"
+
+            if self.velocity:
+                sheet[f"F{line}"] = "Credits estimation"
 
             for entry, value in sorted_by_total:
                 line = line + 1
@@ -153,7 +162,9 @@ class ExcelReporter(ContextReporter):
                 sheet[f"C{line}"] = value.queued
                 sheet[f"D{line}"] = value.building
                 sheet[f"E{line}"] = value.total
-                sheet[f"F{line}"] = value.credits
+
+                if self.velocity:
+                    sheet[f"F{line}"] = value.credits
 
             line = line + 2
 
