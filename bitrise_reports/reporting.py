@@ -10,12 +10,12 @@ import os
 
 
 class MetricsReporter:
-    def __init__(self, dates, velocity, strategy, console=Console()):
-        self.contextual_delegate = ContextReporter(dates, velocity, console)
+    def __init__(self, criteria, velocity, strategy, console=Console()):
+        self.contextual_delegate = ContextReporter(criteria, velocity, console)
         self.delegates = {
-            "stdout": StdoutReporter(dates, velocity, console),
-            "json": JsonReporter(dates, velocity, console),
-            "excel": ExcelReporter(dates, velocity, console),
+            "stdout": StdoutReporter(criteria, velocity, console),
+            "json": JsonReporter(criteria, velocity, console),
+            "excel": ExcelReporter(criteria, velocity, console),
         }
         self.output_delegate = self.__find_delegate(strategy)
 
@@ -33,8 +33,8 @@ class MetricsReporter:
 
 
 class ContextReporter:
-    def __init__(self, dates, velocity, console):
-        self.dates = dates
+    def __init__(self, criteria, velocity, console):
+        self.criteria = criteria
         self.console = console
         self.velocity = velocity
 
@@ -43,8 +43,8 @@ class ContextReporter:
 
     def feedback(self, project):
         self.__print("\nFound slug", project.slug, "cyan")
-        self.__print("Starting", self.__format_date(self.dates.starting_at), "pink")
-        self.__print("Ending  ", self.__format_date(self.dates.ending_at), "pink")
+        self.__print("Starting", self.__format_date(self.criteria.starting_at), "pink")
+        self.__print("Ending  ", self.__format_date(self.criteria.ending_at), "pink")
 
     def __print(self, prefix, content, color):
         printer = self.console
@@ -102,21 +102,46 @@ class StdoutReporter(ContextReporter):
 
 
 class JsonReporter(ContextReporter):
+    def __init__(
+        self,
+        criteria,
+        velocity,
+        console,
+        filename="bitrise-metrics.json",
+        folder=os.getcwd(),
+    ):
+        super(JsonReporter, self).__init__(criteria, velocity, console)
+        self.filename = filename
+        self.folder = folder
+
     def report(self, breakdowns):
         data = [self.__process(item) for item in breakdowns]
-        filename = "bitrise-metrics.json"
-        path = f"{os.getcwd()}/{filename}"
+        path = f"{self.folder}/{self.filename}"
 
-        with open(filename, "w") as writer:
+        with open(path, "w") as writer:
             json.dump(data, writer, indent=4)
             self.console.print(f"\nWrote results at [bold green]{path}[/bold green]")
 
     def __process(self, breakdown):
-        flattened = {"description": breakdown.name}
+        flattened = {"description": breakdown.name, "details": []}
 
-        for project, numbers in breakdown.details.items():
-            for key, value in list(asdict(numbers).items()):
-                flattened[key] = value
+        sorted_by_total = sorted(
+            breakdown.details.items(), key=lambda kv: kv[1].count, reverse=True
+        )
+
+        for analysed, value in sorted_by_total:
+            entry = {
+                "name": analysed.id,
+                "count": value.count,
+                "queued": value.queued,
+                "building": value.building,
+                "total": value.total,
+            }
+
+            if self.velocity:
+                entry["credits"] = value.total.credits
+
+            flattened["details"].append(entry)
 
         return flattened
 
