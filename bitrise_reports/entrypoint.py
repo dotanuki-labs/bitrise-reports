@@ -12,7 +12,7 @@ APP_HELP = "The title of your app in Bitrise"
 ENDING_HELP = "Ending date to drive the analysis (YYYY-MM-DD)"
 START_HELP = "Starting date to drive the analysis (YYYY-MM-DD)"
 BITRISE_PAT_HELP = "A Personal Access Token (PAT) for Bitrise API"
-OUTPUT_HELP = "The style of output you want (stdout | json)"
+OUTPUT_HELP = "The style of output you want (stdout | json | excel). Defaults to stdout"
 
 logging.basicConfig(level=logging.INFO)
 
