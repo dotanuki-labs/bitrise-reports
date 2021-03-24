@@ -6,48 +6,56 @@ from bitrise_reports.errors import ErrorCause, BitriseReportsError
 import pytest
 
 
-def test_validate_criteria():
-
-    # Given
+def test_app_validation_success():
     app = "android-flagship"
-    starting = "2021-03-01"
-    ending = "2021-03-31"
 
-    # When
-    criteria = cli.validate(app, starting, ending)
+    validated = cli.validated_app(app)
 
-    # Then
-    assert criteria is not None
+    assert validated == app
 
 
-def test_fail_when_missing_app():
-
+def test_app_validation_failed():
     with pytest.raises(Exception) as error:
-        # Given
-        app = ""
-        starting = "2021-03-01"
-        ending = "2021-03-31"
 
-        # When
-        cli.validate(app, starting, ending)
+        cli.validated_app(None)
 
-        # Then
         assert error is BitriseReportsError
         assert error.cause == ErrorCause.EntrypointHandling
 
 
-def test_fail_with_broken_date_format():
+def test_date_validation_success():
+    day = "2021-03-01"
 
+    validated = cli.validated_date(day, include_hours=True)
+
+    assert validated is not None
+
+
+def test_date_validation_failed():
     with pytest.raises(Exception) as error:
 
-        # Given
-        app = "android-flagship"
-        starting = "20210301"
-        ending = "20210331"
+        day = "20210301"
 
-        # When
-        cli.validate(app, starting, ending)
+        cli.validated_date(day, include_hours=True)
 
-        # Then
+        assert error is BitriseReportsError
+        assert error.cause == ErrorCause.EntrypointHandling
+
+
+def test_report_validation_success():
+    report = "excel"
+
+    validated = cli.validated_report(report)
+
+    assert validated == report
+
+
+def test_report_validation_failed():
+    with pytest.raises(Exception) as error:
+
+        report = "xml"
+
+        cli.validated_report(report)
+
         assert error is BitriseReportsError
         assert error.cause == ErrorCause.EntrypointHandling

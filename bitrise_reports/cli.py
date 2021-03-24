@@ -1,32 +1,37 @@
 # cli_parser.py
 
 from .errors import ErrorCause, BitriseReportsError
-from .models import EvaluationCriteria
-
 from dateutil.parser import parse
 
 
-def validate(app, starting, ending):
-    iso_starting = f"{starting}T00:00:00"
-    iso_ending = f"{ending}T23:59:59"
-    return EvaluationCriteria(
-        _validate_app(app), _unixtime(iso_starting), _unixtime(iso_ending)
-    )
-
-
-def _validate_app(app_name):
+def validated_app(app_name):
     if app_name:
         return app_name
-    else:
-        cause = ErrorCause.EntrypointHandling
-        message = "Missing bitrise app name"
-        raise BitriseReportsError(cause, message)
+
+    cause = ErrorCause.EntrypointHandling
+    message = "Missing bitrise app name"
+    raise BitriseReportsError(cause, message)
 
 
-def _unixtime(datetime_str):
+def validated_date(date, include_hours=False):
+
+    time = "23:59:59" if include_hours else "00:00:00"
+    iso_datetime = f"{date}T{time}"
     try:
-        return parse(datetime_str)
+        return parse(iso_datetime)
     except:
         cause = ErrorCause.EntrypointHandling
-        message = f"Cannot convert date time -> {datetime_str}"
+        message = f"Cannot convert date time -> {iso_datetime}"
         raise BitriseReportsError(cause, message)
+
+
+def validated_report(report):
+
+    trimmed = report.strip()
+
+    if trimmed in ["stdout", "json", "excel"]:
+        return trimmed
+
+    cause = ErrorCause.EntrypointHandling
+    message = f"Unsupported report type -> {report}. Options: stdout | json | excel"
+    raise BitriseReportsError(cause, message)
