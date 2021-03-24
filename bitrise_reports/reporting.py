@@ -151,7 +151,9 @@ class ExcelReporter(ContextReporter):
             sheet[f"C{line}"] = "Queued time"
             sheet[f"D{line}"] = "Building time"
             sheet[f"E{line}"] = "Total time"
-            sheet[f"F{line}"] = "Credits estimation"
+
+            if self.velocity:
+                sheet[f"F{line}"] = "Credits estimation"
 
             for entry, value in sorted_by_total:
                 line = line + 1
@@ -161,7 +163,9 @@ class ExcelReporter(ContextReporter):
                 sheet[f"C{line}"] = value.queued
                 sheet[f"D{line}"] = value.building
                 sheet[f"E{line}"] = value.total
-                sheet[f"F{line}"] = value.credits
+
+                if self.velocity:
+                    sheet[f"F{line}"] = value.credits
 
             line = line + 2
 
