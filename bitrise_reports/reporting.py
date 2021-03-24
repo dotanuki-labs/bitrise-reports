@@ -10,9 +10,8 @@ import os
 
 
 class MetricsReporter:
-
     def __init__(self, dates, velocity, strategy, console=Console()):
-        self.contextual_delegate = ContextReporter(dates,velocity, console)
+        self.contextual_delegate = ContextReporter(dates, velocity, console)
         self.delegates = {
             "stdout": StdoutReporter(dates, velocity, console),
             "json": JsonReporter(dates, velocity, console),
