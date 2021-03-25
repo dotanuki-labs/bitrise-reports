@@ -2,7 +2,7 @@
 name = "bitrise-reports"
 version = "0.0.1"
 description = "The missing tool to extract reports about projects you build on Bitrise"
-authors = ["Your name <ubiratanfsoares@gmail.com>"]
+authors = ["Ubiratan Soares <ubiratanfsoares@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/dotanuki-labs/bitrise-reports"
