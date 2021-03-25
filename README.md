@@ -14,9 +14,9 @@ Main features:
 
 ## Installing
 
-This tool requires Python, supporting versions 3.8.x and 3.9.x. Tested on Linux and MacOS.
+This tool requires Python, supporting versions 3.8.x and 3.9.x.
 
-You can easily install `bitrise-reports` with Pip
+Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 
 ```bash
 → pip install bitrise-reports
@@ -41,9 +41,9 @@ By running
     --ending=2021-02-28
 ```
 
-and you should get this output on your CLI something like
+you should get something like that on your CLI
 
-![](.github/assets/showcase.png)
+![](.github/assets/showcase-cli.png)
 
 The full list CLI options :
 
@@ -77,14 +77,16 @@ while also estimating Velocity usage for the builds, you can run
 
 and the output file `bitrise-reports.xlsx` will be available in the same folder.
 
+![](.github/assets/showcase-excel.png)
+
 ## Contributing
 
 If you want to contribute with this project
 
 - Check the [contribution guidelines](https://github.com/dotanuki-labs/.github/blob/main/CONTRIBUTING.md)
-- Ensure you have Python 3.8.5 or newer installed
+- Ensure you have Python 3.8.x or newer installed
 - Ensure you have [Poetry](https://python-poetry.org/) installed
-- Ensure you have [flake8](https://pypi.org/project/flake8/) installed
+- Ensure you have [Flake8](https://pypi.org/project/flake8/) installed
 - Ensure you have [Black](https://github.com/psf/black) installed
 - Prepare your environment
 
