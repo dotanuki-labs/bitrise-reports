@@ -106,7 +106,7 @@ If you want to contribute with this project
 - Make sure you have a green build
 
 ```bash
-→  make inspect && make test
+→  make inspect test
 ```
 
 - Submit your PR 🔥
