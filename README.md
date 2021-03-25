@@ -1,14 +1,14 @@
 # Bitrise Reports
 
-> Complete blog post to come. Stay tuned!
+> _Complete blog post to come. Stay tuned!_
 
 ## Context
 
 Main features:
 
 - Backed by [Bitrise REST API](https://api-docs.bitrise.io/) under the hood
-- Computes queued, building and total execution minutes for all builds given a time frame
-- Breakdown metrcis per machine type (aka Bitrise Build Stack) and also per Workflow
+- Computes minutes for queued, building and total execution, for all builds in given a time frame
+- Breakdown numbers per machine type (aka Bitrise Build Stack) and also per Workflow
 - Supports emulation of consumed [Bitrise Velocity credits](https://www.bitrise.io/velocity-plan) (for Enterprise customers)
 - Report types : CLI (stdout), JSON and Excel spreadsheet
 
@@ -25,9 +25,7 @@ Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 ## Using
 
 Let's say you want see analyse numbers for the project `my-app`, learning from
-the builds that ran during February of 2021.
-
-You'll firstly need a
+the builds that ran during February of 2021. You'll firstly need a
 [Bitrise Personal Access Token](https://devcenter.bitrise.io/api/authentication/) for
 that. Note you must be a member in the project you want to analyse.
 
