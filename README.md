@@ -12,7 +12,7 @@
 
 > _Complete blog post to come. Stay tuned!_
 
-A simple cruncher for numbers derived from builds you run on [Bitrise CI](https://www.bitrise.io/)
+A simple cruncher for numbers derived from builds you run on [Bitrise CI](https://www.bitrise.io/). Useful if you are in charge of managing infrastructure capacity related to Bitrise, detecting/reporting anomalies, evaluating queues impact and so on.
 
 Main features:
 
@@ -34,7 +34,7 @@ Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 
 ## Using
 
-Let's say you want see analyse numbers for the project `my-app`, learning from
+Let's say you want analyse numbers for the project `my-app`, learning from
 builds that ran during February of 2021. You'll firstly need a
 [Bitrise Personal Access Token](https://devcenter.bitrise.io/api/authentication/) for
 that. Note you must be a member in the project you want to analyse.
