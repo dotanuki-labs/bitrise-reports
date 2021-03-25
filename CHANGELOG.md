@@ -4,7 +4,14 @@
 All notable changes to this project will be documented in this file.
 
 ## Version 0.0.1
-YYYY-MM-DD
+**2021-03-25**
 
-### Added
-- Initial release
+### First release
+
+- Backed by Bitrise REST API under the hood
+- Validates if provided Bitrise PAT has access to the target app
+- Handles automatically pagination over results
+- Computes minutes for queued, building and total execution, for all builds in given a time frame
+- Breakdown numbers per build machine type and also per Workflow
+- Supports emulation of consumed Bitrise Velocity credits
+- Report results as CLI (stdout), JSON or Excel spreadsheet
