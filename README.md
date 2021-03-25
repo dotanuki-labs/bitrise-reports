@@ -2,7 +2,7 @@
 
 [![Flake8](https://img.shields.io/badge/codestyle-flake8-yellow)](https://flake8.pycqa.org/en/latest/)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a9fe25bd995710be45d2/maintainability)](https://codeclimate.com/github/dotanuki-labs/bitrise-reports/maintainability)
+[![Quality](https://api.codeclimate.com/v1/badges/a9fe25bd995710be45d2/maintainability)](https://codeclimate.com/github/dotanuki-labs/bitrise-reports/maintainability)
 [![Coverage](https://codecov.io/gh/dotanuki-labs/bitrise-reports/branch/main/graph/badge.svg)](https://codecov.io/gh/dotanuki-labs/bitrise-reports)
 [![PyPI](https://img.shields.io/pypi/v/bitrise-reports)](https://pypi.org/project/bitrise-reports/)
 [![Main](https://github.com/dotanuki-labs/bitrise-reports/workflows/Main/badge.svg)](https://github.com/dotanuki-labs/bitrise-reports/actions?query=workflow%3AMain)
@@ -12,13 +12,13 @@
 
 > _Complete blog post to come. Stay tuned!_
 
-A simpler data cruncher for builds you run on [Bitrise CI](https://www.bitrise.io/)
+A simple cruncher for numbers derived from builds you run on [Bitrise CI](https://www.bitrise.io/)
 
 Main features:
 
 - Backed by [Bitrise REST API](https://api-docs.bitrise.io/) under the hood
-- Computes minutes for queued, building and total execution, for all builds in given a time frame
-- Breakdown numbers per machine type (aka Bitrise Build Stack) and also per Workflow
+- Computes time for queued, running and total execution, for all builds found in given a time frame
+- Breakdown numbers per machine type and also per Workflow
 - Supports emulation of consumed [Bitrise Velocity credits](https://www.bitrise.io/velocity-plan) (for Enterprise customers)
 - Report types : CLI (stdout), JSON and Excel spreadsheet
 
@@ -35,7 +35,7 @@ Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 ## Using
 
 Let's say you want see analyse numbers for the project `my-app`, learning from
-the builds that ran during February of 2021. You'll firstly need a
+builds that ran during February of 2021. You'll firstly need a
 [Bitrise Personal Access Token](https://devcenter.bitrise.io/api/authentication/) for
 that. Note you must be a member in the project you want to analyse.
 
@@ -48,12 +48,11 @@ By running
     --starting=2021-02-01 \
     --ending=2021-02-28
 ```
-
 you should get something like that on your CLI
 
 ![](.github/assets/showcase-cli.png)
 
-The full list CLI options :
+The complete list CLI options:
 
 | Option   | Details                                    | Required  |
 |----------|--------------------------------------------|-----------|
@@ -68,7 +67,7 @@ where
 
 - `starting` and `ending` follows **YYYY-MM-DD** convention
 - `report` accepts **stdout** (default), **json** and **excel**
-- `velocity`is a CLI flag
+- `velocity` is a CLI flag
 
 For instance, if you want an Excel spreadsheet instead of the fancy CLI UI from the previous example
 while also estimating Velocity usage for the builds, you can run
@@ -83,7 +82,7 @@ while also estimating Velocity usage for the builds, you can run
     --velocity
 ```
 
-and the output file `bitrise-reports.xlsx` will be available in the same folder.
+and the output file `bitrise-metrics.xlsx` will be available in the same folder.
 
 ![](.github/assets/showcase-excel.png)
 
@@ -92,10 +91,11 @@ and the output file `bitrise-reports.xlsx` will be available in the same folder.
 If you want to contribute with this project
 
 - Check the [contribution guidelines](https://github.com/dotanuki-labs/.github/blob/main/CONTRIBUTING.md)
-- Ensure you have Python 3.8.x or newer installed
+- Ensure you have Python 3.8.+ installed. I recommend [Pyenv](https://github.com/pyenv/pyenv) for that.
 - Ensure you have [Poetry](https://python-poetry.org/) installed
 - Ensure you have [Flake8](https://pypi.org/project/flake8/) installed
-- Ensure you have [Black](https://github.com/psf/black) installed
+- Ensure you have [Black](https://pypi.org/project/black/) installed
+- Ensure you have [Bandit](https://pypi.org/project/bandit/) installed
 - Prepare your environment
 
 ```bash
