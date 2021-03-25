@@ -3,7 +3,7 @@
 [![Flake8](https://img.shields.io/badge/codestyle-flake8-yellow)](https://flake8.pycqa.org/en/latest/)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a9fe25bd995710be45d2/maintainability)](https://codeclimate.com/github/dotanuki-labs/bitrise-reports/maintainability)
-[![Coverage](https://codecov.io/gh/dotanuki-labs/bitrise-reports/branch/master/graph/badge.svg)](https://codecov.io/gh/dotanuki-labs/bitrise-reports)
+[![Coverage](https://codecov.io/gh/dotanuki-labs/bitrise-reports/branch/main/graph/badge.svg)](https://codecov.io/gh/dotanuki-labs/bitrise-reports)
 [![PyPI](https://img.shields.io/pypi/v/bitrise-reports)](https://pypi.org/project/bitrise-reports/)
 [![Main](https://github.com/dotanuki-labs/bitrise-reports/workflows/Main/badge.svg)](https://github.com/dotanuki-labs/bitrise-reports/actions?query=workflow%3AMain)
 [![License](https://img.shields.io/github/license/dotanuki-labs/bitrise-reports)](https://choosealicense.com/licenses/mit)
