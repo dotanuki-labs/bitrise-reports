@@ -17,7 +17,7 @@ A simple cruncher for numbers derived from builds you run on [Bitrise CI](https:
 Main features:
 
 - Backed by [Bitrise REST API](https://api-docs.bitrise.io/) under the hood
-- Computes time for queued, running and total execution, for all builds found in given a time frame
+- Computes time for queued, running and total execution, for all builds found in a given a time frame
 - Breakdown numbers per machine type and also per Workflow
 - Supports emulation of consumed [Bitrise Velocity credits](https://www.bitrise.io/velocity-plan) (for Enterprise customers)
 - Report types : CLI (stdout), JSON and Excel spreadsheet
@@ -93,10 +93,7 @@ If you want to contribute with this project
 - Check the [contribution guidelines](https://github.com/dotanuki-labs/.github/blob/main/CONTRIBUTING.md)
 - Ensure you have Python 3.8.+ installed. I recommend [Pyenv](https://github.com/pyenv/pyenv) for that.
 - Ensure you have [Poetry](https://python-poetry.org/) installed
-- Ensure you have [Flake8](https://pypi.org/project/flake8/) installed
-- Ensure you have [Black](https://pypi.org/project/black/) installed
-- Ensure you have [Bandit](https://pypi.org/project/bandit/) installed
-- Prepare your environment
+- Prepare your environment with [Flake8](https://pypi.org/project/flake8/), [Black](https://pypi.org/project/black/) and [Bandit](https://pypi.org/project/bandit/)
 
 ```bash
 → make setup

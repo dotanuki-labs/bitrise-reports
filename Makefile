@@ -13,6 +13,9 @@ setup: ## Install dependencies and configure Pyenv
 	poetry update
 	poetry install
 	poetry config virtualenvs.in-project true
+	pip install flake8
+	pip install black
+	pip install bandit
 
 inspect: ## Run code analysis
 	flake8 bitrise_reports tests
