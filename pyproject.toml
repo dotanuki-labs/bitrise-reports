@@ -27,7 +27,7 @@ openpyxl = "3.0.7"
 [tool.poetry.dev-dependencies]
 pytest = "6.2.2"
 pytest-cov = "2.11.1"
-responses = "0.13.1"
+responses = "0.13.2"
 
 [tool.poetry.scripts]
 bitrise-reports = "bitrise_reports:main"
