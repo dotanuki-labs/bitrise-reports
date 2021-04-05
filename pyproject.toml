@@ -25,7 +25,7 @@ rich = "10.1.0"
 openpyxl = "3.0.7"
 
 [tool.poetry.dev-dependencies]
-pytest = "6.2.2"
+pytest = "6.2.3"
 pytest-cov = "2.11.1"
 responses = "0.13.2"
 
