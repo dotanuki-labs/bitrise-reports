@@ -10,14 +10,12 @@
 
 ## What
 
-> _Complete blog post to come. Stay tuned!_
-
-A simple cruncher for numbers derived from builds you run on [Bitrise CI](https://www.bitrise.io/). Useful if you are in charge of managing infrastructure capacity related to Bitrise, detecting/reporting anomalies, evaluating queues impact and so on.
+A simple cruncher for numbers derived from builds you run on [Bitrise CI](https://www.bitrise.io/). Useful if you are in charge of managing infrastructure capacity related to Bitrise, like detecting/reporting anomalies, evaluating queues impact and so on.
 
 Main features:
 
 - Backed by [Bitrise REST API](https://api-docs.bitrise.io/) under the hood
-- Computes time for queued, running and total execution, for all builds found in a given a time frame
+- Computes queued, running and total execution times for all builds found in the target time frame
 - Breakdown numbers per machine type and also per Workflow
 - Supports emulation of consumed [Bitrise Velocity credits](https://www.bitrise.io/velocity-plan) (for Enterprise customers)
 - Report types : CLI (stdout), JSON and Excel spreadsheet
@@ -52,7 +50,7 @@ you should get something like that on your CLI
 
 ![](.github/assets/showcase-cli.png)
 
-The complete list CLI options:
+The complete list of CLI options:
 
 | Option   | Details                                    | Required  |
 |----------|--------------------------------------------|-----------|
@@ -65,12 +63,12 @@ The complete list CLI options:
 
 where
 
-- `starting` and `ending` follows **YYYY-MM-DD** convention
-- `report` accepts **stdout** (default), **json** and **excel**
+- `starting` and `ending` follow **YYYY-MM-DD** convention
+- `report` accepts **stdout** (default), **json** or **excel**
 - `velocity` is a CLI flag
 
-For instance, if you want an Excel spreadsheet instead of the fancy CLI UI from the previous example
-while also estimating Velocity usage for the builds, you can run
+For instance, if you want an Excel spreadsheet - instead of the fancy Terminal UI from the previous example -
+and also an estimation of Velocity usage, you can run
 
 ```bash
 → bitrise-reports \
