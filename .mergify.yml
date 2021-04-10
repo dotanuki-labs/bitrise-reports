@@ -7,9 +7,9 @@ pull_request_rules:
     conditions:
       - author~=^dependabot(|-preview)\[bot\]$
       - check-success=main (ubuntu-18.04, 3.8.8)
-      - check-success=main (ubuntu-18.04, 3.9.2)
+      - check-success=main (ubuntu-18.04, 3.9.4)
       - check-success=main (macos-10.15, 3.8.8)
-      - check-success=main (macos-10.15, 3.9.2)
+      - check-success=main (macos-10.15, 3.9.4)
     actions:
       merge:
         method: squash
@@ -19,9 +19,9 @@ pull_request_rules:
     conditions:
       - author~=ubiratansoares
       - check-success=main (ubuntu-18.04, 3.8.8)
-      - check-success=main (ubuntu-18.04, 3.9.2)
+      - check-success=main (ubuntu-18.04, 3.9.4)
       - check-success=main (macos-10.15, 3.8.8)
-      - check-success=main (macos-10.15, 3.9.2)
+      - check-success=main (macos-10.15, 3.9.4)
     actions:
       merge:
         method: squash
