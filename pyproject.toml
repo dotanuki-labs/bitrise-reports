@@ -15,7 +15,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-flake8 = "3.9.0"
+flake8 = "3.9.1"
 requests = "2.25.1"
 black = "20.8b1"
 bandit = "1.7.0"
