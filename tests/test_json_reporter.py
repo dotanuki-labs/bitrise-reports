@@ -68,9 +68,7 @@ def test_report_per_machine(json_reporter):
     # Given
     linux = BuildMachine("linux.large", MachineSize.medium, BuildStack.linux)
     mac = BuildMachine("mac.elite", MachineSize.large, BuildStack.linux)
-    android_numbers = CrunchedNumbers(
-        count=10, queued=0, building=30, total=30, credits=120
-    )
+    android_numbers = CrunchedNumbers(count=10, queued=0, building=30, total=30, credits=120)
     ios_numbers = CrunchedNumbers(count=5, queued=0, building=40, total=40, credits=160)
 
     details = {linux: android_numbers, mac: ios_numbers}
@@ -116,12 +114,8 @@ def test_report_per_workflow(json_reporter):
     unit_tests = BitriseWorkflow("unit-tests")
     code_checks = BitriseWorkflow("static-analysis")
 
-    test_numbers = CrunchedNumbers(
-        count=8, queued=0, building=20, total=20, credits=100
-    )
-    checks_numbers = CrunchedNumbers(
-        count=5, queued=5, building=25, total=30, credits=120
-    )
+    test_numbers = CrunchedNumbers(count=8, queued=0, building=20, total=20, credits=100)
+    checks_numbers = CrunchedNumbers(count=5, queued=5, building=25, total=30, credits=120)
 
     details = {unit_tests: test_numbers, code_checks: checks_numbers}
     name = "Per Workflow"
@@ -162,6 +156,4 @@ def test_report_per_workflow(json_reporter):
 
 @pytest.fixture
 def json_reporter(tmpdir):
-    return JsonReporter(
-        criteria=EVALUATION, velocity=False, console=Console(), folder=tmpdir
-    )
+    return JsonReporter(criteria=EVALUATION, velocity=False, console=Console(), folder=tmpdir)

@@ -87,9 +87,7 @@ class RawDataConverter(object):
 
     def builds_from(self, json, project):
         def conversion(json, project):
-            finished_builds = list(
-                filter(lambda raw: raw["finished_at"] is not None, json)
-            )
+            finished_builds = list(filter(lambda raw: raw["finished_at"] is not None, json))
             return [self.build_from(item, project) for item in finished_builds]
 
         return self.__safely_convert(conversion, json, project)

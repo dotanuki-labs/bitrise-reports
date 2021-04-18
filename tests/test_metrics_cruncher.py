@@ -90,12 +90,8 @@ def test_multiplebuilds_permachine_breakdown(cruncher):
 
     # Then
     expected = {
-        LINUX_MEDIUM: CrunchedNumbers(
-            count=2, queued=0, building=20, total=20, credits=40
-        ),
-        LINUX_LARGE: CrunchedNumbers(
-            count=2, queued=0, building=20, total=20, credits=80
-        ),
+        LINUX_MEDIUM: CrunchedNumbers(count=2, queued=0, building=20, total=20, credits=40),
+        LINUX_LARGE: CrunchedNumbers(count=2, queued=0, building=20, total=20, credits=80),
     }
 
     assert breakdown.details == expected
