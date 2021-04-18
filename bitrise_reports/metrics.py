@@ -82,9 +82,7 @@ class MetricsCruncher(object):
 
         if machine_type is None or machine_size is None:
             cause = ErrorCause.MetricsExtraction
-            message = (
-                f"Missing multiplier for {build.machine.size} | {build.machine.stack}"
-            )
+            message = f"Missing multiplier for {build.machine.size} | {build.machine.stack}"
             raise BitriseReportsError(cause, message)
 
         return machine_type * machine_size * build.minutes.total

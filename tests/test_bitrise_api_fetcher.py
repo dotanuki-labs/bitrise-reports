@@ -18,9 +18,7 @@ def test_fetch_one_page():
     fetcher = BitriseApiFetcher("fake-api-token")
     data = fixture("bitrise_200OK")
 
-    responses.add(
-        responses.GET, FAKE_ENDPOINT, json=data, status=200, match_querystring=True
-    )
+    responses.add(responses.GET, FAKE_ENDPOINT, json=data, status=200, match_querystring=True)
 
     # When
     android_versions = fetcher.get(FAKE_ENDPOINT)
@@ -102,9 +100,7 @@ def test_http_error():
     with pytest.raises(Exception) as error:
 
         # Given
-        responses.add(
-            responses.GET, FAKE_ENDPOINT, json=fixture("bitrise_5xx"), status=503
-        )
+        responses.add(responses.GET, FAKE_ENDPOINT, json=fixture("bitrise_5xx"), status=503)
         fetcher = BitriseApiFetcher("fake-api-token")
 
         # When
