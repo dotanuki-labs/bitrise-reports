@@ -1,4 +1,5 @@
-from .errors import ErrorCause, BitriseReportsError
+# metrics.py
+
 from .models import (
     BitriseBreakdown,
     BuildMinutes,
@@ -9,13 +10,17 @@ from .models import (
 
 from itertools import groupby
 
-MACHINE_SIZE_CREDITS_MULTIPLIER = {
+LINUX_CREDITS_MULTIPLIER = {
     MachineSize.small: 1,
     MachineSize.medium: 2,
     MachineSize.large: 4,
 }
 
-MACHINE_TYPE_CREDITS_MULTIPLIER = {BuildStack.linux: 1, BuildStack.osx: 2}
+OSX_CREDITS_MULTIPLIER = {
+    MachineSize.small: 2,
+    MachineSize.medium: 4,
+    MachineSize.large: 6,
+}
 
 
 class MetricsCruncher(object):
@@ -77,12 +82,6 @@ class MetricsCruncher(object):
         )
 
     def __compute_credits(self, build):
-        machine_type = MACHINE_TYPE_CREDITS_MULTIPLIER[build.machine.stack]
-        machine_size = MACHINE_SIZE_CREDITS_MULTIPLIER[build.machine.size]
-
-        if machine_type is None or machine_size is None:
-            cause = ErrorCause.MetricsExtraction
-            message = f"Missing multiplier for {build.machine.size} | {build.machine.stack}"
-            raise BitriseReportsError(cause, message)
-
-        return machine_type * machine_size * build.minutes.total
+        mac = build.machine.stack == BuildStack.osx
+        multiplier = OSX_CREDITS_MULTIPLIER if mac else LINUX_CREDITS_MULTIPLIER
+        return multiplier[build.machine.size] * build.minutes.total
