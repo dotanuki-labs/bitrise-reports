@@ -52,7 +52,7 @@ def test_retrive_builds_for_project():
     builds = bitrise.builds_for_project(project)
 
     # Then
-    linux = BuildMachine("linux.elite", MachineSize.medium, BuildStack.linux)
+    linux = BuildMachine("linux.elite", MachineSize.g1medium, BuildStack.linux)
     workflow = BitriseWorkflow("pull-request")
 
     expected = [

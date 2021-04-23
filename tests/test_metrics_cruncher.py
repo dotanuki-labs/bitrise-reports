@@ -17,9 +17,9 @@ import pytest
 ANDROID = BitriseProject("android-flagship", "adb55be2718fc923")
 IOS = BitriseProject("ios-flagship", "fe9dd48ffd73cd3d")
 
-LINUX_MEDIUM = BuildMachine("linux.elite", MachineSize.medium, BuildStack.linux)
-LINUX_LARGE = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
-OSX_MEDIUM = BuildMachine("macos.medium", MachineSize.medium, BuildStack.osx)
+LINUX_MEDIUM = BuildMachine("linux.elite", MachineSize.g1medium, BuildStack.linux)
+LINUX_LARGE = BuildMachine("linux.large", MachineSize.g1large, BuildStack.linux)
+OSX_MEDIUM = BuildMachine("macos.medium", MachineSize.g1medium, BuildStack.osx)
 
 PR_WORKFLOW = BitriseWorkflow("pull-request")
 PARALLEL_WORKFLOW = BitriseWorkflow("pull-request-parallel")

@@ -66,8 +66,8 @@ def test_project_report(json_reporter):
 def test_report_per_machine(json_reporter):
 
     # Given
-    linux = BuildMachine("linux.large", MachineSize.medium, BuildStack.linux)
-    mac = BuildMachine("mac.elite", MachineSize.large, BuildStack.linux)
+    linux = BuildMachine("linux.g1large", MachineSize.g1medium, BuildStack.linux)
+    mac = BuildMachine("mac.g1medium", MachineSize.g1large, BuildStack.linux)
     android_numbers = CrunchedNumbers(count=10, queued=0, building=30, total=30, credits=120)
     ios_numbers = CrunchedNumbers(count=5, queued=0, building=40, total=40, credits=160)
 
@@ -86,14 +86,14 @@ def test_report_per_machine(json_reporter):
             "description": "Per Machine",
             "details": [
                 {
-                    "name": "linux.large",
+                    "name": "linux.g1large",
                     "count": 10,
                     "queued": 0,
                     "building": 30,
                     "total": 30,
                 },
                 {
-                    "name": "mac.elite",
+                    "name": "mac.g1medium",
                     "count": 5,
                     "queued": 0,
                     "building": 40,
