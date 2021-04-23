@@ -7,9 +7,12 @@ from datetime import datetime
 
 
 class MachineSize(Enum):
-    small = "standard"
-    medium = "elite"
-    large = "elite-xl"
+    g1small = "standard"
+    g1medium = "elite"
+    g1large = "elite-xl"
+    g2small = "g2.4core"
+    g2medium = "g2.8core"
+    g2large = "g2.12core"
 
 
 class BuildStack(Enum):

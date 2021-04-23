@@ -118,13 +118,16 @@ class RawDataConverter(object):
         return BitriseWorkflow(triggered_workflow)
 
     def minutes_from(self, triggered_at, started_at, finished_at):
-        triggered = datetime.fromisoformat(triggered_at.replace("Z", ""))
-        started = datetime.fromisoformat(triggered_at.replace("Z", ""))
-        finished = datetime.fromisoformat(finished_at.replace("Z", ""))
+        triggered = self.__dt(triggered_at)
+        started = self.__dt(started_at) if started_at is not None else triggered
+        finished = self.__dt(finished_at)
         queued = self.__aproximate_minutes(started - triggered)
         building = self.__aproximate_minutes(finished - started)
         total = self.__aproximate_minutes(finished - triggered)
         return BuildMinutes(queued, building, total)
+
+    def __dt(self, timestamp):
+        return datetime.fromisoformat(timestamp.replace("Z", ""))
 
     def __aproximate_minutes(self, diff):
         return ceil((diff.days * 24 * 60) + (diff.seconds / 60))

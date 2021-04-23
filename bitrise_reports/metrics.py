@@ -11,15 +11,17 @@ from .models import (
 from itertools import groupby
 
 LINUX_CREDITS_MULTIPLIER = {
-    MachineSize.small: 1,
-    MachineSize.medium: 2,
-    MachineSize.large: 4,
+    MachineSize.g1small: 1,
+    MachineSize.g1medium: 2,
+    MachineSize.g1large: 4,
 }
 
 OSX_CREDITS_MULTIPLIER = {
-    MachineSize.small: 2,
-    MachineSize.medium: 4,
-    MachineSize.large: 6,
+    MachineSize.g1small: 2,
+    MachineSize.g1medium: 4,
+    MachineSize.g2small: 2,
+    MachineSize.g2medium: 4,
+    MachineSize.g2large: 6,
 }
 
 

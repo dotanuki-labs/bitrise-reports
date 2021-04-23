@@ -32,7 +32,7 @@ def test_builds_analysed_with_success():
 
     # Given
     project = BitriseProject("android-flagship", "a2b473cfa869c525")
-    machine = BuildMachine("linux.large", MachineSize.large, BuildStack.linux)
+    machine = BuildMachine("linux.elite-xl", MachineSize.g1large, BuildStack.linux)
     workflow = BitriseWorkflow("pull-request")
     builds = [
         BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 10)),

@@ -19,21 +19,21 @@ import pytest
             "elite",
             "osx-xcode-12.0.x",
             "macos.elite",
-            MachineSize.medium,
+            MachineSize.g1medium,
             BuildStack.osx,
         ),
         (
             "elite-xl",
             "android-docker-linux",
             "linux.elite-xl",
-            MachineSize.large,
+            MachineSize.g1large,
             BuildStack.linux,
         ),
         (
             "standard",
             "android-docker-linux",
             "linux.standard",
-            MachineSize.small,
+            MachineSize.g1small,
             BuildStack.linux,
         ),
     ],
@@ -67,7 +67,7 @@ def test_convert_minutes():
 
     converted = converter.minutes_from(triggered_at, started_at, finished_at)
 
-    queued = 0
+    queued = 1
     building = 11
     total = 11
     assert converted == BuildMinutes(queued, building, total)
