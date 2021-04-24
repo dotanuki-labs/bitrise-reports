@@ -3,6 +3,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 0.0.2
+**2021-04-24**
+
+- Supporting machine types running over gen2 infrastructure
+- Fixing a bug when calculating queued times
+- Improves packaging
+
 ## Version 0.0.1
 **2021-03-25**
 
