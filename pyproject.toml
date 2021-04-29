@@ -23,7 +23,7 @@ openpyxl = "3.0.7"
 
 [tool.poetry.dev-dependencies]
 flake8 = "3.9.1"
-black = "21.4b1"
+black = "21.4b2"
 bandit = "1.7.0"
 pytest = "6.2.3"
 pytest-cov = "2.11.1"
