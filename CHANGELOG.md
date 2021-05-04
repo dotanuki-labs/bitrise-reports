@@ -3,6 +3,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 0.0.3
+**2021-05-04**
+
+- Supporting build results (success and failures) for all analysed builds
+
 ## Version 0.0.2
 **2021-04-24**
 
