@@ -9,12 +9,12 @@ import os
 
 
 class MetricsReporter:
-    def __init__(self, criteria, velocity, strategy, console=Console()):
-        self.contextual_delegate = ContextReporter(criteria, velocity, console)
+    def __init__(self, criteria, velocity, statuses, strategy, console=Console()):
+        self.contextual_delegate = ContextReporter(criteria, velocity, statuses, console)
         self.delegates = {
-            "stdout": StdoutReporter(criteria, velocity, console),
-            "json": JsonReporter(criteria, velocity, console),
-            "excel": ExcelReporter(criteria, velocity, console),
+            "stdout": StdoutReporter(criteria, velocity, statuses, console),
+            "json": JsonReporter(criteria, velocity, statuses, console),
+            "excel": ExcelReporter(criteria, velocity, statuses, console),
         }
         self.output_delegate = self.__find_delegate(strategy)
 
@@ -32,10 +32,11 @@ class MetricsReporter:
 
 
 class ContextReporter:
-    def __init__(self, criteria, velocity, console):
+    def __init__(self, criteria, velocity, statuses, console):
         self.criteria = criteria
         self.console = console
         self.velocity = velocity
+        self.statuses = statuses
 
     def started(self, app):
         self.__print("\nAnalysing", app, "cyan")
@@ -76,6 +77,10 @@ class StdoutReporter(ContextReporter):
         table.add_column("Building time", justify="right")
         table.add_column("Total time", justify="right")
 
+        if self.statuses:
+            table.add_column("Successes", justify="right")
+            table.add_column("Failures", justify="right")
+
         if self.velocity:
             table.add_column("Credits Estimation", justify="right")
 
@@ -92,6 +97,10 @@ class StdoutReporter(ContextReporter):
                 f"{value.total}",
             ]
 
+            if self.statuses:
+                rows.append(f"{value.successes}")
+                rows.append(f"{value.failures}")
+
             if self.velocity:
                 rows.append(f"{value.credits}")
 
@@ -105,11 +114,12 @@ class JsonReporter(ContextReporter):
         self,
         criteria,
         velocity,
+        statuses,
         console,
         filename="bitrise-metrics.json",
         folder=os.getcwd(),
     ):
-        super(JsonReporter, self).__init__(criteria, velocity, console)
+        super(JsonReporter, self).__init__(criteria, velocity, statuses, console)
         self.filename = filename
         self.folder = folder
 
@@ -137,6 +147,10 @@ class JsonReporter(ContextReporter):
                 "total": value.total,
             }
 
+            if self.statuses:
+                entry["successes"] = value.successes
+                entry["failures"] = value.failures
+
             if self.velocity:
                 entry["credits"] = value.total.credits
 
@@ -155,7 +169,7 @@ class ExcelReporter(ContextReporter):
 
         sheet.column_dimensions["A"].width = 25
 
-        for column in ["A", "B", "C", "D", "E", "F"]:
+        for column in ["A", "B", "C", "D", "E", "F", "G", "H"]:
             sheet.column_dimensions[column].auto_size = True
             sheet.column_dimensions[column].bestFit = True
 
@@ -175,8 +189,14 @@ class ExcelReporter(ContextReporter):
             sheet[f"D{line}"] = "Building time"
             sheet[f"E{line}"] = "Total time"
 
+            velocity_column = "H" if self.statuses else "F"
+
+            if self.statuses:
+                sheet[f"F{line}"] = "Build successes"
+                sheet[f"G{line}"] = "Build failures"
+
             if self.velocity:
-                sheet[f"F{line}"] = "Credits estimation"
+                sheet[f"{velocity_column}{line}"] = "Credits estimation"
 
             for entry, value in sorted_by_total:
                 line = line + 1
@@ -187,8 +207,12 @@ class ExcelReporter(ContextReporter):
                 sheet[f"D{line}"] = value.building
                 sheet[f"E{line}"] = value.total
 
+                if self.statuses:
+                    sheet[f"F{line}"] = value.successes
+                    sheet[f"G{line}"] = value.failures
+
                 if self.velocity:
-                    sheet[f"F{line}"] = value.credits
+                    sheet[f"{velocity_column}{line}"] = value.credits
 
             line = line + 2
 

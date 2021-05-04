@@ -156,4 +156,10 @@ def test_report_per_workflow(json_reporter):
 
 @pytest.fixture
 def json_reporter(tmpdir):
-    return JsonReporter(criteria=EVALUATION, velocity=False, console=Console(), folder=tmpdir)
+    return JsonReporter(
+        criteria=EVALUATION,
+        velocity=False,
+        statuses=False,
+        console=Console(),
+        folder=tmpdir
+    )
