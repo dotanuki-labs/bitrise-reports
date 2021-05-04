@@ -9,7 +9,7 @@ from bitrise_reports.models import (
     BitriseWorkflow,
     CrunchedNumbers,
     ExecutionStatus,
-    MachineSize
+    MachineSize,
 )
 from bitrise_reports.metrics import MetricsCruncher
 
@@ -42,13 +42,7 @@ def test_onebuild_permachine_breakdown(cruncher):
 
     # Then
     numbers = CrunchedNumbers(
-        count=1,
-        queued=0,
-        building=20,
-        total=20,
-        successes=1,
-        failures=0,
-        credits=40
+        count=1, queued=0, building=20, total=20, successes=1, failures=0, credits=40
     )
 
     expected = {LINUX_MEDIUM: numbers}
@@ -66,13 +60,7 @@ def test_onebuild_perworkfow_breakdown(cruncher):
 
     # Then
     numbers = CrunchedNumbers(
-        count=1,
-        queued=2,
-        building=20,
-        total=22,
-        successes=1,
-        failures=0,
-        credits=88
+        count=1, queued=2, building=20, total=22, successes=1, failures=0, credits=88
     )
 
     expected = {PR_WORKFLOW: numbers}
@@ -89,13 +77,7 @@ def test_onebuild_perproject_breakdown(cruncher):
     breakdown = cruncher.breakdown_per_project(builds)
 
     numbers = CrunchedNumbers(
-        count=1,
-        queued=0,
-        building=30,
-        total=30,
-        successes=1,
-        failures=0,
-        credits=120
+        count=1, queued=0, building=30, total=30, successes=1, failures=0, credits=120
     )
 
     expected = {ANDROID: numbers}
@@ -120,22 +102,10 @@ def test_multiplebuilds_permachine_breakdown(cruncher):
     # Then
     expected = {
         LINUX_MEDIUM: CrunchedNumbers(
-            count=2,
-            queued=0,
-            building=20,
-            total=20,
-            successes=2,
-            failures=0,
-            credits=40
+            count=2, queued=0, building=20, total=20, successes=2, failures=0, credits=40
         ),
         LINUX_LARGE: CrunchedNumbers(
-            count=2,
-            queued=0,
-            building=20,
-            total=20,
-            successes=2,
-            failures=0,
-            credits=80
+            count=2, queued=0, building=20, total=20, successes=2, failures=0, credits=80
         ),
     }
 
@@ -157,13 +127,7 @@ def test_multiplebuilds_perproject_breakdown(cruncher):
 
     # Then
     numbers = CrunchedNumbers(
-        count=4,
-        queued=0,
-        building=130,
-        total=130,
-        successes=4,
-        failures=0,
-        credits=260
+        count=4, queued=0, building=130, total=130, successes=4, failures=0, credits=260
     )
 
     expected = {ANDROID: numbers}

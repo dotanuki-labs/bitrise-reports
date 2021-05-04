@@ -57,7 +57,7 @@ class BitriseBuild:
     machine: BuildMachine
     workflow: str
     minutes: BuildMinutes
-    status : ExecutionStatus
+    status: ExecutionStatus
 
 
 @dataclass(frozen=True)

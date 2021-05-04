@@ -11,7 +11,7 @@ from bitrise_reports.models import (
     BitriseProject,
     BitriseWorkflow,
     ExecutionStatus,
-    MachineSize
+    MachineSize,
 )
 
 import responses
