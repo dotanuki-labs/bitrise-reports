@@ -3,12 +3,15 @@
 from .utils import fixture
 
 from bitrise_reports.bitrise import Bitrise, BITRISE_API_URL
-from bitrise_reports.models import BitriseProject, BuildMinutes, BitriseBuild
 from bitrise_reports.models import (
+    BuildMinutes,
+    BitriseBuild,
     BuildMachine,
     BuildStack,
-    MachineSize,
+    BitriseProject,
     BitriseWorkflow,
+    ExecutionStatus,
+    MachineSize
 )
 
 import responses
@@ -54,10 +57,11 @@ def test_retrive_builds_for_project():
     # Then
     linux = BuildMachine("linux.elite", MachineSize.g1medium, BuildStack.linux)
     workflow = BitriseWorkflow("pull-request")
+    status = ExecutionStatus.error
 
     expected = [
-        BitriseBuild(project, linux, workflow, BuildMinutes(0, 3, 3)),
-        BitriseBuild(project, linux, workflow, BuildMinutes(0, 2, 2)),
+        BitriseBuild(project, linux, workflow, BuildMinutes(0, 3, 3), status),
+        BitriseBuild(project, linux, workflow, BuildMinutes(0, 2, 2), status),
     ]
 
     assert builds == expected

@@ -2,13 +2,14 @@
 
 from bitrise_reports.models import (
     BitriseBuild,
+    BuildMachine,
     BuildMinutes,
     BitriseProject,
     BuildStack,
-    CrunchedNumbers,
-    MachineSize,
-    BuildMachine,
     BitriseWorkflow,
+    CrunchedNumbers,
+    ExecutionStatus,
+    MachineSize
 )
 from bitrise_reports.metrics import MetricsCruncher
 
@@ -27,13 +28,14 @@ QA_RELEASE = BitriseWorkflow("qa-release")
 LIVE_RELEASE = BitriseWorkflow("live-release")
 TEST_FLIGHT_RELEASE = BitriseWorkflow("test-flight-release")
 FULL_BUILD = BitriseWorkflow("full-build")
+SUCCESS = ExecutionStatus.success
 
 
 def test_onebuild_permachine_breakdown(cruncher):
 
     # Given
     minutes = BuildMinutes(queued=0, building=20, total=20)
-    builds = [BitriseBuild(ANDROID, LINUX_MEDIUM, PR_WORKFLOW, minutes)]
+    builds = [BitriseBuild(ANDROID, LINUX_MEDIUM, PR_WORKFLOW, minutes, SUCCESS)]
 
     # When
     breakdown = cruncher.breakdown_per_machine(builds)
@@ -48,7 +50,7 @@ def test_onebuild_perworkfow_breakdown(cruncher):
 
     # Given
     minutes = BuildMinutes(queued=2, building=20, total=22)
-    builds = [BitriseBuild(ANDROID, LINUX_LARGE, PR_WORKFLOW, minutes)]
+    builds = [BitriseBuild(ANDROID, LINUX_LARGE, PR_WORKFLOW, minutes, SUCCESS)]
 
     # When
     breakdown = cruncher.breakdown_per_workflow(builds)
@@ -63,7 +65,7 @@ def test_onebuild_perproject_breakdown(cruncher):
 
     # Given
     minutes = BuildMinutes(queued=0, building=30, total=30)
-    builds = [BitriseBuild(ANDROID, LINUX_LARGE, PR_WORKFLOW, minutes)]
+    builds = [BitriseBuild(ANDROID, LINUX_LARGE, PR_WORKFLOW, minutes, SUCCESS)]
 
     # When
     breakdown = cruncher.breakdown_per_project(builds)
@@ -79,10 +81,10 @@ def test_multiplebuilds_permachine_breakdown(cruncher):
     # Given
     minutes = BuildMinutes(queued=0, building=10, total=10)
     builds = [
-        BitriseBuild(ANDROID, LINUX_MEDIUM, PR_WORKFLOW, minutes),
-        BitriseBuild(ANDROID, LINUX_MEDIUM, PARALLEL_WORKFLOW, minutes),
-        BitriseBuild(ANDROID, LINUX_LARGE, PR_WORKFLOW, minutes),
-        BitriseBuild(ANDROID, LINUX_LARGE, PARALLEL_WORKFLOW, minutes),
+        BitriseBuild(ANDROID, LINUX_MEDIUM, PR_WORKFLOW, minutes, SUCCESS),
+        BitriseBuild(ANDROID, LINUX_MEDIUM, PARALLEL_WORKFLOW, minutes, SUCCESS),
+        BitriseBuild(ANDROID, LINUX_LARGE, PR_WORKFLOW, minutes, SUCCESS),
+        BitriseBuild(ANDROID, LINUX_LARGE, PARALLEL_WORKFLOW, minutes, SUCCESS),
     ]
 
     # When
@@ -101,10 +103,10 @@ def test_multiplebuilds_perproject_breakdown(cruncher):
 
     # Given
     builds = [
-        BitriseBuild(ANDROID, LINUX_MEDIUM, PR_WORKFLOW, BuildMinutes(0, 30, 30)),
-        BitriseBuild(ANDROID, LINUX_MEDIUM, PARALLEL_WORKFLOW, BuildMinutes(0, 20, 20)),
-        BitriseBuild(ANDROID, LINUX_MEDIUM, QA_RELEASE, BuildMinutes(0, 40, 40)),
-        BitriseBuild(ANDROID, LINUX_MEDIUM, LIVE_RELEASE, BuildMinutes(0, 40, 40)),
+        BitriseBuild(ANDROID, LINUX_MEDIUM, PR_WORKFLOW, BuildMinutes(0, 30, 30), SUCCESS),
+        BitriseBuild(ANDROID, LINUX_MEDIUM, PARALLEL_WORKFLOW, BuildMinutes(0, 20, 20), SUCCESS),
+        BitriseBuild(ANDROID, LINUX_MEDIUM, QA_RELEASE, BuildMinutes(0, 40, 40), SUCCESS),
+        BitriseBuild(ANDROID, LINUX_MEDIUM, LIVE_RELEASE, BuildMinutes(0, 40, 40), SUCCESS),
     ]
 
     # When

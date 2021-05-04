@@ -20,6 +20,12 @@ class BuildStack(Enum):
     osx = "macos"
 
 
+class ExecutionStatus(Enum):
+    success = 1
+    error = 2
+    other = 3
+
+
 @dataclass(frozen=True)
 class BuildMachine:
     id: str
@@ -51,6 +57,7 @@ class BitriseBuild:
     machine: BuildMachine
     workflow: str
     minutes: BuildMinutes
+    status : ExecutionStatus
 
 
 @dataclass(frozen=True)
