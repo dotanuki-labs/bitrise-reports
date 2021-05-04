@@ -20,6 +20,7 @@ click = "7.1.2"
 python-dateutil = "2.8.1"
 rich = "10.1.0"
 openpyxl = "3.0.7"
+pretty-errors = "1.2.20"
 
 [tool.poetry.dev-dependencies]
 flake8 = "3.9.1"

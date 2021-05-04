@@ -2,7 +2,6 @@
 
 
 from . import di
-from .errors import BitriseReportsError
 
 import click
 import logging
@@ -26,14 +25,6 @@ logging.basicConfig(level=logging.INFO)
 @click.option("--velocity", is_flag=True, default=False, help=VELOCITY_HELP)
 @click.option("--report", required=False, default="stdout", help=OUTPUT_HELP)
 def launch(token, app, starting, ending, velocity, report):
-    try:
-        app = di.inject(token, app, starting, ending, velocity, report)
-        app.execute()
-        sys.exit(0)
-    except Exception as error:
-        logging.exception("Could not complete analysis. Aborting.")
-        if error is BitriseReportsError:
-            logging.error(error.message)
-        else:
-            logging.error(error)
-        sys.exit(1)
+    app = di.inject(token, app, starting, ending, velocity, report)
+    app.execute()
+    sys.exit(0)

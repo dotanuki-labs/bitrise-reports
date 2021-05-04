@@ -34,7 +34,7 @@ run: ## Run this project
 		--app=$(app) \
 		--starting=$(starting) \
 		--ending=$(ending) \
-		--report=$(report) \
+		--report=stdout \
 		--velocity
 
 deploy: ## Deploy the current build to Pypi
