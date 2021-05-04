@@ -52,20 +52,23 @@ you should get something like that on your CLI
 
 The complete list of CLI options:
 
-| Option   | Details                                    | Required  |
-|----------|--------------------------------------------|-----------|
-| token    | Personal access token for Bitrise API      | Yes       |
-| app      | The title of your app in Bitrise           | Yes       |
-| starting | Starting date in the target time frame     | Yes       |
-| ending   | Ending date in the target time frame       | Yes       |
-| report   | The style of report you want               | No        |
-| velocity | Estimate Bitrise Velocity credits consumed | No        |
+| Option   | Details                                           | Required  |
+|----------|---------------------------------------------------|-----------|
+| token    | Personal access token for Bitrise API             | Yes       |
+| app      | The title of your app in Bitrise                  | Yes       |
+| starting | Starting date in the target time frame            | Yes       |
+| ending   | Ending date in the target time frame              | Yes       |
+| report   | The style of report you want                      | No        |
+| statuses | Estimate successes and failures related to builds | No        |
+| velocity | Estimate Bitrise Velocity credits consumed        | No        |
+
 
 where
 
 - `starting` and `ending` follow **YYYY-MM-DD** convention
 - `report` accepts **stdout** (default), **json** or **excel**
 - `velocity` is a CLI flag
+- `statuses` is a CLI flag
 
 For instance, if you want an Excel spreadsheet - instead of the fancy Terminal UI from the previous example -
 and also an estimation of Velocity usage, you can run

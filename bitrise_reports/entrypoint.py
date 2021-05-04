@@ -12,7 +12,7 @@ ENDING_HELP = "Ending date to drive the analysis (YYYY-MM-DD)"
 START_HELP = "Starting date to drive the analysis (YYYY-MM-DD)"
 BITRISE_PAT_HELP = "A Personal Access Token (PAT) for Bitrise API"
 VELOCITY_HELP = "Estimate Bitrise Velocity credits related to builds"
-STATUSES_HELP = "Reports the count for successes and failures related to builds"
+STATUSES_HELP = "Estimate successes and failures related to builds"
 OUTPUT_HELP = "The style of report you want (stdout | json | excel). Defaults to stdout"
 
 logging.basicConfig(level=logging.INFO)
