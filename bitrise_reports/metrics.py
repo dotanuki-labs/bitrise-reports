@@ -5,6 +5,7 @@ from .models import (
     BuildMinutes,
     BuildStack,
     CrunchedNumbers,
+    ExecutionStatus,
     MachineSize,
 )
 
@@ -43,10 +44,10 @@ class MetricsCruncher(object):
         summary = {}
 
         for key, grouped in groupby(builds, criteria):
-            total, minutes, credits = self.__analyse(grouped)
+            total, minutes, successes, failures, credits = self.__analyse(grouped)
 
             if key not in summary.keys():
-                numbers = CrunchedNumbers(0, 0, 0, 0, 0)
+                numbers = CrunchedNumbers(0, 0, 0, 0, 0, 0, 0)
                 summary[key] = numbers
 
             actual = summary[key]
@@ -56,6 +57,8 @@ class MetricsCruncher(object):
                 queued=actual.queued + minutes.queued,
                 building=actual.building + minutes.building,
                 total=actual.total + minutes.total,
+                successes=actual.successes + successes,
+                failures=actual.failures + failures,
                 credits=actual.credits + credits,
             )
 
@@ -67,14 +70,18 @@ class MetricsCruncher(object):
     def __analyse(self, builds):
         count = 0
         minutes = BuildMinutes(0, 0, 0)
+        successes = 0
+        failures = 0
         credits = 0
 
         for build in builds:
             count = count + 1
             minutes = self.__sum_minutes(minutes, build.minutes)
+            successes = successes + 1 if build.status == ExecutionStatus.success else successes
+            failures = failures + 1 if build.status == ExecutionStatus.error else failures
             credits = credits + self.__compute_credits(build)
 
-        return [count, minutes, credits]
+        return [count, minutes, successes, failures, credits]
 
     def __sum_minutes(self, target, another):
         return BuildMinutes(

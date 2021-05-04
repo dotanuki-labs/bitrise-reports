@@ -41,7 +41,16 @@ def test_onebuild_permachine_breakdown(cruncher):
     breakdown = cruncher.breakdown_per_machine(builds)
 
     # Then
-    numbers = CrunchedNumbers(count=1, queued=0, building=20, total=20, credits=40)
+    numbers = CrunchedNumbers(
+        count=1,
+        queued=0,
+        building=20,
+        total=20,
+        successes=1,
+        failures=0,
+        credits=40
+    )
+
     expected = {LINUX_MEDIUM: numbers}
     assert breakdown.details == expected
 
@@ -56,7 +65,16 @@ def test_onebuild_perworkfow_breakdown(cruncher):
     breakdown = cruncher.breakdown_per_workflow(builds)
 
     # Then
-    numbers = CrunchedNumbers(count=1, queued=2, building=20, total=22, credits=88)
+    numbers = CrunchedNumbers(
+        count=1,
+        queued=2,
+        building=20,
+        total=22,
+        successes=1,
+        failures=0,
+        credits=88
+    )
+
     expected = {PR_WORKFLOW: numbers}
     assert breakdown.details == expected
 
@@ -70,7 +88,16 @@ def test_onebuild_perproject_breakdown(cruncher):
     # When
     breakdown = cruncher.breakdown_per_project(builds)
 
-    numbers = CrunchedNumbers(count=1, queued=0, building=30, total=30, credits=120)
+    numbers = CrunchedNumbers(
+        count=1,
+        queued=0,
+        building=30,
+        total=30,
+        successes=1,
+        failures=0,
+        credits=120
+    )
+
     expected = {ANDROID: numbers}
 
     assert breakdown.details == expected
@@ -92,8 +119,24 @@ def test_multiplebuilds_permachine_breakdown(cruncher):
 
     # Then
     expected = {
-        LINUX_MEDIUM: CrunchedNumbers(count=2, queued=0, building=20, total=20, credits=40),
-        LINUX_LARGE: CrunchedNumbers(count=2, queued=0, building=20, total=20, credits=80),
+        LINUX_MEDIUM: CrunchedNumbers(
+            count=2,
+            queued=0,
+            building=20,
+            total=20,
+            successes=2,
+            failures=0,
+            credits=40
+        ),
+        LINUX_LARGE: CrunchedNumbers(
+            count=2,
+            queued=0,
+            building=20,
+            total=20,
+            successes=2,
+            failures=0,
+            credits=80
+        ),
     }
 
     assert breakdown.details == expected
@@ -113,7 +156,16 @@ def test_multiplebuilds_perproject_breakdown(cruncher):
     breakdown = cruncher.breakdown_per_project(builds)
 
     # Then
-    numbers = CrunchedNumbers(count=4, queued=0, building=130, total=130, credits=260)
+    numbers = CrunchedNumbers(
+        count=4,
+        queued=0,
+        building=130,
+        total=130,
+        successes=4,
+        failures=0,
+        credits=260
+    )
+
     expected = {ANDROID: numbers}
     assert breakdown.details == expected
 

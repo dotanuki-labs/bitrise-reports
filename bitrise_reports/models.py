@@ -66,6 +66,8 @@ class CrunchedNumbers:
     queued: int
     building: int
     total: int
+    successes: int = None
+    failures: int = None
     credits: int = None
 
 
