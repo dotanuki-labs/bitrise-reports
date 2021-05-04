@@ -1,7 +1,7 @@
 # bitrise.py
 
 from .errors import ErrorCause, BitriseReportsError
-from .models import BitriseBuild, BitriseProject, BuildStack
+from .models import BitriseBuild, BitriseProject, BuildStack, ExecutionStatus
 from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 
 from datetime import datetime
@@ -107,7 +107,9 @@ class RawDataConverter(object):
         minutes = self.minutes_from(
             json["triggered_at"], json["started_on_worker_at"], json["finished_at"]
         )
-        return BitriseBuild(project, machine, workflow, minutes)
+
+        status = self.status_from(json["status"])
+        return BitriseBuild(project, machine, workflow, minutes, status)
 
     def machine_from(self, machine_type_id, stack_identifier):
         size = MachineSize(machine_type_id)
@@ -125,6 +127,9 @@ class RawDataConverter(object):
         building = self.__aproximate_minutes(finished - started)
         total = self.__aproximate_minutes(finished - triggered)
         return BuildMinutes(queued, building, total)
+
+    def status_from(self, status):
+        return ExecutionStatus(status) if status in range(1, 3) else ExecutionStatus.other
 
     def __dt(self, timestamp):
         return datetime.fromisoformat(timestamp.replace("Z", ""))

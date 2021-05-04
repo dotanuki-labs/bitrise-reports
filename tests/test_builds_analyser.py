@@ -5,12 +5,13 @@ from bitrise_reports.metrics import MetricsCruncher
 from bitrise_reports.middleware import BuildsAnalyser
 from bitrise_reports.models import (
     BitriseBuild,
-    BuildMinutes,
-    BitriseProject,
-    BuildStack,
-    MachineSize,
     BuildMachine,
+    BuildMinutes,
+    BuildStack,
+    BitriseProject,
     BitriseWorkflow,
+    ExecutionStatus,
+    MachineSize,
 )
 
 import pytest
@@ -34,10 +35,12 @@ def test_builds_analysed_with_success():
     project = BitriseProject("android-flagship", "a2b473cfa869c525")
     machine = BuildMachine("linux.elite-xl", MachineSize.g1large, BuildStack.linux)
     workflow = BitriseWorkflow("pull-request")
+    status = ExecutionStatus.success
+
     builds = [
-        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 10)),
-        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 9)),
-        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 11)),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 10), status),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 9), status),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 11), status),
     ]
 
     bitrise = FakeBitrise([project], builds)

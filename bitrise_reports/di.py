@@ -9,7 +9,7 @@ from .reporting import MetricsReporter
 from .models import EvaluationCriteria
 
 
-def inject(token, app, starting, ending, velocity, report):
+def inject(token, app, starting, ending, velocity, statuses, report):
 
     bitrise = Bitrise(token)
     finder = ProjectFinder(bitrise)
@@ -21,6 +21,6 @@ def inject(token, app, starting, ending, velocity, report):
         cli.validated_date(ending, include_hours=True),
     )
 
-    reporter = MetricsReporter(criteria, velocity, cli.validated_report(report))
+    reporter = MetricsReporter(criteria, velocity, statuses, cli.validated_report(report))
 
     return Application(finder, analyser, reporter, criteria)
