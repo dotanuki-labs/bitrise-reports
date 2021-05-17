@@ -28,15 +28,15 @@ OSX_CREDITS_MULTIPLIER = {
 
 class MetricsCruncher(object):
     def breakdown_per_project(self, builds):
-        count, summary = self.__breakdown_builds(builds, lambda k: k.project)
+        _, summary = self.__breakdown_builds(builds, lambda k: k.project)
         return BitriseBreakdown("Project Numbers", summary)
 
     def breakdown_per_machine(self, builds):
-        count, summary = self.__breakdown_builds(builds, lambda k: k.machine)
+        _, summary = self.__breakdown_builds(builds, lambda k: k.machine)
         return BitriseBreakdown("Per machine", summary)
 
     def breakdown_per_workflow(self, builds):
-        count, summary = self.__breakdown_builds(builds, lambda k: k.workflow)
+        _, summary = self.__breakdown_builds(builds, lambda k: k.workflow)
         return BitriseBreakdown("Per Workflow", summary)
 
     def __breakdown_builds(self, builds, criteria):

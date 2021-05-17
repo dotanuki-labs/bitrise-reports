@@ -12,7 +12,7 @@
       "is_on_hold": false,
       "machine_type_id": "elite",
       "original_build_params": {
-        "branch": "ufs/tests",
+        "branch": "ufs/some-tests",
         "workflow_id": "pull-request"
       },
       "pull_request_id": 0,
@@ -40,7 +40,7 @@
       "is_on_hold": false,
       "machine_type_id": "elite",
       "original_build_params": {
-        "branch": "ufs/tests",
+        "branch": "ufs/more-tests",
         "workflow_id": "pull-request"
       },
       "pull_request_id": 0,

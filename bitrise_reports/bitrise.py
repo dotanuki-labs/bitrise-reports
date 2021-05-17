@@ -95,7 +95,7 @@ class RawDataConverter(object):
     def __safely_convert(self, callable, json, project=None):
         try:
             return callable(json, project)
-        except Exception as e:
+        except:
             cause = ErrorCause.DataConversion
             message = "Could not parse/convert information from builds"
             raise BitriseReportsError(cause, message)
@@ -132,7 +132,7 @@ class RawDataConverter(object):
         return ExecutionStatus(status) if status in range(1, 3) else ExecutionStatus.other
 
     def branch_from(self, build_parameters):
-        return None if build_parameters == None else build_parameters["branch"]
+        return None if build_parameters is None else build_parameters["branch"]
 
     def __dt(self, timestamp):
         return datetime.fromisoformat(timestamp.replace("Z", ""))

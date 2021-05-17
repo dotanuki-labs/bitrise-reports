@@ -25,23 +25,31 @@ class ProjectFinder(object):
 
 
 class BuildsAnalyser(object):
-    def __init__(self, bitrise, cruncher):
+    def __init__(self, bitrise, cruncher, target_branch=None):
         self.bitrise = bitrise
         self.cruncher = cruncher
+        self.target_branch = target_branch
 
     def analyse(self, project, starting=None, ending=None):
-        builds = self.bitrise.builds_for_project(project, starting, ending)
+        all_builds = self.bitrise.builds_for_project(project, starting, ending)
+        target_builds = self.__prune(all_builds)
 
-        if not builds:
-            logging.error(f"Cannot locate find builds for project : {project.id}")
-            cause = f"{project.id} has no builds yet"
-            message = f"{project.id} has no builds yet"
+        if not target_builds:
+            message = f"Missing builds for project : {project.id} and branch : {self.target_branch}"
+            logging.error(message)
+            cause = f"{project.id} has no builds matching criteria"
+            message = f"{project.id} has no builds matching criteria"
             raise BitriseReportsError(cause, message)
 
         breakdowns = [
-            self.cruncher.breakdown_per_project(builds),
-            self.cruncher.breakdown_per_machine(builds),
-            self.cruncher.breakdown_per_workflow(builds),
+            self.cruncher.breakdown_per_project(target_builds),
+            self.cruncher.breakdown_per_machine(target_builds),
+            self.cruncher.breakdown_per_workflow(target_builds),
         ]
 
-        return breakdowns
+        return breakdowns, len(target_builds)
+
+    def __prune(self, builds):
+        if self.target_branch is None:
+            return builds
+        return list(filter(lambda build: build.head_branch == self.target_branch, builds))

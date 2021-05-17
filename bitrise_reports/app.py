@@ -18,5 +18,5 @@ class Application(object):
         project = self.project_finder.find(bitrise_app)
         self.results_reporter.feedback(project)
 
-        breakdowns = self.project_analyser.analyse(project, starting, ending)
+        breakdowns, _ = self.project_analyser.analyse(project, starting, ending)
         self.results_reporter.report(breakdowns)

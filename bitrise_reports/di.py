@@ -9,11 +9,11 @@ from .reporting import MetricsReporter
 from .models import EvaluationCriteria
 
 
-def inject(token, app, starting, ending, velocity, statuses, report):
+def inject(token, app, starting, ending, branch, velocity, statuses, report):
 
     bitrise = Bitrise(token)
     finder = ProjectFinder(bitrise)
-    analyser = BuildsAnalyser(bitrise, MetricsCruncher())
+    analyser = BuildsAnalyser(bitrise, MetricsCruncher(), branch)
 
     criteria = EvaluationCriteria(
         cli.validated_app(app),
