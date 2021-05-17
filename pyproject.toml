@@ -26,6 +26,7 @@ pretty-errors = "1.2.20"
 flake8 = "3.9.2"
 black = "21.5b1"
 bandit = "1.7.0"
+vulture = "2.3"
 pytest = "6.2.4"
 pytest-cov = "2.12.0"
 responses = "0.13.3"
@@ -35,6 +36,11 @@ bitrise-reports = "bitrise_reports:main"
 
 [tool.black]
 line-length = 100
+
+[tool.vulture]
+exclude = ["entrypoint.py", "__init__.py"]
+min_confidence = 80
+sort_by_size = true
 
 [build-system]
 requires = ["poetry>=0.12"]

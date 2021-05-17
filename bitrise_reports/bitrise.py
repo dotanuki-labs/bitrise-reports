@@ -102,7 +102,7 @@ class RawDataConverter(object):
 
     def build_from(self, json, project):
         machine = self.machine_from(json["machine_type_id"], json["stack_identifier"])
-        workflow = self.workflow_from(json["triggered_workflow"], project)
+        workflow = self.workflow_from(json["triggered_workflow"])
         minutes = self.minutes_from(
             json["triggered_at"], json["started_on_worker_at"], json["finished_at"]
         )
@@ -116,7 +116,7 @@ class RawDataConverter(object):
         stack = BuildStack("macos" if "osx" in stack_identifier else "linux")
         return BuildMachine(f"{stack.value}.{size.value}", size, stack)
 
-    def workflow_from(self, triggered_workflow, bitrise_project):
+    def workflow_from(self, triggered_workflow):
         return BitriseWorkflow(triggered_workflow)
 
     def minutes_from(self, triggered_at, started_at, finished_at):
