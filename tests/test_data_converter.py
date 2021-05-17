@@ -49,10 +49,9 @@ def test_convert_machines(machine_type_id, stack_id, id, size, stack):
 
 def test_convert_workflow():
     converter = RawDataConverter()
-    project = BitriseProject("my-project", "c92318adbbe2755f")
     workflow = "pull-request"
 
-    converted = converter.workflow_from(workflow, project)
+    converted = converter.workflow_from(workflow)
 
     expected = BitriseWorkflow("pull-request")
     assert converted == expected
