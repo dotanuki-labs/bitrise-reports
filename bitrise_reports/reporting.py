@@ -80,6 +80,7 @@ class StdoutReporter(ContextReporter):
         if self.statuses:
             table.add_column("Successes", justify="right")
             table.add_column("Failures", justify="right")
+            table.add_column("Abortions", justify="right")
 
         if self.velocity:
             table.add_column("Credits Estimation", justify="right")
@@ -100,6 +101,7 @@ class StdoutReporter(ContextReporter):
             if self.statuses:
                 rows.append(f"{value.successes}")
                 rows.append(f"{value.failures}")
+                rows.append(f"{value.abortions}")
 
             if self.velocity:
                 rows.append(f"{value.credits}")
@@ -150,6 +152,7 @@ class JsonReporter(ContextReporter):
             if self.statuses:
                 entry["successes"] = value.successes
                 entry["failures"] = value.failures
+                entry["abortions"] = value.abortions
 
             if self.velocity:
                 entry["credits"] = value.total.credits
@@ -169,7 +172,7 @@ class ExcelReporter(ContextReporter):
 
         sheet.column_dimensions["A"].width = 25
 
-        for column in ["A", "B", "C", "D", "E", "F", "G", "H"]:
+        for column in ["A", "B", "C", "D", "E", "F", "G", "H", "I"]:
             sheet.column_dimensions[column].auto_size = True
             sheet.column_dimensions[column].bestFit = True
 
@@ -189,11 +192,12 @@ class ExcelReporter(ContextReporter):
             sheet[f"D{line}"] = "Building time"
             sheet[f"E{line}"] = "Total time"
 
-            velocity_column = "H" if self.statuses else "F"
+            velocity_column = "I" if self.statuses else "F"
 
             if self.statuses:
                 sheet[f"F{line}"] = "Build successes"
                 sheet[f"G{line}"] = "Build failures"
+                sheet[f"H{line}"] = "Build abortions"
 
             if self.velocity:
                 sheet[f"{velocity_column}{line}"] = "Credits estimation"
@@ -210,6 +214,7 @@ class ExcelReporter(ContextReporter):
                 if self.statuses:
                     sheet[f"F{line}"] = value.successes
                     sheet[f"G{line}"] = value.failures
+                    sheet[f"H{line}"] = value.abortions
 
                 if self.velocity:
                     sheet[f"{velocity_column}{line}"] = value.credits
