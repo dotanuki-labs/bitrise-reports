@@ -60,8 +60,8 @@ def test_retrive_builds_for_project():
     status = ExecutionStatus.error
 
     expected = [
-        BitriseBuild(project, linux, workflow, BuildMinutes(0, 3, 3), status),
-        BitriseBuild(project, linux, workflow, BuildMinutes(0, 2, 2), status),
+        BitriseBuild(project, linux, workflow, BuildMinutes(0, 3, 3), status, "ufs/some-tests"),
+        BitriseBuild(project, linux, workflow, BuildMinutes(0, 2, 2), status, "ufs/more-tests"),
     ]
 
     assert builds == expected

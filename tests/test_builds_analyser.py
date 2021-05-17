@@ -34,7 +34,7 @@ def test_builds_analysed_with_success():
     # Given
     project = BitriseProject("android-flagship", "a2b473cfa869c525")
     machine = BuildMachine("linux.elite-xl", MachineSize.g1large, BuildStack.linux)
-    workflow = BitriseWorkflow("pull-request")
+    workflow = BitriseWorkflow("checks")
     status = ExecutionStatus.success
 
     builds = [
@@ -47,11 +47,37 @@ def test_builds_analysed_with_success():
     analyser = BuildsAnalyser(bitrise, MetricsCruncher())
 
     # When
-    breakdowns = analyser.analyse(project)
+    breakdowns, analysed_builds = analyser.analyse(project)
 
     # Then
-    expected_breakdowns = 3
-    assert len(breakdowns) == expected_breakdowns
+    assert len(breakdowns) == 3
+    assert analysed_builds == 3
+
+
+def test_builds_analysed_with_for_target_branch():
+
+    # Given
+    project = BitriseProject("android-flagship", "a2b473cfa869c525")
+    machine = BuildMachine("linux.elite-xl", MachineSize.g1large, BuildStack.linux)
+    workflow = BitriseWorkflow("checks")
+    status = ExecutionStatus.success
+    target_branch = "main"
+
+    builds = [
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 50), status, "main"),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 52), status, "main"),
+        BitriseBuild(project, machine, workflow, BuildMinutes(0, 0, 51), status, "new-feature"),
+    ]
+
+    bitrise = FakeBitrise([project], builds)
+    analyser = BuildsAnalyser(bitrise, MetricsCruncher(), target_branch)
+
+    # When
+    breakdowns, analysed_builds = analyser.analyse(project)
+
+    # Then
+    assert len(breakdowns) == 3
+    assert analysed_builds == 2
 
 
 def test_builds_analysed_failed():

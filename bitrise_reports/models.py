@@ -58,6 +58,7 @@ class BitriseBuild:
     workflow: str
     minutes: BuildMinutes
     status: ExecutionStatus
+    head_branch: str = None
 
 
 @dataclass(frozen=True)

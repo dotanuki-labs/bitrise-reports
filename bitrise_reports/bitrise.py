@@ -95,8 +95,7 @@ class RawDataConverter(object):
     def __safely_convert(self, callable, json, project=None):
         try:
             return callable(json, project)
-        except Exception as e:
-            print(e)
+        except:
             cause = ErrorCause.DataConversion
             message = "Could not parse/convert information from builds"
             raise BitriseReportsError(cause, message)
@@ -109,7 +108,8 @@ class RawDataConverter(object):
         )
 
         status = self.status_from(json["status"])
-        return BitriseBuild(project, machine, workflow, minutes, status)
+        branch = self.branch_from(json["original_build_params"])
+        return BitriseBuild(project, machine, workflow, minutes, status, branch)
 
     def machine_from(self, machine_type_id, stack_identifier):
         size = MachineSize(machine_type_id)
@@ -130,6 +130,9 @@ class RawDataConverter(object):
 
     def status_from(self, status):
         return ExecutionStatus(status) if status in range(1, 3) else ExecutionStatus.other
+
+    def branch_from(self, build_parameters):
+        return None if build_parameters is None else build_parameters["branch"]
 
     def __dt(self, timestamp):
         return datetime.fromisoformat(timestamp.replace("Z", ""))
