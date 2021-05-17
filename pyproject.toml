@@ -40,7 +40,6 @@ line-length = 100
 [tool.vulture]
 exclude = ["entrypoint.py", "__init__.py"]
 min_confidence = 80
-paths = ["bitrise_reports", "tests"]
 sort_by_size = true
 
 [build-system]
