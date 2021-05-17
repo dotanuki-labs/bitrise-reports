@@ -58,10 +58,11 @@ def test_retrive_builds_for_project():
     linux = BuildMachine("linux.elite", MachineSize.g1medium, BuildStack.linux)
     workflow = BitriseWorkflow("pull-request")
     status = ExecutionStatus.error
+    branch = "ufs/tests"
 
     expected = [
-        BitriseBuild(project, linux, workflow, BuildMinutes(0, 3, 3), status),
-        BitriseBuild(project, linux, workflow, BuildMinutes(0, 2, 2), status),
+        BitriseBuild(project, linux, workflow, BuildMinutes(0, 3, 3), status, branch),
+        BitriseBuild(project, linux, workflow, BuildMinutes(0, 2, 2), status, branch)
     ]
 
     assert builds == expected
