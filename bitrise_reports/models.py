@@ -23,7 +23,7 @@ class BuildStack(Enum):
 class ExecutionStatus(Enum):
     success = 1
     error = 2
-    other = 3
+    aborted = 3
 
 
 @dataclass(frozen=True)
@@ -69,6 +69,7 @@ class CrunchedNumbers:
     total: int
     successes: int = None
     failures: int = None
+    abortions: int = None
     credits: int = None
 
 

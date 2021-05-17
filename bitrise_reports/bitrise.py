@@ -129,7 +129,7 @@ class RawDataConverter(object):
         return BuildMinutes(queued, building, total)
 
     def status_from(self, status):
-        return ExecutionStatus(status) if status in range(1, 3) else ExecutionStatus.other
+        return ExecutionStatus(status) if status in range(1, 3) else ExecutionStatus.aborted
 
     def branch_from(self, build_parameters):
         return None if build_parameters is None else build_parameters["branch"]

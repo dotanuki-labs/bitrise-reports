@@ -44,10 +44,10 @@ class MetricsCruncher(object):
         summary = {}
 
         for key, grouped in groupby(builds, criteria):
-            total, minutes, successes, failures, credits = self.__analyse(grouped)
+            total, minutes, successes, failures, abortions, credits = self.__analyse(grouped)
 
             if key not in summary.keys():
-                numbers = CrunchedNumbers(0, 0, 0, 0, 0, 0, 0)
+                numbers = CrunchedNumbers(0, 0, 0, 0, 0, 0, 0, 0)
                 summary[key] = numbers
 
             actual = summary[key]
@@ -59,6 +59,7 @@ class MetricsCruncher(object):
                 total=actual.total + minutes.total,
                 successes=actual.successes + successes,
                 failures=actual.failures + failures,
+                abortions=actual.abortions + abortions,
                 credits=actual.credits + credits,
             )
 
@@ -72,6 +73,7 @@ class MetricsCruncher(object):
         minutes = BuildMinutes(0, 0, 0)
         successes = 0
         failures = 0
+        abortions = 0
         credits = 0
 
         for build in builds:
@@ -79,9 +81,10 @@ class MetricsCruncher(object):
             minutes = self.__sum_minutes(minutes, build.minutes)
             successes = successes + 1 if build.status == ExecutionStatus.success else successes
             failures = failures + 1 if build.status == ExecutionStatus.error else failures
+            abortions = failures + 1 if build.status == ExecutionStatus.aborted else abortions
             credits = credits + self.__compute_credits(build)
 
-        return [count, minutes, successes, failures, credits]
+        return [count, minutes, successes, failures, abortions, credits]
 
     def __sum_minutes(self, target, another):
         return BuildMinutes(
