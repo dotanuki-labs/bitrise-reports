@@ -164,21 +164,18 @@ class JsonReporter(ContextReporter):
         )
 
         for analysed, value in sorted_by_total:
-            entry = {
-                "name": analysed.id,
-                "count": value.count
-            }
+            entry = {"name": analysed.id, "count": value.count}
 
             if self.detailed_builds:
                 entry["successes"] = value.successes
                 entry["failures"] = value.failures
                 entry["abortions"] = value.abortions
-            
+
             entry["total"] = value.total
             if self.detailed_timing:
                 entry["queued"] = value.queued
                 entry["building"] = value.building
-                          
+
             if self.emulate_velocity:
                 entry["credits"] = value.total.credits
 
@@ -188,63 +185,93 @@ class JsonReporter(ContextReporter):
 
 
 class ExcelReporter(ContextReporter):
+    def __init__(
+        self,
+        criteria,
+        detailed_builds,
+        detailed_timing,
+        emulate_velocity,
+        console,
+        filename="bitrise-metrics.xlsx",
+        path=f"{os.getcwd()}/bitrise-metrics.xlsx",
+        workbook=Workbook(),
+    ):
+        super(ExcelReporter, self).__init__(
+            criteria, detailed_builds, detailed_timing, emulate_velocity, console
+        )
+        self.filename = filename
+        self.path = path
+        self.workbook = workbook
+        self.sheet = workbook.active
+        self.actual_column_index = 65 # ASCII for "A"
+
     def report(self, breakdowns):
-        excel_file = "bitrise-metrics.xlsx"
-        path = f"{os.getcwd()}/{excel_file}"
 
-        workbook = Workbook()
-        sheet = workbook.active
-
-        sheet.column_dimensions["A"].width = 25
+        self.sheet.column_dimensions["A"].width = 25
 
         for column in ["A", "B", "C", "D", "E", "F", "G", "H", "I"]:
-            sheet.column_dimensions[column].auto_size = True
-            sheet.column_dimensions[column].bestFit = True
+            self.sheet.column_dimensions[column].auto_size = True
+            self.sheet.column_dimensions[column].bestFit = True
 
         line = 1
 
         for breakdown in breakdowns:
-            sheet[f"A{line}"] = breakdown.name
+            self.reset_column_index()
+            self.update(line, breakdown.name)
             line = line + 1
 
             sorted_by_total = sorted(
                 breakdown.details.items(), key=lambda kv: kv[1].count, reverse=True
             )
 
-            sheet[f"A{line}"] = "Name"
-            sheet[f"B{line}"] = "Builds"
-            sheet[f"C{line}"] = "Queued time"
-            sheet[f"D{line}"] = "Building time"
-            sheet[f"E{line}"] = "Total time"
+            self.update_and_move_column(line, "Name")
 
-            velocity_column = "I" if self.detailed_builds else "F"
-
+            self.update_and_move_column(line, "Total Builds")
             if self.detailed_builds:
-                sheet[f"F{line}"] = "Build successes"
-                sheet[f"G{line}"] = "Build failures"
-                sheet[f"H{line}"] = "Build abortions"
+                self.update_and_move_column(line, "Build successes")
+                self.update_and_move_column(line, "Build failures")
+                self.update_and_move_column(line, "Build abortions")
+
+            self.update_and_move_column(line, "Total time")
+            if self.detailed_timing:
+                self.update_and_move_column(line, "Queued time")
+                self.update_and_move_column(line, "Building time")
 
             if self.emulate_velocity:
-                sheet[f"{velocity_column}{line}"] = "Credits estimation"
+                self.update_and_move_column(line, "Credits estimation")
 
+            
             for entry, value in sorted_by_total:
                 line = line + 1
 
-                sheet[f"A{line}"] = entry.id
-                sheet[f"B{line}"] = value.count
-                sheet[f"C{line}"] = value.queued
-                sheet[f"D{line}"] = value.building
-                sheet[f"E{line}"] = value.total
+                self.reset_column_index()
+                self.update_and_move_column(line, entry.id)
+                self.update_and_move_column(line, value.count)
 
                 if self.detailed_builds:
-                    sheet[f"F{line}"] = value.successes
-                    sheet[f"G{line}"] = value.failures
-                    sheet[f"H{line}"] = value.abortions
+                    self.update_and_move_column(line, value.successes)
+                    self.update_and_move_column(line, value.failures)
+                    self.update_and_move_column(line, value.abortions)
+
+                self.update_and_move_column(line, value.total)
+                if self.detailed_timing:
+                    self.update_and_move_column(line, value.queued)
+                    self.update_and_move_column(line, value.building)
 
                 if self.emulate_velocity:
-                    sheet[f"{velocity_column}{line}"] = value.credits
+                    self.update_and_move_column(line, value.credits)
 
             line = line + 2
 
-        workbook.save(filename=excel_file)
-        self.console.print(f"\nWrote results at [bold green]{path}[/bold green]")
+        self.workbook.save(filename=self.filename)
+        self.console.print(f"\nWrote results at [bold green]{self.path}[/bold green]")
+
+    def update(self, line, value):
+        self.sheet[f"{chr(self.actual_column_index)}{line}"] = value
+
+    def update_and_move_column(self, line, value):
+        self.sheet[f"{chr(self.actual_column_index)}{line}"] = value
+        self.actual_column_index = self.actual_column_index + 1
+
+    def reset_column_index(self):
+        self.actual_column_index = 65
