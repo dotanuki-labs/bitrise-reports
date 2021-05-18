@@ -5,8 +5,6 @@ from .models import BitriseBuild, BitriseProject, BuildStack, ExecutionStatus
 from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 
 from datetime import datetime
-from math import ceil
-
 import requests
 import time
 
@@ -125,7 +123,7 @@ class RawDataConverter(object):
         finished = self.__dt(finished_at)
         queued = self.__aproximate_minutes(started - triggered)
         building = self.__aproximate_minutes(finished - started)
-        total = self.__aproximate_minutes(finished - triggered)
+        total = queued + building
         return BuildMinutes(queued, building, total)
 
     def status_from(self, status):
@@ -138,4 +136,4 @@ class RawDataConverter(object):
         return datetime.fromisoformat(timestamp.replace("Z", ""))
 
     def __aproximate_minutes(self, diff):
-        return ceil((diff.days * 24 * 60) + (diff.seconds / 60))
+        return round((diff.days * 24 * 60) + (diff.seconds / 60))

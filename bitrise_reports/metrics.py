@@ -81,7 +81,7 @@ class MetricsCruncher(object):
             minutes = self.__sum_minutes(minutes, build.minutes)
             successes = successes + 1 if build.status == ExecutionStatus.success else successes
             failures = failures + 1 if build.status == ExecutionStatus.error else failures
-            abortions = failures + 1 if build.status == ExecutionStatus.aborted else abortions
+            abortions = abortions + 1 if build.status == ExecutionStatus.aborted else abortions
             credits = credits + self.__compute_credits(build)
 
         return [count, minutes, successes, failures, abortions, credits]
