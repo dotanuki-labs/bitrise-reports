@@ -67,7 +67,7 @@ def test_convert_minutes():
     converted = converter.minutes_from(triggered_at, started_at, finished_at)
 
     queued = 1
-    building = 11
+    building = 10
     total = 11
     assert converted == BuildMinutes(queued, building, total)
 

@@ -36,8 +36,8 @@ run: ## Run this project
 		--app=$(app) \
 		--starting=$(starting) \
 		--ending=$(ending) \
-		--report=stdout \
-		--velocity
+		--detailed-builds \
+		--detailed-timing
 
 deploy: ## Deploy the current build to Pypi
 	poetry config pypi-token.pypi $(token)

@@ -9,14 +9,30 @@ import os
 
 
 class MetricsReporter:
-    def __init__(self, criteria, velocity, statuses, strategy, console=Console()):
-        self.contextual_delegate = ContextReporter(criteria, velocity, statuses, console)
+    def __init__(
+        self,
+        criteria,
+        detailed_builds,
+        detailed_timing,
+        emulate_velocity,
+        report_style,
+        console=Console(),
+    ):
+        self.contextual_delegate = ContextReporter(
+            criteria, detailed_builds, detailed_timing, emulate_velocity, console
+        )
         self.delegates = {
-            "stdout": StdoutReporter(criteria, velocity, statuses, console),
-            "json": JsonReporter(criteria, velocity, statuses, console),
-            "excel": ExcelReporter(criteria, velocity, statuses, console),
+            "stdout": StdoutReporter(
+                criteria, detailed_builds, detailed_timing, emulate_velocity, console
+            ),
+            "json": JsonReporter(
+                criteria, detailed_builds, detailed_timing, emulate_velocity, console
+            ),
+            "excel": ExcelReporter(
+                criteria, detailed_builds, detailed_timing, emulate_velocity, console
+            ),
         }
-        self.output_delegate = self.__find_delegate(strategy)
+        self.output_delegate = self.__find_delegate(report_style)
 
     def started(self, app):
         self.contextual_delegate.started(app)
@@ -32,11 +48,12 @@ class MetricsReporter:
 
 
 class ContextReporter:
-    def __init__(self, criteria, velocity, statuses, console):
+    def __init__(self, criteria, detailed_builds, detailed_timing, emulate_velocity, console):
         self.criteria = criteria
+        self.detailed_builds = detailed_builds
+        self.detailed_timing = detailed_timing
+        self.emulate_velocity = emulate_velocity
         self.console = console
-        self.velocity = velocity
-        self.statuses = statuses
 
     def started(self, app):
         self.__print("\nAnalysing", app, "cyan")
@@ -57,7 +74,8 @@ class ContextReporter:
 class StdoutReporter(ContextReporter):
     def report(self, breakdowns):
         printer = self.console
-        printer.print("\nBuilds processed with success!")
+        printer.print("")
+        printer.print("Builds processed with success!")
         printer.print(
             "[bold green]NOTE[/bold green] : build times in [bold cyan] minutes [/bold cyan] "
         )
@@ -73,16 +91,19 @@ class StdoutReporter(ContextReporter):
         table.pad_edge = False
         table.add_column("Name")
         table.add_column("Builds", justify="right")
-        table.add_column("Queued time", justify="right")
-        table.add_column("Building time", justify="right")
-        table.add_column("Total time", justify="right")
 
-        if self.statuses:
+        if self.detailed_builds:
             table.add_column("Successes", justify="right")
             table.add_column("Failures", justify="right")
             table.add_column("Abortions", justify="right")
 
-        if self.velocity:
+        table.add_column("Total time", justify="right")
+
+        if self.detailed_timing:
+            table.add_column("Queued time", justify="right")
+            table.add_column("Building time", justify="right")
+
+        if self.emulate_velocity:
             table.add_column("Credits Estimation", justify="right")
 
         sorted_by_total = sorted(
@@ -90,20 +111,19 @@ class StdoutReporter(ContextReporter):
         )
 
         for entry, value in sorted_by_total:
-            rows = [
-                entry.id,
-                f"{value.count}",
-                f"{value.queued}",
-                f"{value.building}",
-                f"{value.total}",
-            ]
+            rows = [entry.id, f"[bold cyan]{value.count}[/bold cyan]"]
 
-            if self.statuses:
+            if self.detailed_builds:
                 rows.append(f"{value.successes}")
                 rows.append(f"{value.failures}")
                 rows.append(f"{value.abortions}")
 
-            if self.velocity:
+            rows.append(f"[bold cyan]{value.total}[/bold cyan]")
+            if self.detailed_timing:
+                rows.append(f"{value.queued}")
+                rows.append(f"{value.building}")
+
+            if self.emulate_velocity:
                 rows.append(f"{value.credits}")
 
             table.add_row(*rows)
@@ -115,13 +135,16 @@ class JsonReporter(ContextReporter):
     def __init__(
         self,
         criteria,
-        velocity,
-        statuses,
+        detailed_builds,
+        detailed_timing,
+        emulate_velocity,
         console,
         filename="bitrise-metrics.json",
         folder=os.getcwd(),
     ):
-        super(JsonReporter, self).__init__(criteria, velocity, statuses, console)
+        super(JsonReporter, self).__init__(
+            criteria, detailed_builds, detailed_timing, emulate_velocity, console
+        )
         self.filename = filename
         self.folder = folder
 
@@ -149,12 +172,12 @@ class JsonReporter(ContextReporter):
                 "total": value.total,
             }
 
-            if self.statuses:
+            if self.detailed_builds:
                 entry["successes"] = value.successes
                 entry["failures"] = value.failures
                 entry["abortions"] = value.abortions
 
-            if self.velocity:
+            if self.emulate_velocity:
                 entry["credits"] = value.total.credits
 
             flattened["details"].append(entry)
@@ -192,14 +215,14 @@ class ExcelReporter(ContextReporter):
             sheet[f"D{line}"] = "Building time"
             sheet[f"E{line}"] = "Total time"
 
-            velocity_column = "I" if self.statuses else "F"
+            velocity_column = "I" if self.detailed_builds else "F"
 
-            if self.statuses:
+            if self.detailed_builds:
                 sheet[f"F{line}"] = "Build successes"
                 sheet[f"G{line}"] = "Build failures"
                 sheet[f"H{line}"] = "Build abortions"
 
-            if self.velocity:
+            if self.emulate_velocity:
                 sheet[f"{velocity_column}{line}"] = "Credits estimation"
 
             for entry, value in sorted_by_total:
@@ -211,12 +234,12 @@ class ExcelReporter(ContextReporter):
                 sheet[f"D{line}"] = value.building
                 sheet[f"E{line}"] = value.total
 
-                if self.statuses:
+                if self.detailed_builds:
                     sheet[f"F{line}"] = value.successes
                     sheet[f"G{line}"] = value.failures
                     sheet[f"H{line}"] = value.abortions
 
-                if self.velocity:
+                if self.emulate_velocity:
                     sheet[f"{velocity_column}{line}"] = value.credits
 
             line = line + 2
