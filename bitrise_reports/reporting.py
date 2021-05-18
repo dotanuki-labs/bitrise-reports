@@ -166,17 +166,19 @@ class JsonReporter(ContextReporter):
         for analysed, value in sorted_by_total:
             entry = {
                 "name": analysed.id,
-                "count": value.count,
-                "queued": value.queued,
-                "building": value.building,
-                "total": value.total,
+                "count": value.count
             }
 
             if self.detailed_builds:
                 entry["successes"] = value.successes
                 entry["failures"] = value.failures
                 entry["abortions"] = value.abortions
-
+            
+            entry["total"] = value.total
+            if self.detailed_timing:
+                entry["queued"] = value.queued
+                entry["building"] = value.building
+                          
             if self.emulate_velocity:
                 entry["credits"] = value.total.credits
 
