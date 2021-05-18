@@ -5,8 +5,6 @@ from .models import BitriseBuild, BitriseProject, BuildStack, ExecutionStatus
 from .models import BuildMachine, BuildMinutes, BitriseWorkflow, MachineSize
 
 from datetime import datetime
-from math import ceil
-
 import requests
 import time
 

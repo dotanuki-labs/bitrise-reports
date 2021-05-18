@@ -203,7 +203,7 @@ class ExcelReporter(ContextReporter):
         self.path = path
         self.workbook = workbook
         self.sheet = workbook.active
-        self.actual_column_index = 65 # ASCII for "A"
+        self.actual_column_index = 65  # ASCII for "A"
 
     def report(self, breakdowns):
 
@@ -240,7 +240,6 @@ class ExcelReporter(ContextReporter):
             if self.emulate_velocity:
                 self.update_and_move_column(line, "Credits estimation")
 
-            
             for entry, value in sorted_by_total:
                 line = line + 1
 
