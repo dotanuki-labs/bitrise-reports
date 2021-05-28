@@ -15,8 +15,10 @@ A simple cruncher for numbers derived from builds you run on [Bitrise CI](https:
 Main features:
 
 - Backed by [Bitrise REST API](https://api-docs.bitrise.io/) under the hood
-- Computes queued, running and total execution times for all builds found in the target time frame
-- Breakdown numbers per machine type and also per Workflow
+- Can compute timing (queued, running and total execution time) for all builds in the given time window
+- Can compute build statuses (success, failure or aborted) for all builds in the given time window
+- Results can be filtered by Git branch (eg **master** or **main**)
+- Result are detailed per machine type and also per Workflow
 - Supports emulation of consumed [Bitrise Velocity credits](https://www.bitrise.io/velocity-plan) (for Enterprise customers)
 - Report types : CLI (stdout), JSON and Excel spreadsheet
 
@@ -32,8 +34,8 @@ Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 
 ## Using
 
-Let's say you want analyse numbers for the project `my-app`, learning from
-builds that ran during February of 2021. You'll firstly need a
+Let's say you want analyse numbers for the project `android-flagship`, learning from
+builds that ran during April of 2021. You'll firstly need a
 [Bitrise Personal Access Token](https://devcenter.bitrise.io/api/authentication/) for
 that. Note you must be a member in the project you want to analyse.
 
@@ -43,49 +45,75 @@ By running
 → bitrise-reports \
     --token=$BITRISE_PAT_TOKEN \
     --app=my-app \
-    --starting=2021-02-01 \
-    --ending=2021-02-28
+    --starting=2021-04-01 \
+    --ending=2021-04-30
 ```
 you should get something like that on your CLI
 
-![](.github/assets/showcase-cli.png)
+![](.github/assets/showcase-cli-simple.png)
 
-The complete list of CLI options:
+which is a simple overview of what happened.
 
-| Option   | Details                                           | Required  |
-|----------|---------------------------------------------------|-----------|
-| token    | Personal access token for Bitrise API             | Yes       |
-| app      | The title of your app in Bitrise                  | Yes       |
-| starting | Starting date in the target time frame            | Yes       |
-| ending   | Ending date in the target time frame              | Yes       |
-| report   | The style of report you want                      | No        |
-| statuses | Estimate successes and failures related to builds | No        |
-| velocity | Estimate Bitrise Velocity credits consumed        | No        |
+Let's say now that you want to learn about how much time you are spending with queued builds.
 
-
-where
-
-- `starting` and `ending` follow **YYYY-MM-DD** convention
-- `report` accepts **stdout** (default), **json** or **excel**
-- `velocity` is a CLI flag
-- `statuses` is a CLI flag
-
-For instance, if you want an Excel spreadsheet - instead of the fancy Terminal UI from the previous example -
-and also an estimation of Velocity usage, you can run
+You can run then
 
 ```bash
 → bitrise-reports \
     --token=$BITRISE_PAT_TOKEN \
     --app=my-app \
-    --starting=2021-02-01 \
-    --ending=2021-02-28 \
-    --report=excel \
-    --velocity
+    --starting=2021-04-01 \
+    --ending=2021-04-30 \
+    --detailed-timing
 ```
 
-and the output file `bitrise-metrics.xlsx` will be available in the same folder.
+and get a report like this one
 
-![](.github/assets/showcase-excel.png)
+![](.github/assets/showcase-cli-timing.png)
+
+Last but not least, suppose you want to learn about execution status for all your Workflows that you run for events in your `master` branch (eg, push or a scheduled build).
+
+You can run
+
+```bash
+→ bitrise-reports \
+    --token=$BITRISE_PAT_TOKEN \
+    --app=my-app \
+    --starting=2021-04-01 \
+    --ending=2021-04-30 \
+    --target-branch=master \
+    --detailed-builds
+```  
+
+and get a report like about that too
+
+![](.github/assets/showcase-cli-statuses.png)
+
+## Command line interface
+
+The complete list of CLI options:
+
+| Option           | Details                                                         | Required  |
+|------------------|-----------------------------------------------------------------|-----------|
+| token            | Personal access token for Bitrise API                           | Yes       |
+| app              | The title of your app in Bitrise                                | Yes       |
+| starting         | Starting date in the target time frame                          | Yes       |
+| ending           | Ending date in the target time frame                            | Yes       |
+| detailed-builds  | Details all statuses (success, failure and abortion) for builds | No        |
+| detailed-timing  | Details timing (queued, running, total execution) for builds    | No        |
+| emulate-velocity | Estimate Bitrise Velocity credits consumed                      | No        |
+| target-branch    | Filters build by Git branch                                     | No        |
+| report-style     | The style of report you want                                    | No        |
+
+where
+
+- `starting` and `ending` follow **YYYY-MM-DD** convention
+- `report-style` accepts **stdout** (default), **json** or **excel**
+- `detailed-timing` is a CLI flag
+- `detailed-builds` is a CLI flag
+- `emulate-velocity` is a CLI flag
+
+If you opt-in for a specific report style, the corresponding file - **bitrise-metrics.json** or **bitrise-metrics.xlsx** - will be written in the same folder you are runnint `bitrise-reports`.
 
 ## Contributing
 
