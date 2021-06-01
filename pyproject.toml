@@ -24,7 +24,7 @@ pretty-errors = "1.2.21"
 
 [tool.poetry.dev-dependencies]
 flake8 = "3.9.2"
-black = "21.5b1"
+black = "21.5b2"
 bandit = "1.7.0"
 vulture = "2.3"
 pytest = "6.2.4"
