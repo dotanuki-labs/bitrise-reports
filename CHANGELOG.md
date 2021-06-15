@@ -3,6 +3,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 0.1.2
+**2021-06-15**
+
+### Fixed
+- Deploys on ghcr.io only after deployed on Pypi
+
 ## Version 0.1.1
 **2021-06-15**
 
