@@ -29,7 +29,13 @@ This tool requires Python, supporting versions 3.8.x and 3.9.x.
 Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 
 ```bash
-→ pip install bitrise-reports
+$> pip install bitrise-reports
+```
+
+or with Docker
+
+```bash
+$> docker pull ghcr.io/dotanuki-labs/bitrise-reports
 ```
 
 ## Using
@@ -42,15 +48,16 @@ that. Note you must be a member in the project you want to analyse.
 By running
 
 ```bash
-→ bitrise-reports \
+$> bitrise-reports \
     --token=$BITRISE_PAT_TOKEN \
-    --app=my-app \
+    --app=android-flagship \
     --starting=2021-04-01 \
     --ending=2021-04-30
 ```
+
 you should get something like that on your CLI
 
-![](.github/assets/showcase-cli-simple.png)
+![](https://raw.githubusercontent.com/dotanuki-labs/bitrise-reports/main/.github/assets/showcase-cli-simple.png)
 
 which is a simple overview of what happened.
 
@@ -59,9 +66,9 @@ Let's say now that you want to learn about how much time you are spending with q
 You can run then
 
 ```bash
-→ bitrise-reports \
+$> bitrise-reports \
     --token=$BITRISE_PAT_TOKEN \
-    --app=my-app \
+    --app=android-flagship \
     --starting=2021-04-01 \
     --ending=2021-04-30 \
     --detailed-timing
@@ -69,16 +76,16 @@ You can run then
 
 and get a report like this one
 
-![](.github/assets/showcase-cli-timing.png)
+![](https://raw.githubusercontent.com/dotanuki-labs/bitrise-reports/main/.github/assets/showcase-cli-timing.png)
 
 Last but not least, suppose you want to learn about execution status for all your Workflows that you run for events in your `master` branch (eg, push or a scheduled build).
 
 You can run
 
 ```bash
-→ bitrise-reports \
+$> bitrise-reports \
     --token=$BITRISE_PAT_TOKEN \
-    --app=my-app \
+    --app=android-flagship \
     --starting=2021-04-01 \
     --ending=2021-04-30 \
     --target-branch=master \
@@ -87,7 +94,7 @@ You can run
 
 and get a report like about that too
 
-![](.github/assets/showcase-cli-statuses.png)
+![](https://raw.githubusercontent.com/dotanuki-labs/bitrise-reports/main/.github/assets/showcase-cli-statuses.png)
 
 ## Command line interface
 
@@ -115,6 +122,31 @@ where
 
 If you opt-in for a specific report style, the corresponding file - **bitrise-metrics.json** or **bitrise-metrics.xlsx** - will be written in the same folder you are runnint `bitrise-reports`.
 
+## Running with Docker
+
+Given the current definition for the Container Image, all the previous examples are straitghtforward to run on top of Docker:
+
+
+```bash
+$> docker run --rm dotanuki-labs/bitrise-reports \
+    --token=$BITRISE_PAT_TOKEN \
+    --app=android-flagship \
+    --starting=2021-04-01 \
+    --ending=2021-04-30 \
+    --detailed-builds
+```
+
+When exporting reports (JSON or Excel) you should mount you current path upon Container's `workdir`
+
+```bash
+$> docker run --rm "${PWD}:/reports" dotanuki-labs/bitrise-reports \
+    --token=$BITRISE_PAT_TOKEN \
+    --app=android-flagship \
+    --starting=2021-04-01 \
+    --ending=2021-04-30 \
+    --report-style=excel
+```
+
 ## Contributing
 
 If you want to contribute with this project
@@ -122,17 +154,17 @@ If you want to contribute with this project
 - Check the [contribution guidelines](https://github.com/dotanuki-labs/.github/blob/main/CONTRIBUTING.md)
 - Ensure you have Python 3.8.+ installed. I recommend [Pyenv](https://github.com/pyenv/pyenv) for that.
 - Ensure you have [Poetry](https://python-poetry.org/) installed
-- Prepare your environment with [Flake8](https://pypi.org/project/flake8/), [Black](https://pypi.org/project/black/) and [Bandit](https://pypi.org/project/bandit/)
+- Prepare your environment
 
 ```bash
-→ make setup
+$> make setup
 ```
 
 - Code you changes
 - Make sure you have a green build
 
 ```bash
-→  make inspect test
+$>  make inspect test
 ```
 
 - Submit your PR 🔥
