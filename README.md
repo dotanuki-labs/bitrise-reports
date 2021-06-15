@@ -128,7 +128,7 @@ Given the current definition for the Container Image, all the previous examples 
 
 
 ```bash
-$> docker run --rm dotanuki-labs/bitrise-reports \
+$> docker run --rm ghcr.io/dotanuki-labs/bitrise-reports \
     --token=$BITRISE_PAT_TOKEN \
     --app=android-flagship \
     --starting=2021-04-01 \
@@ -139,7 +139,7 @@ $> docker run --rm dotanuki-labs/bitrise-reports \
 When exporting reports (JSON or Excel) you should mount you current path upon Container's `workdir`
 
 ```bash
-$> docker run --rm "${PWD}:/reports" dotanuki-labs/bitrise-reports \
+$> docker run --rm -v "${PWD}:/reports" ghcr.io/dotanuki-labs/bitrise-reports \
     --token=$BITRISE_PAT_TOKEN \
     --app=android-flagship \
     --starting=2021-04-01 \
