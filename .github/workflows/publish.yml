@@ -33,6 +33,7 @@ jobs:
 
   publish_on_ghcr:
     runs-on: ubuntu-18.04
+    needs: [publish_on_pypi]
     timeout-minutes: 10
     permissions:
       packages: write
