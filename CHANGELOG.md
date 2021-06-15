@@ -3,6 +3,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 0.1.1
+**2021-06-15**
+
+### Added
+- Docker support
+
 ## Version 0.1.0
 **2021-05-28**
 
