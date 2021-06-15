@@ -35,7 +35,7 @@ $> pip install bitrise-reports
 or with Docker
 
 ```bash
-$> docker pull dotanuki-labs/bitrise-reports:latest
+$> docker pull ghcr.io/dotanuki-labs/bitrise-reports
 ```
 
 ## Using
