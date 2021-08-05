@@ -24,7 +24,8 @@ Main features:
 
 ## Installing
 
-This tool requires Python, supporting versions 3.8.x and 3.9.x.
+### With pip
+
 
 Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 
@@ -32,7 +33,11 @@ Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 $> pip install bitrise-reports
 ```
 
-or with Docker
+This tool requires Python, supporting versions `3.8.x` and `3.9.x`.
+
+Python 3.10.0 has been tested in preview mode and it is not officially supported
+
+### With Docker
 
 ```bash
 $> docker pull ghcr.io/dotanuki-labs/bitrise-reports
@@ -136,7 +141,7 @@ $> docker run --rm ghcr.io/dotanuki-labs/bitrise-reports \
     --detailed-builds
 ```
 
-When exporting reports (JSON or Excel) you should mount you current path upon Container's `workdir`
+When exporting reports (JSON or Excel) you should mount your current path upon Container's `workdir`
 
 ```bash
 $> docker run --rm -v "${PWD}:/reports" ghcr.io/dotanuki-labs/bitrise-reports \
