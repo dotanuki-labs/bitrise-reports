@@ -251,7 +251,7 @@ dev = ["pre-commit", "tox"]
 
 [[package]]
 name = "pretty-errors"
-version = "1.2.23"
+version = "1.2.24"
 description = "Prettifies Python exception output to make it legible."
 category = "main"
 optional = false
@@ -484,7 +484,7 @@ toml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "8960364374ab787749cff48a8ad93f7b9070a2228e10a36c04af9b44366aafe9"
+content-hash = "085896858e91515348f80f69f88ecf6741584c7917fc38667a5d6bc9cb3536aa"
 
 [metadata.files]
 appdirs = [
@@ -634,8 +634,8 @@ pluggy = [
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
 pretty-errors = [
-    {file = "pretty_errors-1.2.23-py3-none-any.whl", hash = "sha256:2c6a228d1c13d6dde56c5af52bc9b63f95561c7123433e4476b3bc5fec8cecd5"},
-    {file = "pretty_errors-1.2.23.tar.gz", hash = "sha256:e8a5abbad5cd70302f2f435709d82ce97d1c05b1d4d6c1636e4ff1ffbf517360"},
+    {file = "pretty_errors-1.2.24-py3-none-any.whl", hash = "sha256:4a66b50dd2eecd22f301ff64a454ab2e6f2565d70982026a86a1569d174abcc1"},
+    {file = "pretty_errors-1.2.24.tar.gz", hash = "sha256:7c5be4f082b3f6319d856683eb0ecf44b416e09853996c57cd85fabc18d31b45"},
 ]
 py = [
     {file = "py-1.10.0-py2.py3-none-any.whl", hash = "sha256:3b80836aa6d1feeaa108e046da6423ab8f6ceda6468545ae8d02d9d58d18818a"},
