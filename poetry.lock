@@ -393,7 +393,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
 name = "responses"
-version = "0.13.4"
+version = "0.14.0"
 description = "A utility library for mocking out the `requests` Python library."
 category = "dev"
 optional = false
@@ -501,7 +501,7 @@ toml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "8a07bc2687d7021acdb2dcb5b096a4966b4ebf990832a6988c447d1a66987c21"
+content-hash = "dc0f59e11c780e7dce73b94c317361c56000787727bb7084d77c1a00ebe98345"
 
 [metadata.files]
 atomicwrites = [
@@ -765,8 +765,8 @@ requests = [
     {file = "requests-2.26.0.tar.gz", hash = "sha256:b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"},
 ]
 responses = [
-    {file = "responses-0.13.4-py2.py3-none-any.whl", hash = "sha256:d8d0f655710c46fd3513b9202a7f0dcedd02ca0f8cf4976f27fa8ab5b81e656d"},
-    {file = "responses-0.13.4.tar.gz", hash = "sha256:9476775d856d3c24ae660bbebe29fb6d789d4ad16acd723efbfb6ee20990b899"},
+    {file = "responses-0.14.0-py2.py3-none-any.whl", hash = "sha256:57bab4e9d4d65f31ea5caf9de62095032c4d81f591a8fac2f5858f7777b8567b"},
+    {file = "responses-0.14.0.tar.gz", hash = "sha256:93f774a762ee0e27c0d9d7e06227aeda9ff9f5f69392f72bb6c6b73f8763563e"},
 ]
 rich = [
     {file = "rich-10.9.0-py3-none-any.whl", hash = "sha256:2c84d9b3459c16bf413fe0f9644c7ae1791971e0bb944dfae56e7c7634b187ab"},
