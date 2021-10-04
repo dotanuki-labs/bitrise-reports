@@ -28,7 +28,7 @@ black = "21.9b0"
 bandit = "1.7.0"
 vulture = "2.3"
 pytest = "6.2.5"
-pytest-cov = "2.12.1"
+pytest-cov = "3.0.0"
 responses = "0.14.0"
 
 [tool.poetry.scripts]
