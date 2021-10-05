@@ -22,10 +22,12 @@ Main features:
 - Supports emulation of consumed [Bitrise Velocity credits](https://www.bitrise.io/velocity-plan) (for Enterprise customers)
 - Report types : CLI (stdout), JSON and Excel spreadsheet
 
+This tool is implemented with Python, being tested with versions `3.8.x`, `3.9.x` and `3.10.x`
+
 ## Installing
 
-### With pip
 
+### With pip
 
 Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 
@@ -33,9 +35,6 @@ Install `bitrise-reports` with [pip](https://pypi.org/project/pip/)
 $> pip install bitrise-reports
 ```
 
-This tool requires Python, supporting versions `3.8.x` and `3.9.x`.
-
-Python 3.10.0 has been tested in preview mode and it is not officially supported
 
 ### With Docker
 
