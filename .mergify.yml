@@ -6,10 +6,12 @@ pull_request_rules:
   - name: Automatic merge for Dependabot pull requests
     conditions:
       - author~=^dependabot(|-preview)\[bot\]$
-      - check-success=main (ubuntu-18.04, 3.8.9)
-      - check-success=main (ubuntu-18.04, 3.9.5)
-      - check-success=main (macos-10.15, 3.8.9)
-      - check-success=main (macos-10.15, 3.9.5)
+      - check-success=main (ubuntu-18.04, 3.8.12)
+      - check-success=main (ubuntu-18.04, 3.9.7)
+      - check-success=main (ubuntu-18.04, 3.10.0)
+      - check-success=main (macos-10.15, 3.8.12)
+      - check-success=main (macos-10.15, 3.9.7)
+      - check-success=main (macos-10.15, 3.10.0)
     actions:
       merge:
         method: squash
@@ -17,10 +19,12 @@ pull_request_rules:
   - name: Be author's friend
     conditions:
       - author~=ubiratansoares
-      - check-success=main (ubuntu-18.04, 3.8.9)
-      - check-success=main (ubuntu-18.04, 3.9.5)
-      - check-success=main (macos-10.15, 3.8.9)
-      - check-success=main (macos-10.15, 3.9.5)
+      - check-success=main (ubuntu-18.04, 3.8.12)
+      - check-success=main (ubuntu-18.04, 3.9.7)
+      - check-success=main (ubuntu-18.04, 3.10.0)
+      - check-success=main (macos-10.15, 3.8.12)
+      - check-success=main (macos-10.15, 3.9.7)
+      - check-success=main (macos-10.15, 3.10.0)
     actions:
       merge:
         method: squash
