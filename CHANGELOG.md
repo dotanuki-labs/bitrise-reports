@@ -3,6 +3,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 0.2.0
+**2021-10-08**
+
+### Added
+- Official support to Python 3.10.x
+
+### Fixed
+- Docker image now packages with the snapshot built from the release tag
+
 ## Version 0.1.2
 **2021-06-15**
 
