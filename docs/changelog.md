@@ -1,7 +1,12 @@
-# CHANGELOG
-> https://keepachangelog.com
+---
+layout: default
+title: Changelog
+nav_order: 5
+---
 
-All notable changes to this project will be documented in this file.
+# Changelog
+
+This project follows the [Keep a Changelog](https://keepachangelog.com) convention. All notable changes will be documented here.
 
 ## Version 0.2.0
 **2021-10-08**
@@ -54,7 +59,6 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Fixing a bug when calculating queued times
-
 
 ## Version 0.0.1
 **2021-03-25**
