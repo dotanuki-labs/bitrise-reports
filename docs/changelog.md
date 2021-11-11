@@ -9,7 +9,7 @@ nav_order: 5
 This project follows the [Keep a Changelog](https://keepachangelog.com) convention. All notable changes will be documented here.
 
 ## Version 0.2.0
-**2021-10-08**
+> Released at **2021-10-08**
 
 ### Added
 - Official support to Python 3.10.x
@@ -17,20 +17,24 @@ This project follows the [Keep a Changelog](https://keepachangelog.com) conventi
 ### Fixed
 - Docker image now packages with the snapshot built from the release tag
 
+---
+
 ## Version 0.1.2
-**2021-06-15**
+> Released at **2021-06-15**
 
 ### Fixed
 - Deploys on ghcr.io only after deployed on Pypi
 
 ## Version 0.1.1
-**2021-06-15**
+> Released at **2021-06-15**
 
 ### Added
 - Docker support
 
+---
+
 ## Version 0.1.0
-**2021-05-28**
+> Released at **2021-05-28**
 
 ### Added
 - Support to filter results by target branch
@@ -44,14 +48,18 @@ This project follows the [Keep a Changelog](https://keepachangelog.com) conventi
 ### Fixed
 - Fixed a bug when calculating total build times
 
+---
+
 ## Version 0.0.3
-**2021-05-04**
+> Released at **2021-05-04**
 
 ### Added
 - Supporting build results (success and failures) for all analysed builds
 
+---
+
 ## Version 0.0.2
-**2021-04-24**
+> Released at **2021-04-24**
 
 ### Added
 - Supporting machine types running over gen2 infrastructure
@@ -60,8 +68,10 @@ This project follows the [Keep a Changelog](https://keepachangelog.com) conventi
 ### Fixed
 - Fixing a bug when calculating queued times
 
+---
+
 ## Version 0.0.1
-**2021-03-25**
+> Released at **2021-03-25**
 
 ### First release
 
