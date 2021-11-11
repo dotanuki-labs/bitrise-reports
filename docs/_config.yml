@@ -1,0 +1,15 @@
+remote_theme: dotanuki-labs/just-the-docs
+title: Bitrise Reports
+description: A tool to extract reports from projects you build on Bitrise
+baseurl: "/bitrise-reports"
+url: "https://dotanuki-labs.github.io"
+
+aux_links:
+  "Follow me":
+    - "//twitter.com/ubiratansoares"
+
+aux_links_new_tab: true
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
