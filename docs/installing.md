@@ -17,5 +17,3 @@ or with Docker
 ```bash
 $> docker pull ghcr.io/dotanuki-labs/bitrise-reports
 ```
-
-This tool is implemented with Python, being tested with versions `3.8.x`, `3.9.x` and `3.10.x`.
