@@ -22,7 +22,7 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "bandit"
-version = "1.7.3"
+version = "1.7.4"
 description = "Security oriented static analyser for python code."
 category = "dev"
 optional = false
@@ -493,7 +493,7 @@ toml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "d7b8ab0d2f3e2b19f9de1d3f08ffcb7be8c9a3ad2d5c437c953278cd9b238065"
+content-hash = "190963088a5610a3f48921e6050558b548b09847272b15cdd6a6c4f29fdb356c"
 
 [metadata.files]
 atomicwrites = [
@@ -505,8 +505,8 @@ attrs = [
     {file = "attrs-21.2.0.tar.gz", hash = "sha256:ef6aaac3ca6cd92904cdd0d83f629a15f18053ec84e6432106f7a4d04ae4f5fb"},
 ]
 bandit = [
-    {file = "bandit-1.7.3-py3-none-any.whl", hash = "sha256:3ce9b4e6a4f7f41aa966c9543e635dd35e52a793a47e746f0c55c7ecfc69d7e8"},
-    {file = "bandit-1.7.3.tar.gz", hash = "sha256:58772ca951bf1129dda8a280d351547de832720bf7b5c29fac3103927980b8a6"},
+    {file = "bandit-1.7.4-py3-none-any.whl", hash = "sha256:412d3f259dab4077d0e7f0c11f50f650cc7d10db905d98f6520a95a18049658a"},
+    {file = "bandit-1.7.4.tar.gz", hash = "sha256:2d63a8c573417bae338962d4b9b06fbc6080f74ecd955a092849e1e65c717bd2"},
 ]
 black = [
     {file = "black-22.1.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:1297c63b9e1b96a3d0da2d85d11cd9bf8664251fd69ddac068b98dc4f34f73b6"},
