@@ -401,7 +401,7 @@ tests = ["pytest (>=7.0.0)", "coverage (>=6.0.0)", "pytest-cov", "pytest-asyncio
 
 [[package]]
 name = "rich"
-version = "12.3.0"
+version = "12.4.1"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "main"
 optional = false
@@ -493,7 +493,7 @@ toml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "a0188975d2d3d4d616ae4e79c415ff5e1a01ef1ad2e5ef84829bc124afcd8499"
+content-hash = "6ed2c02aea504dbb6d22e6263213f077eccb2ccef847c4aefd2a62316d33fdfb"
 
 [metadata.files]
 atomicwrites = [
@@ -728,8 +728,8 @@ responses = [
     {file = "responses-0.20.0.tar.gz", hash = "sha256:644905bc4fb8a18fa37e3882b2ac05e610fe8c2f967d327eed669e314d94a541"},
 ]
 rich = [
-    {file = "rich-12.3.0-py3-none-any.whl", hash = "sha256:0eb63013630c6ee1237e0e395d51cb23513de6b5531235e33889e8842bdf3a6f"},
-    {file = "rich-12.3.0.tar.gz", hash = "sha256:7e8700cda776337036a712ff0495b04052fb5f957c7dfb8df997f88350044b64"},
+    {file = "rich-12.4.1-py3-none-any.whl", hash = "sha256:d13c6c90c42e24eb7ce660db397e8c398edd58acb7f92a2a88a95572b838aaa4"},
+    {file = "rich-12.4.1.tar.gz", hash = "sha256:d239001c0fb7de985e21ec9a4bb542b5150350330bbc1849f835b9cbc8923b91"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
