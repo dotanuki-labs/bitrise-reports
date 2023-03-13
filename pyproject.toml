@@ -29,7 +29,7 @@ bandit = "1.7.4"
 vulture = "2.7"
 pytest = "7.2.2"
 pytest-cov = "4.0.0"
-responses = "0.22.0"
+responses = "0.23.1"
 
 [tool.poetry.scripts]
 bitrise-reports = "bitrise_reports:main"
